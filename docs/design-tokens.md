@@ -127,7 +127,7 @@ Desktop values from the 1440px viewport, mobile values from the 390px viewport (
 | `gap-grid-tablet` | 18px | Tablet/mobile-width card grids: destination cards, testimonial carousel below desktop. | `01-home.md` §3.4, §3.5 |
 | `gap-grid-wide` | 30px | Blog/articles teaser cards. | `01-home.md` §3.6 |
 | `gap-grid-tight` | 12px | Tour Detail's per-day image row; Motorbike Rental's bike-selection grid. | `02-tour-detail.md` §1; `03-secondary-pages.md` (Motorbike Rental) |
-| `gap-grid-form-pair` | 16px | 2-up field-pair layout inside the booking form (`hgl-grid-2` pattern); reused on Tours Archive's bus-transfer summary row. | `01-home.md` §3.7; `03-secondary-pages.md` (Tours Archive) |
+| `gap-grid-transport-option` | 16px | Transport/bus-transfer option card grid (`hgl-grid hgl-grid-2` pattern, 4 items, 2-column at desktop/laptop/tablet collapsing to 1 at mobile/narrow-mobile) — a real reusable "Transport/Bus Option Card" component, corroborated by `docs/component-inventory.md`'s independent `hgl-bus-col-title` signature match, not a generic form field-pair layout. Reused on Tours Archive's equivalent bus-transfer option row. | `01-home.md` §3.7; `03-secondary-pages.md` (Tours Archive) |
 | `gap-grid-loose` | 25px | About's stats row and services grid. | `03-secondary-pages.md` (About) |
 | `gap-grid-none` | 0px | Home's stats band (`lt-stats`) — edge-to-edge/border-divided blocks, not gapped cards. | `01-home.md` §3.3 |
 

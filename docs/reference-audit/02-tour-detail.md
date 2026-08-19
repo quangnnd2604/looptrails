@@ -1,4 +1,4 @@
-# Reference Audit — Tour Detail Template
+# Tour Detail
 
 ## Scope and evidence base
 

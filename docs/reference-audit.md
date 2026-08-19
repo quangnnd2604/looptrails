@@ -53,7 +53,7 @@ Colors with `count >= 5` on Home desktop, cross-checked against `tour-detail/des
 |---|---|---|---|
 | Primary brand / accent (orange) | `#ff6602` | color / backgroundColor | Home (51 color + 25 bg), tour-detail (38 + 17), about (13 + 2), contact (4 + 2) |
 | Ink / shadow-and-border accent | `#36343b` | color / borderTopColor | Present as the border/shadow color on every measured button (`boxShadow: rgb(54, 52, 59) …`) in Home, tour-detail, and elsewhere; also the button-shadow ink used sitewide |
-| Body text | `#212121` | color (on `body`) | Top color by count on every single template checked: Home (206), tour-detail (165), about (150), contact (113) |
+| Body text | `#212121` | color (on `body`) | The dominant `body`-level text color on every template checked: Home (206), tour-detail (165), about (150), contact (113). Note this is not necessarily the single highest-count color entry on every template — e.g. on Home the menu-toggle ink `#36343b` outranks it (count 555), and on tour-detail the widget slate `#1e293b` outranks it (count 189) — but `#212121` is the one consistently set as the base body text color across all four. |
 | Secondary heading / dark text | `#333333` | color | Home (17), about (30), contact (12), tour-detail (16) |
 | Page background | `#ffffff` | backgroundColor (on `body`) | Present on all four templates |
 | Secondary accent (magenta/pink) | `#e5396e` | color | Home (41), tour-detail (35), about (26), contact (24) — consistently present, likely a link/hover accent |
@@ -89,7 +89,7 @@ Based on `docs/reference-screenshots/home/desktop.png`, `tablet.png`, and `mobil
 - **Logo:** wordmark positioned top-left of the header bar, present at every viewport in the screenshots checked (desktop, tablet, mobile).
 - **Header surface:** a semi-transparent cream panel (`rgba(228, 224, 218, 0.85)`, i.e. `#e4e0da` at 85% opacity) sits over the hero photo on Home. The section carries the same Elementor element ID (`elementor-element-27d9`) on Home, tour-detail, about, and contact — strong evidence this is one shared/global header template part reused across the whole site, not independently built per page.
 - **"Book Now" CTA placement:** a pill-style button (white background, orange text, hard drop-shadow using the ink color `#36343b`) sits at the right side of the header bar on every viewport checked. It is the first entry in every viewport's `buttons` array (height ~35px on desktop/laptop, growing to ~33–36px with a larger 15–16px font on mobile/tablet — a deliberately larger tap target rather than a literal proportional scale-down).
-- **Nav item order:** not confidently determinable from the screenshots at the resolution captured, or from the typography JSON (see caveat in §1) — the tablet screenshot shows the header bar at a similar visual width/density to desktop, suggesting the nav may not collapse to a hamburger menu until below 768px, but this is a visual impression, not a measured fact. Verify directly in a browser or against Task 1's component inventory before implementing exact breakpoint behavior.
+- **Nav item order:** not confidently determinable from the screenshots at the resolution captured, or from the typography JSON (see caveat in §1). What is confirmed, though: a hamburger toggle icon is visible in `docs/reference-screenshots/home/desktop.png` at the full 1440px desktop width — this is not a narrow-viewport-only affordance. There is no separate horizontal nav-link row visible at any captured width; the header structure appears to be logo + "Book Now" pill + hamburger toggle at every viewport (desktop, laptop, tablet, mobile, narrow-mobile alike), with the actual menu items revealed only once the toggle is interacted with. This is corroborated by the color data: `div.elementor-menu-toggle`'s color (`#36343b`) is Home desktop's single highest-count color entry (count 555), consistent with an icon that renders identically at every breakpoint rather than one that only appears below a specific width. Exact nav item order/content is still not determinable from static screenshots alone — verify against Task 1's component inventory or the live reference site.
 - **Sticky behavior:** requires direct interaction testing (scroll behavior in a live browser), not inferable from a static screenshot or a single-snapshot computed-style JSON. Do not assume sticky/fixed positioning without checking the live reference site or documenting it as unverified.
 
 ### 5. Footer Structure
@@ -150,7 +150,10 @@ quoted.
 10. **Blog/articles teaser** — heading and a row of 3 post cards (image,
     title, meta).
 11. **FAQ accordion** — heading and a vertical list of expandable Q&A rows.
-12. **Footer** — logo, link columns, social icons, and a copyright line.
+12. **Footer** — a single centered column (not multi-column link lists):
+    logo, then stacked address/contact/hotline/email/website lines, legal
+    text, and a certification badge, all center-aligned; followed by a
+    separate bottom bar containing the copyright line and social icons.
 
 ### 2. Cross-reference against spec §5.2
 
@@ -182,6 +185,14 @@ whether these are in-scope for the rebuild or reference-site extras.
 Values pulled from the `cards` array in each viewport's JSON. Viewport
 widths confirmed via each file's `container.viewportWidth`: desktop 1440,
 laptop 1280, tablet 768, mobile 390, narrow-mobile 360.
+
+**Page container width:** Home's `desktop.json`/`laptop.json` report
+`mostCommonContainerWidth: 1200` (candidateCount 27 at desktop). This is
+the same clean 1200px boxed-content width reported for the tour-detail
+template (`docs/design-measurements/tour-detail/desktop.json`,
+`mostCommonContainerWidth: 1200`, candidateCount 7) — i.e. Home is
+consistent with the site-wide 1200px container documented in
+`docs/reference-audit/00-global.md`, not a page-specific value.
 
 #### 3.1 Featured tour grid (`lt-tours__grid`, 6 items)
 
@@ -270,7 +281,7 @@ Built on an Elementor Posts widget (`elementor-posts--skin-cards`), not the
 site's custom `lt-` card classes. Only captured at the two widest
 viewports; screenshots confirm the section itself is present at all 5.
 
-#### 3.7 Unidentified small 4-item grid (`hgl-grid hgl-grid-2`, 4 items)
+#### 3.7 Transport/bus-transfer option cards (`hgl-grid hgl-grid-2`, 4 items)
 
 | Viewport | Item W×H | Gap X |
 |---|---|---|
@@ -280,12 +291,17 @@ viewports; screenshots confirm the section itself is present at all 5.
 | Mobile (390) | 322×64 | −322px (collapsed) |
 | Narrow-mobile (360) | 292×64 | −292px (collapsed) |
 
-Short item height (~64–68px) rules this out as a photo/content card; it is
-most likely a 2-column field-pair layout inside the booking form (the
-`hgl-` prefix also appears on booking-form field labels in the typography
-data), not a card grid in the visual sense described by the brief. Flagged
-here for completeness rather than as a confirmed "card" section. Collapses
-to 1 column at mobile widths, same pattern as the true card grids.
+This is a bus/transport-transfer option card grid, not an unidentified
+control. The typography data for Home's `desktop.json` includes a
+`hgl-bus-col-title` entry (DM Sans, 14.4px/600, count 9) whose text
+samples describe named bus-transfer routes and their prices — this title
+class belongs inside these 397×68 grid items. `docs/component-inventory.md`
+independently identifies the same `hgl-bus-col-title` signature (also
+present on the tours-archive template, with matching 397×68 geometry) as a
+"Transport/Bus Option Card," which this file's numbers corroborate.
+2-column layout (`hgl-grid-2`) at desktop/laptop/tablet, collapsing to 1
+column at mobile/narrow-mobile (negative `gapX`), same pattern as the
+other card grids in this section.
 
 #### 3.8 FAQ list (`lt-faq__list`, 9 items)
 
@@ -367,7 +383,7 @@ element sizes change.
 
 ---
 
-## Reference Audit — Tour Detail Template
+## Tour Detail
 
 ### Scope and evidence base
 
@@ -781,7 +797,7 @@ Screenshot folder: `docs/reference-screenshots/ha-giang-motorbike-rental/`. Meas
 
 **Card/button measurements:** `.ltr-bikes` grid — 4 items, 310×319px at desktop, radius 12px, `boxShadow: rgba(255,102,2,0.15) 0px 0px 0px 3px` (soft orange ring, not a drop shadow), `gapX: 12`, `imageAspectRatio: 1.365`. At mobile (390px) itemWidth is 314×322 — nearly unchanged from desktop's 310×319, confirming the grid is already a single column at mobile rather than shrinking a multi-column layout. Buttons: "Rent Now" primary (47-55px height, radius 7px, orange fill, `boxShadow: rgb(54,52,59) 2px 3px 0px 0px` — the site's consistent hard-offset shadow style), "Book Now" header variant (35px, radius 7px, white fill/orange text, same offset shadow).
 
-**Responsive behavior:** container `mostCommonContainerWidth` is `null` at every viewport including desktop on this template (`candidateCount: 6` but none reach majority) — same "full-width content, no single dominant boxed width" pattern noted for other secondary pages; only Home, Tours Archive and About showed a clean 1200px majority. Bike grid and requirements FAQ both go to single-column stacking at mobile per `ha-giang-motorbike-rental/mobile.png`.
+**Responsive behavior:** container `mostCommonContainerWidth` is `null` at every viewport including desktop on this template (`candidateCount: 6` but none reach majority) — same "full-width content, no single dominant boxed width" pattern noted for other secondary pages; only Home, Tours Archive, About and Tour Detail showed a clean 1200px majority (Tour Detail: `mostCommonContainerWidth: 1200`, `candidateCount: 7` at both desktop and laptop). Bike grid and requirements FAQ both go to single-column stacking at mobile per `ha-giang-motorbike-rental/mobile.png`.
 
 ---
 
@@ -845,7 +861,7 @@ Screenshot folder: `docs/reference-screenshots/about-loop-trails-tours-ha-giang/
 
 Screenshot folder: `docs/reference-screenshots/terms-and-conditions/`. Measurement folder: `terms/`.
 
-**Section order**: this is a single long-form legal document, not a composed page — eyebrow label, an H1 naming the combined terms/privacy document, a "last updated" date line, then roughly 15 numbered legal sections covering booking/payment terms, a cancellation policy with a fee table scaled by days-before-departure, risk/liability and customer-conduct topics, and a lettered privacy sub-policy appended at the end → a closing contact callout inviting questions about the terms/privacy content → a back-to-top link → footer.
+**Section order**: this is a single long-form legal document, not a composed page — eyebrow label, an H1 naming the combined terms/privacy document, a "last updated" date line, then 24 numbered legal sections (measured via the `span.lt-num` section-number style, `count: 24` in `terms/desktop.json`) covering booking/payment terms, a cancellation policy with a fee table scaled by days-before-departure, risk/liability and customer-conduct topics, and a lettered privacy sub-policy appended at the end → a closing contact callout inviting questions about the terms/privacy content → a back-to-top link → footer.
 
 **Typography/color distinct from global:** dedicated legal-doc type scale not used anywhere else: `h2.lt-legal__major` (Poppins 17px/600, section titles), `span.lt-num` (Montserrat 17px/700, section numbers), `h3` sub-headings (Montserrat 12px/700, 1.4px letter-spacing, uppercase-style), body copy `p.lt-legal__updated` (Inter 14.5px/400, 24.65px line-height — noticeably more generous leading than the 22px body line-height used elsewhere, appropriate for long-form reading). Cancellation-fee callouts use a warning red `#d63031` and a light gray callout background `#f7f7f7`.
 
@@ -888,7 +904,7 @@ Spec §3 requires this audit to document, for every page/section: screenshot fil
 Reviewing the four sections above against that list:
 
 - **Screenshot filename and capture date** — covered. Every section cites its screenshot folder (e.g. `docs/reference-screenshots/home/`, `.../tours-ha-giang-loop-4-days-3-nights/`) and viewport filenames (`desktop.png`, `mobile.png`, etc.); capture date for the whole set is recorded once, above, rather than repeated per section.
-- **Section order and anchor behavior** — covered for section order (documented per page: Global §4-5 for header/footer, Home §1, Tour Detail §1, and per-template in Secondary Pages). Anchor/in-page-jump behavior is documented where it exists (Tour Detail's sticky in-page nav, `.lt-nav-link`, Global §4/§5). No other template shows in-page anchor navigation in the captured data, which is treated as a real absence, not a gap.
+- **Section order and anchor behavior** — covered for section order (documented per page: Global §4-5 for header/footer, Home §1, Tour Detail §1, and per-template in Secondary Pages), **with one confirmed content gap**: Home's tabbed "destinations & essentials" area (spec §5.2's Destinations / Itinerary & Map / Transport / Accommodation tabs) was only ever captured in its default "Destinations" tab state — the other 3 tab panels (Itinerary & Map, Transport, Accommodation) were never rendered in any of the 5 viewport screenshots and have no corresponding entries in the measurement JSON, so their section order/content/anchor behavior is undocumented. This is already noted inside `01-home.md` §2 and §5 and in `docs/component-inventory.md`, but had not previously been surfaced in this top-level gap list. Recommend a follow-up capture pass that clicks through each tab before screenshotting (or live-site DOM inspection) before building those 3 sub-panels. Anchor/in-page-jump behavior is documented where it exists (Tour Detail's sticky in-page nav, `.lt-nav-link`, Global §4/§5). No other template shows in-page anchor navigation in the captured data, which is treated as a real absence, not a gap.
 - **Container width, gutters and vertical spacing** — **partially covered.** Container *width* is thoroughly measured per viewport and per template (Global §3; repeated per-template in Secondary Pages). Side *gutters* and inter-section *vertical spacing* were not independently quantified anywhere in the source data — Global §3 notes only that the container itself carries "zero side padding … side gutters come from elsewhere" without pinning down that value, and no section measures vertical rhythm between page sections. This is a real gap: gutters/vertical spacing will need direct DOM/CSS inspection (or a dedicated computed-style pass targeting section `padding`/`margin`) before `theme.json` spacing tokens can be finalized.
 - **Font family, weight, size, line height, letter spacing** — covered. Global §1 gives the full typography scale including letter-spacing/tracking; page-specific type scales are documented per template in Tour Detail and Secondary Pages.
 - **Exact visible colors (hex/rgba)** — covered extensively across all four sections (Global §2 for the sitewide/global palette; page- and component-specific palettes documented per template elsewhere).
@@ -897,4 +913,4 @@ Reviewing the four sections above against that list:
 - **Breakpoint behavior (hidden/stacked/scrollable/collapsed/sticky/reordered)** — covered thoroughly: column-collapse patterns, single-column stacking, the testimonial carousel's scrollable (non-collapsing) behavior, and the tour-detail booking widget's sticky-then-stacked behavior are all documented with supporting per-viewport measurements.
 - **Animation/transition type and duration — not covered; confirmed unmeasurable from this audit's data.** Milestone 1's capture procedure explicitly disabled animation during screenshot capture (spec §4) so that full-page screenshots render in a settled state, and Milestone 2a's measurement script reads a single static computed-style snapshot (colors, sizes, container widths) rather than live `transition`/`animation` CSS properties or interaction states (hover/focus timing, scroll-triggered reveals, the testimonial carousel's autoplay speed, FAQ accordion expand/collapse easing, tab-switch transitions). Nowhere above should be read as implying an animation/transition value for these behaviors — they are described only in terms of their static/structural layout. **This is a known, already-anticipated limitation of static-screenshot-based measurement, not an oversight.** Closing it requires a dedicated follow-up pass that reads computed `transition-property` / `transition-duration` / `transition-timing-function` / `animation-*` CSS values directly from the live reference site (e.g. a small Playwright script calling `getComputedStyle()` on the relevant elements, or manual browser DevTools inspection) — not a re-read of the screenshots or JSON already captured.
 
-**Net finding:** every spec §3 item is addressed in this document, either with measured values or with an explicit, evidence-based note on why a value is not available. Three items carry a confirmed measurement gap rather than a full answer — gutters/vertical spacing, button icon-placement/hover/focus, and animation/transition — and each is called out above rather than filled in with an invented value.
+**Net finding:** every spec §3 item is addressed in this document, either with measured values or with an explicit, evidence-based note on why a value is not available. Four items carry a confirmed measurement/content gap rather than a full answer — Home's 3 inactive tab panels, gutters/vertical spacing, button icon-placement/hover/focus, and animation/transition — and each is called out above rather than filled in with an invented value.
