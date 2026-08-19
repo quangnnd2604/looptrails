@@ -1,0 +1,39 @@
+# WordPress core (this repo tracks only our custom theme/plugin + docs, not core)
+/wp-admin/
+/wp-includes/
+/wp-*.php
+!/wp-config-sample.php
+/xmlrpc.php
+/license.txt
+/readme.html
+/index.php
+
+# Secrets / local environment
+wp-config.php
+.env
+.env.local
+*.log
+
+# Uploads (user/demo media, not source code)
+/wp-content/uploads/
+
+# Default WordPress themes/plugins we are not modifying
+/wp-content/themes/twentytwentyfive/
+/wp-content/themes/twentytwentyfour/
+/wp-content/themes/twentytwentythree/
+/wp-content/themes/twentytwentytwo/
+/wp-content/plugins/akismet/
+/wp-content/plugins/hello.php
+/wp-content/plugins/index.php
+/wp-content/themes/index.php
+
+# Cache / OS / editor cruft
+/wp-content/cache/
+/wp-content/upgrade/
+/wp-content/backup*/
+node_modules/
+.DS_Store
+Thumbs.db
+
+# Reference screenshot captures (large binaries, regenerable via script)
+/docs/reference-screenshots/
