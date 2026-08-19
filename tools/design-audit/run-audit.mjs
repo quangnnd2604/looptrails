@@ -26,11 +26,7 @@ async function withTimeout(promise, ms, label) {
   }
 }
 
-export async function measurePage(browser, target, viewport) {
-  const context = await browser.newContext({ viewport: { width: viewport.width, height: viewport.height } });
-  const page = await context.newPage();
-  await page.goto(target.url, { waitUntil: 'networkidle', timeout: 30000 });
-
+export async function scrollAndSettle(page) {
   await page.evaluate(async () => {
     document.querySelectorAll('img[loading="lazy"], iframe[loading="lazy"]')
       .forEach((el) => el.setAttribute('loading', 'eager'));
@@ -49,6 +45,14 @@ export async function measurePage(browser, target, viewport) {
     });
   });
   await page.waitForLoadState('networkidle');
+}
+
+export async function measurePage(browser, target, viewport) {
+  const context = await browser.newContext({ viewport: { width: viewport.width, height: viewport.height } });
+  const page = await context.newPage();
+  await page.goto(target.url, { waitUntil: 'networkidle', timeout: 30000 });
+
+  await scrollAndSettle(page);
 
   const [typography, colors, container, cards, buttons] = await Promise.all([
     scanTypography(page),
@@ -72,7 +76,7 @@ export async function runFullAudit() {
     for (const viewport of VIEWPORTS) {
       const filePath = path.join(dir, `${viewport.name}.json`);
 
-      if (existsSync(filePath)) {
+      if (!process.env.FORCE && existsSync(filePath)) {
         console.log(`Skipping ${target.slug} @ ${viewport.name}, already measured`);
         const existing = JSON.parse(await readFile(filePath, 'utf8'));
         summary.push({
@@ -119,7 +123,7 @@ export async function runFullAudit() {
   for (const sample of tourDetailVariationSamples) {
     const filePath = path.join(variationDir, `${sample.slug}.json`);
 
-    if (existsSync(filePath)) {
+    if (!process.env.FORCE && existsSync(filePath)) {
       console.log(`Skipping tour-detail variation: ${sample.slug}, already measured`);
       summary.push({
         label: sample.label,
@@ -140,6 +144,7 @@ export async function runFullAudit() {
         const context = await browser.newContext({ viewport: { width: 1440, height: 1000 } });
         const page = await context.newPage();
         await page.goto(sample.url, { waitUntil: 'networkidle', timeout: 30000 });
+        await scrollAndSettle(page);
         const result = await scanTourVariation(page);
         await context.close();
         return result;

@@ -27,13 +27,16 @@ export async function scanContainer(page) {
       widthCounts.set(c.renderedWidth, (widthCounts.get(c.renderedWidth) || 0) + 1);
     }
     const sortedWidths = [...widthCounts.entries()].sort((a, b) => b[1] - a[1]);
-    const topWidth = sortedWidths[0] ? sortedWidths[0][0] : null;
+    const topEntry = sortedWidths[0];
+    const topWidth = topEntry && topEntry[1] >= 3 ? topEntry[0] : null;
+
+    const rawTopWidth = topEntry ? topEntry[0] : null;
 
     return {
       viewportWidth,
       mostCommonContainerWidth: topWidth,
       candidateCount: candidates.length,
-      topCandidates: candidates.filter((c) => c.renderedWidth === topWidth).slice(0, 3),
+      topCandidates: candidates.filter((c) => c.renderedWidth === rawTopWidth).slice(0, 3),
     };
   });
 }

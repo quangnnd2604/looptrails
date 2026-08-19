@@ -7,7 +7,7 @@ export async function scanTourVariation(page) {
     const priceLikeElements = Array.from(document.querySelectorAll('body *')).filter((el) => {
       if (el.children.length > 0) return false;
       const text = el.textContent.trim();
-      return /(\$|USD|VND|₫)\s?[\d,.]+/.test(text) && text.length < 40;
+      return /([$₫đ]|USD|VND)/.test(text) && /\d/.test(text) && text.length < 40;
     });
 
     const allImages = Array.from(document.querySelectorAll('img')).filter((img) => {

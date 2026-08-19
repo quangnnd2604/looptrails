@@ -15,3 +15,11 @@ Raw computed-CSS measurement data for the reference site (looptrails.com), colle
 ```
 cd tools/design-audit && npm ci && npx playwright install chromium && npm run run-audit
 ```
+
+`run-audit.mjs` skips any page whose output file already exists, so re-running on a
+machine that already has data just logs "Skipping..." for everything. To force
+re-measuring pages that already have output (e.g. after fixing a probe):
+
+```
+cd tools/design-audit && FORCE=1 npm run run-audit
+```

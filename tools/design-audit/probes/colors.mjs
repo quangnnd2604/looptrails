@@ -17,7 +17,7 @@ export async function scanColors(page) {
       const cs = getComputedStyle(el);
       const rect = el.getBoundingClientRect();
       if (rect.width === 0 || rect.height === 0) return;
-      ['backgroundColor', 'color', 'borderTopColor'].forEach((prop) => {
+      ['backgroundColor', 'color'].forEach((prop) => {
         const value = cs[prop];
         if (!value || value === 'rgba(0, 0, 0, 0)' || value === 'transparent') return;
         results.push({
@@ -28,6 +28,17 @@ export async function scanColors(page) {
           sample: el.tagName.toLowerCase(),
         });
       });
+
+      const borderWidth = parseFloat(cs.borderTopWidth);
+      if (borderWidth > 0 && cs.borderTopStyle !== 'none' && cs.borderTopColor && cs.borderTopColor !== 'rgba(0, 0, 0, 0)') {
+        results.push({
+          property: 'borderTopColor',
+          value: cs.borderTopColor,
+          tag: el.tagName.toLowerCase(),
+          className: typeof el.className === 'string' ? el.className.slice(0, 80) : '',
+          sample: el.tagName.toLowerCase(),
+        });
+      }
     });
     return results;
   });
