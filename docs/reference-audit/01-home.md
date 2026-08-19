@@ -44,7 +44,10 @@ quoted.
 10. **Blog/articles teaser** — heading and a row of 3 post cards (image,
     title, meta).
 11. **FAQ accordion** — heading and a vertical list of expandable Q&A rows.
-12. **Footer** — logo, link columns, social icons, and a copyright line.
+12. **Footer** — a single centered column (not multi-column link lists):
+    logo, then stacked address/contact/hotline/email/website lines, legal
+    text, and a certification badge, all center-aligned; followed by a
+    separate bottom bar containing the copyright line and social icons.
 
 ## 2. Cross-reference against spec §5.2
 
@@ -76,6 +79,14 @@ whether these are in-scope for the rebuild or reference-site extras.
 Values pulled from the `cards` array in each viewport's JSON. Viewport
 widths confirmed via each file's `container.viewportWidth`: desktop 1440,
 laptop 1280, tablet 768, mobile 390, narrow-mobile 360.
+
+**Page container width:** Home's `desktop.json`/`laptop.json` report
+`mostCommonContainerWidth: 1200` (candidateCount 27 at desktop). This is
+the same clean 1200px boxed-content width reported for the tour-detail
+template (`docs/design-measurements/tour-detail/desktop.json`,
+`mostCommonContainerWidth: 1200`, candidateCount 7) — i.e. Home is
+consistent with the site-wide 1200px container documented in
+`docs/reference-audit/00-global.md`, not a page-specific value.
 
 ### 3.1 Featured tour grid (`lt-tours__grid`, 6 items)
 
@@ -164,7 +175,7 @@ Built on an Elementor Posts widget (`elementor-posts--skin-cards`), not the
 site's custom `lt-` card classes. Only captured at the two widest
 viewports; screenshots confirm the section itself is present at all 5.
 
-### 3.7 Unidentified small 4-item grid (`hgl-grid hgl-grid-2`, 4 items)
+### 3.7 Transport/bus-transfer option cards (`hgl-grid hgl-grid-2`, 4 items)
 
 | Viewport | Item W×H | Gap X |
 |---|---|---|
@@ -174,12 +185,17 @@ viewports; screenshots confirm the section itself is present at all 5.
 | Mobile (390) | 322×64 | −322px (collapsed) |
 | Narrow-mobile (360) | 292×64 | −292px (collapsed) |
 
-Short item height (~64–68px) rules this out as a photo/content card; it is
-most likely a 2-column field-pair layout inside the booking form (the
-`hgl-` prefix also appears on booking-form field labels in the typography
-data), not a card grid in the visual sense described by the brief. Flagged
-here for completeness rather than as a confirmed "card" section. Collapses
-to 1 column at mobile widths, same pattern as the true card grids.
+This is a bus/transport-transfer option card grid, not an unidentified
+control. The typography data for Home's `desktop.json` includes a
+`hgl-bus-col-title` entry (DM Sans, 14.4px/600, count 9) whose text
+samples describe named bus-transfer routes and their prices — this title
+class belongs inside these 397×68 grid items. `docs/component-inventory.md`
+independently identifies the same `hgl-bus-col-title` signature (also
+present on the tours-archive template, with matching 397×68 geometry) as a
+"Transport/Bus Option Card," which this file's numbers corroborate.
+2-column layout (`hgl-grid-2`) at desktop/laptop/tablet, collapsing to 1
+column at mobile/narrow-mobile (negative `gapX`), same pattern as the
+other card grids in this section.
 
 ### 3.8 FAQ list (`lt-faq__list`, 9 items)
 
