@@ -43,3 +43,8 @@ Thumbs.db
 
 # Reference screenshot captures (large binaries, regenerable via script)
 /docs/reference-screenshots/
+
+# Design measurement raw data (contains short reference-site text samples for
+# identification — local-only evidence, same treatment as reference-screenshots/)
+/docs/design-measurements/*
+!/docs/design-measurements/README.md
