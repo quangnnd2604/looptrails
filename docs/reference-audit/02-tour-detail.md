@@ -44,6 +44,17 @@ left-aligned overline label, a large title, a short subtitle line, and a primary
   elements).
 - A floating WhatsApp contact bubble sits over the hero on all viewports (visible
   in all 5 screenshots).
+- Gallery: the hero itself reads as a single static background image per tour
+  in every screenshot reviewed — no thumbnail strip, dot indicators, or
+  multi-image carousel controls are visible adjacent to the hero on any
+  viewport. A chevron button pair (`‹`/`›`, height 47px, orange background)
+  does exist in `desktop.json`'s buttons array, which is consistent with a
+  photo-carousel control somewhere on the page, but its position couldn't be
+  pinned to the hero specifically from this data — it's more likely tied to
+  the day-by-day itinerary photo rows (see Itinerary, below) or the reviews
+  list. Whether a dedicated top-of-page multi-image gallery exists separate
+  from the per-day itinerary photos is **not resolved** by this data and
+  would need direct inspection if that distinction matters for the build.
 - Rating presentation (in the content body, not the hero): a large numeric score
   `div.lt-rating-number` — **44.8px / weight 700** — paired with
   `div.lt-rating-stars` — **16px**, star glyph color `rgb(251,191,36)` /
@@ -91,15 +102,37 @@ The offset drop-shadow (`2px 3px 0px 0px`, no blur, dark navy `#36343b`) recurs
 on nearly every button and interactive card in this template — it functions as
 a consistent "hard shadow" motif rather than a one-off style.
 
-### Destination highlights / overview
+### Destination highlights / overview / quick facts
 
 An `Overview` section (h2 `.lt-section-title`, **22.4px/700**, shared heading
 style for all section titles on this template) followed by body paragraphs at
 **16.8px/400, line-height 30.24px** with a bold inline emphasis variant at the
-same size/700 weight (source: `desktop.json` typography). No distinct
-"destination highlight" chip/card grid was detected by the card-grid probe on
-this template — highlights appear to be delivered as prose within Overview
-rather than as a separate structured list.
+same size/700 weight (source: `desktop.json` typography, `p`/`strong` with no
+class, both count 3). No distinct "destination highlight" chip/card grid was
+detected by the card-grid probe on this template — highlights appear to be
+delivered as prose within Overview rather than as a separate structured list.
+
+**Quick facts (spec §5.4 "overview and quick facts"):** the `cards` probe on
+`desktop.json` does contain one entry parented under `div.lt-overview-text`:
+**3 items, 706×121px, border-radius 0, box-shadow none, gapX −706**. A
+negative `gapX` equal to `-itemWidth` means the 3 items are stacked full-width
+(vertically, zero horizontal offset) rather than arranged as a horizontal
+row of compact fact chips — that layout signature does not match the
+typical "quick facts" pattern (a tight row of icon+short-label pairs for
+duration/group size/start point, etc.). Cross-referencing against the
+typography scan, the *only* `p`/`strong` pair with a matching count of 3 is
+the 16.8px/400 body-paragraph rule cited above, and 121px height is
+consistent with roughly 4 lines at that line-height. **My read: this `cards`
+entry is more likely the 3 intro paragraphs of the Overview copy being
+mis-detected as "cards" by the generic grid probe (three full-width text
+blocks stacked with no gap), not a genuine "quick facts" UI element.** I
+can't fully rule out the alternative — the probe has no semantic awareness,
+so a compact quick-facts row using unusual full-bleed styling can't be
+excluded with certainty from this data alone. Flagging this as ambiguous
+rather than resolved: if the build needs a literal "quick facts" component,
+this reference page provides no confirmed visual precedent for one, and it
+should be treated as new UI design rather than a direct measurement port,
+pending direct visual re-inspection to settle the ambiguity.
 
 ### Itinerary (Day 0 + following days)
 
@@ -328,11 +361,18 @@ design (not direct measurement ports) when building the WordPress template:
   into itinerary notes/FAQ content only.
 - **Destination highlights** — no distinct card/chip component detected;
   appears as prose within Overview only.
+- **Quick facts** — ambiguous, not confirmed either way: the one candidate
+  measurement (`lt-overview-text` cards entry, 3×706×121, stacked full-width)
+  reads more like 3 stacked Overview paragraphs than a compact facts row, but
+  this isn't certain from probe data alone. Treat as no confirmed precedent.
+- **Top-of-page gallery** (distinct from the hero background and from the
+  per-day itinerary photos) — not confirmed present or absent; no
+  carousel/thumbnail UI was pinned to the hero specifically.
 - **Final CTA** — no standalone bottom CTA band; the persistent/sticky
   booking widget (or its mobile stacked-position equivalent) serves this role
   implicitly.
 
-Everything else in spec §5.4's field list (hero/gallery, price variants +
+Everything else in spec §5.4's field list (hero background, price variants +
 CTA, itinerary with Day 0, route map, included/excluded lists, vehicle/ride
 options via the booking-widget selector, FAQs, related tours) has clear,
 measured structural precedent in the captured data cited above.
