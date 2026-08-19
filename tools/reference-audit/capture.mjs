@@ -1,6 +1,7 @@
 import { chromium } from 'playwright';
 import { mkdir, writeFile } from 'node:fs/promises';
 import path from 'node:path';
+import { fileURLToPath } from 'node:url';
 import { pages, VIEWPORTS } from './pages.mjs';
 
 const OUT_DIR = path.resolve('../../docs/reference-screenshots');
@@ -31,6 +32,7 @@ export async function captureAll(pageList) {
       } catch (err) {
         status = `error: ${err.message}`;
       }
+      await tab.addStyleTag({ content: '*, *::before, *::after { animation-duration: 0s !important; animation-delay: 0s !important; transition-duration: 0s !important; transition-delay: 0s !important; }' });
       const filePath = path.join(dir, `${vp.name}.png`);
       await tab.screenshot({ path: filePath, fullPage: true });
       manifest.push({
@@ -57,6 +59,6 @@ async function main() {
   console.log(`Done. ${manifest.length} screenshots captured. Manifest: ${MANIFEST_PATH}`);
 }
 
-if (import.meta.url === `file://${process.argv[1]}`) {
+if (process.argv[1] === fileURLToPath(import.meta.url)) {
   main();
 }
