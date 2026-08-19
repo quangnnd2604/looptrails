@@ -37,3 +37,5 @@ Captured 2026-08-19 via `tools/reference-audit/capture.mjs`. Full manifest: `doc
 Pages captured: Home, Tours Archive, 3 representative Tour Details (2D1N, 4D3N, Cao Bang 6D5N), Motorbike Rental, Blog Archive, one Blog Single Article, Contact, About, Terms/Privacy, and a 404 page.
 
 Not captured (not observable on the public reference site as of this date): blog category/tag archive, on-site search results — the live `/blog/` page has no visible category/tag links or search box. These page types will still be built per spec §5 items 5 and 12, using WordPress's own standard archive/search template conventions since there is no reference layout to measure.
+
+Re-run: `cd tools/reference-audit && npm ci && npx playwright install chromium && npm run capture`

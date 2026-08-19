@@ -1,5 +1,6 @@
 import { stat } from 'node:fs/promises';
-import { captureAll } from './capture.mjs';
+import path from 'node:path';
+import { captureAll, REPO_ROOT } from './capture.mjs';
 
 const smokePage = { label: 'Home (smoke test)', url: 'https://looptrails.com/' };
 const manifest = await captureAll([smokePage]);
@@ -9,7 +10,7 @@ if (manifest.length !== 5) {
 }
 
 for (const entry of manifest) {
-  const filePath = entry.file.replace('docs/', '../../docs/');
+  const filePath = path.join(REPO_ROOT, entry.file);
   const s = await stat(filePath);
   if (s.size === 0) {
     throw new Error(`${entry.file} is empty (0 bytes)`);

@@ -7,6 +7,9 @@
 /license.txt
 /readme.html
 /index.php
+/.htaccess
+/wp-content/index.php
+/wp-content/languages/
 
 # Secrets / local environment
 wp-config.php
