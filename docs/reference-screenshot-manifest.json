@@ -1,0 +1,602 @@
+[
+  {
+    "label": "Home",
+    "url": "https://looptrails.com/",
+    "viewport": "desktop",
+    "width": 1440,
+    "height": 1000,
+    "status": 200,
+    "file": "docs/reference-screenshots/home/desktop.png",
+    "capturedAt": "2026-08-19T01:53:19.280Z"
+  },
+  {
+    "label": "Home",
+    "url": "https://looptrails.com/",
+    "viewport": "laptop",
+    "width": 1280,
+    "height": 800,
+    "status": 200,
+    "file": "docs/reference-screenshots/home/laptop.png",
+    "capturedAt": "2026-08-19T01:53:23.658Z"
+  },
+  {
+    "label": "Home",
+    "url": "https://looptrails.com/",
+    "viewport": "tablet",
+    "width": 768,
+    "height": 1024,
+    "status": 200,
+    "file": "docs/reference-screenshots/home/tablet.png",
+    "capturedAt": "2026-08-19T01:53:26.907Z"
+  },
+  {
+    "label": "Home",
+    "url": "https://looptrails.com/",
+    "viewport": "mobile",
+    "width": 390,
+    "height": 844,
+    "status": 200,
+    "file": "docs/reference-screenshots/home/mobile.png",
+    "capturedAt": "2026-08-19T01:53:30.064Z"
+  },
+  {
+    "label": "Home",
+    "url": "https://looptrails.com/",
+    "viewport": "narrow-mobile",
+    "width": 360,
+    "height": 800,
+    "status": 200,
+    "file": "docs/reference-screenshots/home/narrow-mobile.png",
+    "capturedAt": "2026-08-19T01:53:33.415Z"
+  },
+  {
+    "label": "Tours Archive",
+    "url": "https://looptrails.com/tours/",
+    "viewport": "desktop",
+    "width": 1440,
+    "height": 1000,
+    "status": 200,
+    "file": "docs/reference-screenshots/tours/desktop.png",
+    "capturedAt": "2026-08-19T01:53:36.484Z"
+  },
+  {
+    "label": "Tours Archive",
+    "url": "https://looptrails.com/tours/",
+    "viewport": "laptop",
+    "width": 1280,
+    "height": 800,
+    "status": 200,
+    "file": "docs/reference-screenshots/tours/laptop.png",
+    "capturedAt": "2026-08-19T01:53:39.567Z"
+  },
+  {
+    "label": "Tours Archive",
+    "url": "https://looptrails.com/tours/",
+    "viewport": "tablet",
+    "width": 768,
+    "height": 1024,
+    "status": 200,
+    "file": "docs/reference-screenshots/tours/tablet.png",
+    "capturedAt": "2026-08-19T01:53:43.110Z"
+  },
+  {
+    "label": "Tours Archive",
+    "url": "https://looptrails.com/tours/",
+    "viewport": "mobile",
+    "width": 390,
+    "height": 844,
+    "status": 200,
+    "file": "docs/reference-screenshots/tours/mobile.png",
+    "capturedAt": "2026-08-19T01:53:45.769Z"
+  },
+  {
+    "label": "Tours Archive",
+    "url": "https://looptrails.com/tours/",
+    "viewport": "narrow-mobile",
+    "width": 360,
+    "height": 800,
+    "status": 200,
+    "file": "docs/reference-screenshots/tours/narrow-mobile.png",
+    "capturedAt": "2026-08-19T01:53:48.247Z"
+  },
+  {
+    "label": "Tour Detail — 2 Days 1 Night",
+    "url": "https://looptrails.com/tours/ha-giang-loop-2-days-1-night/",
+    "viewport": "desktop",
+    "width": 1440,
+    "height": 1000,
+    "status": 200,
+    "file": "docs/reference-screenshots/tours-ha-giang-loop-2-days-1-night/desktop.png",
+    "capturedAt": "2026-08-19T01:53:57.026Z"
+  },
+  {
+    "label": "Tour Detail — 2 Days 1 Night",
+    "url": "https://looptrails.com/tours/ha-giang-loop-2-days-1-night/",
+    "viewport": "laptop",
+    "width": 1280,
+    "height": 800,
+    "status": 200,
+    "file": "docs/reference-screenshots/tours-ha-giang-loop-2-days-1-night/laptop.png",
+    "capturedAt": "2026-08-19T01:54:02.051Z"
+  },
+  {
+    "label": "Tour Detail — 2 Days 1 Night",
+    "url": "https://looptrails.com/tours/ha-giang-loop-2-days-1-night/",
+    "viewport": "tablet",
+    "width": 768,
+    "height": 1024,
+    "status": 200,
+    "file": "docs/reference-screenshots/tours-ha-giang-loop-2-days-1-night/tablet.png",
+    "capturedAt": "2026-08-19T01:54:05.391Z"
+  },
+  {
+    "label": "Tour Detail — 2 Days 1 Night",
+    "url": "https://looptrails.com/tours/ha-giang-loop-2-days-1-night/",
+    "viewport": "mobile",
+    "width": 390,
+    "height": 844,
+    "status": 200,
+    "file": "docs/reference-screenshots/tours-ha-giang-loop-2-days-1-night/mobile.png",
+    "capturedAt": "2026-08-19T01:54:08.645Z"
+  },
+  {
+    "label": "Tour Detail — 2 Days 1 Night",
+    "url": "https://looptrails.com/tours/ha-giang-loop-2-days-1-night/",
+    "viewport": "narrow-mobile",
+    "width": 360,
+    "height": 800,
+    "status": 200,
+    "file": "docs/reference-screenshots/tours-ha-giang-loop-2-days-1-night/narrow-mobile.png",
+    "capturedAt": "2026-08-19T01:54:11.496Z"
+  },
+  {
+    "label": "Tour Detail — 4 Days 3 Nights",
+    "url": "https://looptrails.com/tours/ha-giang-loop-4-days-3-nights/",
+    "viewport": "desktop",
+    "width": 1440,
+    "height": 1000,
+    "status": 200,
+    "file": "docs/reference-screenshots/tours-ha-giang-loop-4-days-3-nights/desktop.png",
+    "capturedAt": "2026-08-19T01:54:15.175Z"
+  },
+  {
+    "label": "Tour Detail — 4 Days 3 Nights",
+    "url": "https://looptrails.com/tours/ha-giang-loop-4-days-3-nights/",
+    "viewport": "laptop",
+    "width": 1280,
+    "height": 800,
+    "status": 200,
+    "file": "docs/reference-screenshots/tours-ha-giang-loop-4-days-3-nights/laptop.png",
+    "capturedAt": "2026-08-19T01:54:19.485Z"
+  },
+  {
+    "label": "Tour Detail — 4 Days 3 Nights",
+    "url": "https://looptrails.com/tours/ha-giang-loop-4-days-3-nights/",
+    "viewport": "tablet",
+    "width": 768,
+    "height": 1024,
+    "status": 200,
+    "file": "docs/reference-screenshots/tours-ha-giang-loop-4-days-3-nights/tablet.png",
+    "capturedAt": "2026-08-19T01:54:23.168Z"
+  },
+  {
+    "label": "Tour Detail — 4 Days 3 Nights",
+    "url": "https://looptrails.com/tours/ha-giang-loop-4-days-3-nights/",
+    "viewport": "mobile",
+    "width": 390,
+    "height": 844,
+    "status": 200,
+    "file": "docs/reference-screenshots/tours-ha-giang-loop-4-days-3-nights/mobile.png",
+    "capturedAt": "2026-08-19T01:54:26.066Z"
+  },
+  {
+    "label": "Tour Detail — 4 Days 3 Nights",
+    "url": "https://looptrails.com/tours/ha-giang-loop-4-days-3-nights/",
+    "viewport": "narrow-mobile",
+    "width": 360,
+    "height": 800,
+    "status": 200,
+    "file": "docs/reference-screenshots/tours-ha-giang-loop-4-days-3-nights/narrow-mobile.png",
+    "capturedAt": "2026-08-19T01:54:28.921Z"
+  },
+  {
+    "label": "Tour Detail — Cao Bang 6 Days 5 Nights",
+    "url": "https://looptrails.com/tours/ha-giang-cao-bang-6-days/",
+    "viewport": "desktop",
+    "width": 1440,
+    "height": 1000,
+    "status": 200,
+    "file": "docs/reference-screenshots/tours-ha-giang-cao-bang-6-days/desktop.png",
+    "capturedAt": "2026-08-19T01:54:33.109Z"
+  },
+  {
+    "label": "Tour Detail — Cao Bang 6 Days 5 Nights",
+    "url": "https://looptrails.com/tours/ha-giang-cao-bang-6-days/",
+    "viewport": "laptop",
+    "width": 1280,
+    "height": 800,
+    "status": 200,
+    "file": "docs/reference-screenshots/tours-ha-giang-cao-bang-6-days/laptop.png",
+    "capturedAt": "2026-08-19T01:54:36.801Z"
+  },
+  {
+    "label": "Tour Detail — Cao Bang 6 Days 5 Nights",
+    "url": "https://looptrails.com/tours/ha-giang-cao-bang-6-days/",
+    "viewport": "tablet",
+    "width": 768,
+    "height": 1024,
+    "status": 200,
+    "file": "docs/reference-screenshots/tours-ha-giang-cao-bang-6-days/tablet.png",
+    "capturedAt": "2026-08-19T01:54:40.052Z"
+  },
+  {
+    "label": "Tour Detail — Cao Bang 6 Days 5 Nights",
+    "url": "https://looptrails.com/tours/ha-giang-cao-bang-6-days/",
+    "viewport": "mobile",
+    "width": 390,
+    "height": 844,
+    "status": 200,
+    "file": "docs/reference-screenshots/tours-ha-giang-cao-bang-6-days/mobile.png",
+    "capturedAt": "2026-08-19T01:54:43.454Z"
+  },
+  {
+    "label": "Tour Detail — Cao Bang 6 Days 5 Nights",
+    "url": "https://looptrails.com/tours/ha-giang-cao-bang-6-days/",
+    "viewport": "narrow-mobile",
+    "width": 360,
+    "height": 800,
+    "status": 200,
+    "file": "docs/reference-screenshots/tours-ha-giang-cao-bang-6-days/narrow-mobile.png",
+    "capturedAt": "2026-08-19T01:54:46.042Z"
+  },
+  {
+    "label": "Motorbike Rental",
+    "url": "https://looptrails.com/ha-giang-motorbike-rental/",
+    "viewport": "desktop",
+    "width": 1440,
+    "height": 1000,
+    "status": 200,
+    "file": "docs/reference-screenshots/ha-giang-motorbike-rental/desktop.png",
+    "capturedAt": "2026-08-19T01:54:48.945Z"
+  },
+  {
+    "label": "Motorbike Rental",
+    "url": "https://looptrails.com/ha-giang-motorbike-rental/",
+    "viewport": "laptop",
+    "width": 1280,
+    "height": 800,
+    "status": 200,
+    "file": "docs/reference-screenshots/ha-giang-motorbike-rental/laptop.png",
+    "capturedAt": "2026-08-19T01:54:52.750Z"
+  },
+  {
+    "label": "Motorbike Rental",
+    "url": "https://looptrails.com/ha-giang-motorbike-rental/",
+    "viewport": "tablet",
+    "width": 768,
+    "height": 1024,
+    "status": 200,
+    "file": "docs/reference-screenshots/ha-giang-motorbike-rental/tablet.png",
+    "capturedAt": "2026-08-19T01:54:55.688Z"
+  },
+  {
+    "label": "Motorbike Rental",
+    "url": "https://looptrails.com/ha-giang-motorbike-rental/",
+    "viewport": "mobile",
+    "width": 390,
+    "height": 844,
+    "status": 200,
+    "file": "docs/reference-screenshots/ha-giang-motorbike-rental/mobile.png",
+    "capturedAt": "2026-08-19T01:54:58.332Z"
+  },
+  {
+    "label": "Motorbike Rental",
+    "url": "https://looptrails.com/ha-giang-motorbike-rental/",
+    "viewport": "narrow-mobile",
+    "width": 360,
+    "height": 800,
+    "status": 200,
+    "file": "docs/reference-screenshots/ha-giang-motorbike-rental/narrow-mobile.png",
+    "capturedAt": "2026-08-19T01:55:01.051Z"
+  },
+  {
+    "label": "Blog Archive",
+    "url": "https://looptrails.com/blog/",
+    "viewport": "desktop",
+    "width": 1440,
+    "height": 1000,
+    "status": 200,
+    "file": "docs/reference-screenshots/blog/desktop.png",
+    "capturedAt": "2026-08-19T01:55:04.800Z"
+  },
+  {
+    "label": "Blog Archive",
+    "url": "https://looptrails.com/blog/",
+    "viewport": "laptop",
+    "width": 1280,
+    "height": 800,
+    "status": 200,
+    "file": "docs/reference-screenshots/blog/laptop.png",
+    "capturedAt": "2026-08-19T01:55:08.331Z"
+  },
+  {
+    "label": "Blog Archive",
+    "url": "https://looptrails.com/blog/",
+    "viewport": "tablet",
+    "width": 768,
+    "height": 1024,
+    "status": 200,
+    "file": "docs/reference-screenshots/blog/tablet.png",
+    "capturedAt": "2026-08-19T01:55:11.279Z"
+  },
+  {
+    "label": "Blog Archive",
+    "url": "https://looptrails.com/blog/",
+    "viewport": "mobile",
+    "width": 390,
+    "height": 844,
+    "status": 200,
+    "file": "docs/reference-screenshots/blog/mobile.png",
+    "capturedAt": "2026-08-19T01:55:14.466Z"
+  },
+  {
+    "label": "Blog Archive",
+    "url": "https://looptrails.com/blog/",
+    "viewport": "narrow-mobile",
+    "width": 360,
+    "height": 800,
+    "status": 200,
+    "file": "docs/reference-screenshots/blog/narrow-mobile.png",
+    "capturedAt": "2026-08-19T01:55:17.102Z"
+  },
+  {
+    "label": "Blog Single Article",
+    "url": "https://looptrails.com/guide/getting-sick-on-the-loop/",
+    "viewport": "desktop",
+    "width": 1440,
+    "height": 1000,
+    "status": 200,
+    "file": "docs/reference-screenshots/guide-getting-sick-on-the-loop/desktop.png",
+    "capturedAt": "2026-08-19T01:55:20.982Z"
+  },
+  {
+    "label": "Blog Single Article",
+    "url": "https://looptrails.com/guide/getting-sick-on-the-loop/",
+    "viewport": "laptop",
+    "width": 1280,
+    "height": 800,
+    "status": 200,
+    "file": "docs/reference-screenshots/guide-getting-sick-on-the-loop/laptop.png",
+    "capturedAt": "2026-08-19T01:55:24.797Z"
+  },
+  {
+    "label": "Blog Single Article",
+    "url": "https://looptrails.com/guide/getting-sick-on-the-loop/",
+    "viewport": "tablet",
+    "width": 768,
+    "height": 1024,
+    "status": 200,
+    "file": "docs/reference-screenshots/guide-getting-sick-on-the-loop/tablet.png",
+    "capturedAt": "2026-08-19T01:55:28.495Z"
+  },
+  {
+    "label": "Blog Single Article",
+    "url": "https://looptrails.com/guide/getting-sick-on-the-loop/",
+    "viewport": "mobile",
+    "width": 390,
+    "height": 844,
+    "status": 200,
+    "file": "docs/reference-screenshots/guide-getting-sick-on-the-loop/mobile.png",
+    "capturedAt": "2026-08-19T01:55:31.778Z"
+  },
+  {
+    "label": "Blog Single Article",
+    "url": "https://looptrails.com/guide/getting-sick-on-the-loop/",
+    "viewport": "narrow-mobile",
+    "width": 360,
+    "height": 800,
+    "status": 200,
+    "file": "docs/reference-screenshots/guide-getting-sick-on-the-loop/narrow-mobile.png",
+    "capturedAt": "2026-08-19T01:55:35.232Z"
+  },
+  {
+    "label": "Contact",
+    "url": "https://looptrails.com/contact/",
+    "viewport": "desktop",
+    "width": 1440,
+    "height": 1000,
+    "status": 200,
+    "file": "docs/reference-screenshots/contact/desktop.png",
+    "capturedAt": "2026-08-19T01:55:37.526Z"
+  },
+  {
+    "label": "Contact",
+    "url": "https://looptrails.com/contact/",
+    "viewport": "laptop",
+    "width": 1280,
+    "height": 800,
+    "status": 200,
+    "file": "docs/reference-screenshots/contact/laptop.png",
+    "capturedAt": "2026-08-19T01:55:42.172Z"
+  },
+  {
+    "label": "Contact",
+    "url": "https://looptrails.com/contact/",
+    "viewport": "tablet",
+    "width": 768,
+    "height": 1024,
+    "status": 200,
+    "file": "docs/reference-screenshots/contact/tablet.png",
+    "capturedAt": "2026-08-19T01:55:44.344Z"
+  },
+  {
+    "label": "Contact",
+    "url": "https://looptrails.com/contact/",
+    "viewport": "mobile",
+    "width": 390,
+    "height": 844,
+    "status": 200,
+    "file": "docs/reference-screenshots/contact/mobile.png",
+    "capturedAt": "2026-08-19T01:55:46.634Z"
+  },
+  {
+    "label": "Contact",
+    "url": "https://looptrails.com/contact/",
+    "viewport": "narrow-mobile",
+    "width": 360,
+    "height": 800,
+    "status": 200,
+    "file": "docs/reference-screenshots/contact/narrow-mobile.png",
+    "capturedAt": "2026-08-19T01:55:48.845Z"
+  },
+  {
+    "label": "About",
+    "url": "https://looptrails.com/about-loop-trails-tours-ha-giang/",
+    "viewport": "desktop",
+    "width": 1440,
+    "height": 1000,
+    "status": 200,
+    "file": "docs/reference-screenshots/about-loop-trails-tours-ha-giang/desktop.png",
+    "capturedAt": "2026-08-19T01:55:51.558Z"
+  },
+  {
+    "label": "About",
+    "url": "https://looptrails.com/about-loop-trails-tours-ha-giang/",
+    "viewport": "laptop",
+    "width": 1280,
+    "height": 800,
+    "status": 200,
+    "file": "docs/reference-screenshots/about-loop-trails-tours-ha-giang/laptop.png",
+    "capturedAt": "2026-08-19T01:55:54.406Z"
+  },
+  {
+    "label": "About",
+    "url": "https://looptrails.com/about-loop-trails-tours-ha-giang/",
+    "viewport": "tablet",
+    "width": 768,
+    "height": 1024,
+    "status": 200,
+    "file": "docs/reference-screenshots/about-loop-trails-tours-ha-giang/tablet.png",
+    "capturedAt": "2026-08-19T01:55:56.893Z"
+  },
+  {
+    "label": "About",
+    "url": "https://looptrails.com/about-loop-trails-tours-ha-giang/",
+    "viewport": "mobile",
+    "width": 390,
+    "height": 844,
+    "status": 200,
+    "file": "docs/reference-screenshots/about-loop-trails-tours-ha-giang/mobile.png",
+    "capturedAt": "2026-08-19T01:55:59.257Z"
+  },
+  {
+    "label": "About",
+    "url": "https://looptrails.com/about-loop-trails-tours-ha-giang/",
+    "viewport": "narrow-mobile",
+    "width": 360,
+    "height": 800,
+    "status": 200,
+    "file": "docs/reference-screenshots/about-loop-trails-tours-ha-giang/narrow-mobile.png",
+    "capturedAt": "2026-08-19T01:56:02.476Z"
+  },
+  {
+    "label": "Terms, Conditions & Privacy Policy",
+    "url": "https://looptrails.com/terms-and-conditions/",
+    "viewport": "desktop",
+    "width": 1440,
+    "height": 1000,
+    "status": 200,
+    "file": "docs/reference-screenshots/terms-and-conditions/desktop.png",
+    "capturedAt": "2026-08-19T01:56:05.115Z"
+  },
+  {
+    "label": "Terms, Conditions & Privacy Policy",
+    "url": "https://looptrails.com/terms-and-conditions/",
+    "viewport": "laptop",
+    "width": 1280,
+    "height": 800,
+    "status": 200,
+    "file": "docs/reference-screenshots/terms-and-conditions/laptop.png",
+    "capturedAt": "2026-08-19T01:56:07.597Z"
+  },
+  {
+    "label": "Terms, Conditions & Privacy Policy",
+    "url": "https://looptrails.com/terms-and-conditions/",
+    "viewport": "tablet",
+    "width": 768,
+    "height": 1024,
+    "status": 200,
+    "file": "docs/reference-screenshots/terms-and-conditions/tablet.png",
+    "capturedAt": "2026-08-19T01:56:10.206Z"
+  },
+  {
+    "label": "Terms, Conditions & Privacy Policy",
+    "url": "https://looptrails.com/terms-and-conditions/",
+    "viewport": "mobile",
+    "width": 390,
+    "height": 844,
+    "status": 200,
+    "file": "docs/reference-screenshots/terms-and-conditions/mobile.png",
+    "capturedAt": "2026-08-19T01:56:12.698Z"
+  },
+  {
+    "label": "Terms, Conditions & Privacy Policy",
+    "url": "https://looptrails.com/terms-and-conditions/",
+    "viewport": "narrow-mobile",
+    "width": 360,
+    "height": 800,
+    "status": 200,
+    "file": "docs/reference-screenshots/terms-and-conditions/narrow-mobile.png",
+    "capturedAt": "2026-08-19T01:56:15.597Z"
+  },
+  {
+    "label": "404 Not Found",
+    "url": "https://looptrails.com/this-page-does-not-exist-xyz123/",
+    "viewport": "desktop",
+    "width": 1440,
+    "height": 1000,
+    "status": 404,
+    "file": "docs/reference-screenshots/this-page-does-not-exist-xyz123/desktop.png",
+    "capturedAt": "2026-08-19T01:56:18.504Z"
+  },
+  {
+    "label": "404 Not Found",
+    "url": "https://looptrails.com/this-page-does-not-exist-xyz123/",
+    "viewport": "laptop",
+    "width": 1280,
+    "height": 800,
+    "status": 404,
+    "file": "docs/reference-screenshots/this-page-does-not-exist-xyz123/laptop.png",
+    "capturedAt": "2026-08-19T01:56:21.028Z"
+  },
+  {
+    "label": "404 Not Found",
+    "url": "https://looptrails.com/this-page-does-not-exist-xyz123/",
+    "viewport": "tablet",
+    "width": 768,
+    "height": 1024,
+    "status": 404,
+    "file": "docs/reference-screenshots/this-page-does-not-exist-xyz123/tablet.png",
+    "capturedAt": "2026-08-19T01:56:23.378Z"
+  },
+  {
+    "label": "404 Not Found",
+    "url": "https://looptrails.com/this-page-does-not-exist-xyz123/",
+    "viewport": "mobile",
+    "width": 390,
+    "height": 844,
+    "status": 404,
+    "file": "docs/reference-screenshots/this-page-does-not-exist-xyz123/mobile.png",
+    "capturedAt": "2026-08-19T01:56:25.717Z"
+  },
+  {
+    "label": "404 Not Found",
+    "url": "https://looptrails.com/this-page-does-not-exist-xyz123/",
+    "viewport": "narrow-mobile",
+    "width": 360,
+    "height": 800,
+    "status": 404,
+    "file": "docs/reference-screenshots/this-page-does-not-exist-xyz123/narrow-mobile.png",
+    "capturedAt": "2026-08-19T01:56:28.345Z"
+  }
+]
