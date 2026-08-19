@@ -27,6 +27,9 @@ wp-config.php
 /wp-content/plugins/index.php
 /wp-content/themes/index.php
 
+# Subagent-driven-development scratch workspace (ledgers, briefs, review packages)
+/.superpowers/
+
 # Cache / OS / editor cruft
 /wp-content/cache/
 /wp-content/upgrade/
