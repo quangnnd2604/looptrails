@@ -10,7 +10,7 @@ One data-quality note that applies throughout: colors sampled from the `skip-lin
 
 Screenshot folder: `docs/reference-screenshots/tours/`. Measurement folder: `tours-archive/`.
 
-**Section order** (from `tours/desktop.png`): hero banner (dark photo background, eyebrow label, H1, subtitle, CTA button) → "OUR HA GIANG LOOP TOUR PACKAGES" heading → 2×2 tour package card grid → promo/permit banner strip → full booking widget (tour/date selectors, riding option, accommodation, bus transfer, personal info, voucher, cost summary, payment type/method, terms checkbox, Confirm Booking button) → "WHY CHOOSE US" accordion → Tripadvisor strip → footer.
+**Section order** (from `tours/desktop.png`): hero banner (dark photo background, eyebrow label, H1, subtitle, CTA button) → a heading introducing the tour package grid → 2×2 tour package card grid → promo/permit banner strip → full booking widget (tour/date selectors, riding option, accommodation, bus transfer, personal info, voucher, cost summary, payment type/method, terms checkbox, a "Confirm Booking" button) → a benefits/differentiators accordion → Tripadvisor strip → footer.
 
 **Typography/color distinct from global:** price figures use a dedicated red, `rgb(230,0,35)` / `#e60023` (`.price-value`), with a muted slate `#64748b` for the USD conversion and `#94a3b8`/`#718096` for secondary label text. A green `#10b981` marks discount amounts. Tour titles (`h3.tour-title`) use the system font stack at 20px/700 in `#1a202c`, distinct from the Montserrat headings used elsewhere on the page. Pill/spec badges use `#475569` text on a `#fff5f0` background. None of this is present in the Home page's typography sample, so it's specific to this template's card + booking-widget components.
 
@@ -24,7 +24,7 @@ Screenshot folder: `docs/reference-screenshots/tours/`. Measurement folder: `tou
 
 Screenshot folder: `docs/reference-screenshots/ha-giang-motorbike-rental/`. Measurement folder: `motorbike-rental/`.
 
-**Section order**: hero banner (photo of bikes, H1 "Explore More", subtitle, "Rent Now" CTA) → intro copy block → "Why Choose Our Ha Giang Motorbike Rental Service" accordion (4 items) → "Choose Your Ha Giang Motorbike" heading → 2×2 bike selection card grid (badge, photo, transmission-type label, title, spec description, price, "Book Now") → requirements info banner → full rental booking widget (bike picker, rental dates/days/count, personal info, cost summary, payment type/method, terms, "Book Now & Pay") → FAQ accordion (6 items) → footer.
+**Section order**: hero banner (photo of bikes, a short two-word H1 tagline, subtitle, "Rent Now" CTA) → intro copy block → a benefits-focused accordion for the rental service (4 items) → a heading introducing the bike selection grid → 2×2 bike selection card grid (badge, photo, transmission-type label, title, spec description, price, "Book Now") → requirements info banner → full rental booking widget (bike picker, rental dates/days/count, personal info, cost summary, payment type/method, terms, "Book Now & Pay") → FAQ accordion (6 items) → footer.
 
 **Typography/color distinct from global:** this is the one template whose typography array is dominated by the DM Sans family for nearly all UI text (`.ltr-*` classes — bike price, bike name/desc, form labels, summary rows), whereas most other templates lean on the system font stack or Montserrat for the same roles — worth flagging for the design-tokens pass since it means DM Sans is a real secondary UI font, not a one-off. Colors: bike-card border `#e5e7eb` (rest) / orange `#ff6602` (selected), selected-card background `#fff5f0`, feature-icon chip background `#f7f7f7`, required-field red `#ef4444`.
 
@@ -38,7 +38,7 @@ Screenshot folder: `docs/reference-screenshots/ha-giang-motorbike-rental/`. Meas
 
 Screenshot folder: `docs/reference-screenshots/blog/`. Measurement folder: `blog-archive/`.
 
-**Section order**: H1 "Archives" → flat vertical list of post entries, each: full-width featured photo, colored title link, one-paragraph excerpt ending in "[…]" → pagination ("Next →" visible at bottom) → footer. There is no card-grid layout here — it's a simple stacked post list, confirmed by both the screenshot and the JSON (`cards: []`, no card-grid pattern detected).
+**Section order**: a short, generic archive-page H1 → flat vertical list of post entries, each: full-width featured photo, colored title link, one-paragraph excerpt truncated with an ellipsis → a pagination control at the bottom → footer. There is no card-grid layout here — it's a simple stacked post list, confirmed by both the screenshot and the JSON (`cards: []`, no card-grid pattern detected).
 
 **Typography/color distinct from global:** minimal — the only page-specific style is the `h1.entry-title` (Montserrat 22px/700) and the post-link color, which reuses the site's pink-magenta `#e5396e` (also seen elsewhere as an accent, so not unique to this template). No distinct card or button styling beyond the shared header "Book Now" button.
 
@@ -52,13 +52,13 @@ This is the shortest write-up of the eight because the page itself is the simple
 
 Screenshot folder: `docs/reference-screenshots/guide-getting-sick-on-the-loop/` (the Milestone 1 capture used a real article slug; it stands in for the single-post template generally). Measurement folder: `blog-single/`.
 
-**Section order**: featured image → title/meta bar (date, author) → auto-generated Table of Contents box → body content (H2/H3 section headings, paragraphs, bold lead-ins) repeated for each article section → social share row (Facebook/X/Reddit icons) → author box → "More to Explore" related-posts strip → footer.
+**Section order**: featured image → title/meta bar (date, author) → an auto-generated in-article table-of-contents box → body content (H2/H3 section headings, paragraphs, bold lead-ins) repeated for each article section → social share row (Facebook/X/Reddit icons) → author box → a related-content heading followed by a related-posts strip → footer.
 
 **Typography/color distinct from global:** a genuine heading hierarchy exists here that the other templates don't need: H1 22px/700 (Montserrat, title/TOC header), H2 20px/600 (Poppins, major section headings), H3 18px/700 (Montserrat, sub-headings), body paragraph 15px/400 (Inter, `lineHeight: 22px`) with `strong` lead-ins at 15px/700. Distinct colors: post-meta text `#adadad`, related-post title `#e4e0da` (light, sits on a dark card background per the screenshot), share-button brand colors (Facebook `#3b5998`, Reddit `#ff4500`, X/Twitter black).
 
-**Card/button measurements:** `cards: []` — the "More to Explore" related-posts strip is visually card-like in the screenshot but wasn't picked up by the automated card-grid probe (likely a non-standard Elementor post-widget markup); no exact pixel dimensions available, would need direct inspection. No distinct button styling beyond the shared header CTA.
+**Card/button measurements:** `cards: []` — the related-posts strip is visually card-like in the screenshot but wasn't picked up by the automated card-grid probe (likely a non-standard Elementor post-widget markup); no exact pixel dimensions available, would need direct inspection. No distinct button styling beyond the shared header CTA.
 
-**Responsive behavior:** container `null` at every viewport, same 1200px Elementor-container candidates as other templates. The Table of Contents and share-button row are the elements most likely to reflow at mobile (stacking vertically) based on the very tall, narrow full-page screenshot (`guide-getting-sick-on-the-loop/mobile.png`, ~18,000px tall at 390px width — a long-form article), though exact breakpoint behavior for the TOC box itself isn't independently measurable from the JSON.
+**Responsive behavior:** container `null` at every viewport, same 1200px Elementor-container candidates as other templates. The table-of-contents box and share-button row are the elements most likely to reflow at mobile (stacking vertically) based on the very tall, narrow full-page screenshot (`guide-getting-sick-on-the-loop/mobile.png`, ~18,000px tall at 390px width — a long-form article), though exact breakpoint behavior for the TOC box itself isn't independently measurable from the JSON.
 
 ---
 
@@ -66,7 +66,7 @@ Screenshot folder: `docs/reference-screenshots/guide-getting-sick-on-the-loop/` 
 
 Screenshot folder: `docs/reference-screenshots/contact/`. Measurement folder: `contact/`.
 
-**Section order**: two-column layout — left: info card (address, WhatsApp/phone, email, business hours, each with an icon) with light shadow; right: heading, intro copy, contact form (Name, WhatsApp Number, Email, Message, "Send" button) → footer.
+**Section order**: two-column layout — left: info card (address, WhatsApp/phone, email, business hours, each with an icon) with light shadow; right: heading, intro copy, contact form (name, phone/WhatsApp number, email, and message fields, plus a "Send" button) → footer.
 
 **Typography/color distinct from global:** form field labels use Montserrat 18px/700 (`.elementor-field-label`) — notably larger/bolder than the Motorbike Rental template's form labels (13.6px/500 DM Sans), so form-label styling is not consistent site-wide and a theme build will need to pick one convention rather than copying either literally. Icon-box description text (address/contact details) is Inter 16px/400-500.
 
@@ -80,11 +80,11 @@ Screenshot folder: `docs/reference-screenshots/contact/`. Measurement folder: `c
 
 Screenshot folder: `docs/reference-screenshots/about-loop-trails-tours-ha-giang/`. Measurement folder: `about/`.
 
-**Section order**: gradient hero banner (company name, tagline, license badge) → 4-stat row (Happy Travelers / Years of Excellence / 5-Star Reviews / Licensed Tour Guides) → "Our Journey" narrative → Mission/Vision two-column callout → "Our Services" 6-item icon grid → "Spectacular Destinations" tag-chip list (grouped by region) → "Legal Certification & Compliance" dark panel with license document image → "Our Quality Commitment" 6-item icon grid → "Why Travel With Us" bullet list → "Start Your Adventure Today" CTA band → Tripadvisor strip → footer.
+**Section order**: gradient hero banner (company name, tagline, license badge) → a 4-stat row (traveler count, years operating, review rating, guide-credential count) → a company-history narrative section → a Mission/Vision two-column callout → a services overview as a 6-item icon grid → a destinations tag-chip list (grouped by region) → a dark panel presenting operator licensing/compliance information with a license document image → a second 6-item icon grid covering quality-commitment points → a bullet list of reasons to book with the operator → a closing CTA band → Tripadvisor strip → footer.
 
 **Typography/color distinct from global:** this is the one template where body/heading text runs on **Inter** almost throughout (`h2.section-title` 32px/500, `h4` service titles 17.6-24px, body paragraphs 15-15.2px/400) rather than the Montserrat/DM Sans mix seen on other pages — a real, page-specific typography choice worth flagging for the design-tokens pass rather than an artifact. Stat numbers are large and bold: 40px/700 Inter. Distinct colors: stat-card background `#f7f7f7` with `#e4e0da` border, destination-tag chip border `#dddddd`, legal panel background `#36343b` (dark, matches the header/menu-toggle dark tone used elsewhere), license-badge translucent white overlays (`rgba(255,255,255,0.1-0.3)`) sitting on the gradient hero.
 
-**Card/button measurements:** two distinct grids — stats row (4 items, 266×116px desktop, radius 15px, `gapX: 25`, no shadow) and services grid (6 items, 363×238px desktop, radius 12px, `gapX: 25`, no shadow). "Book Your Adventure Now" CTA button: 52px height, radius 30px (pill), orange fill/white text, no shadow, 15px/400 text — a rounder, flatter style than the hard-shadow buttons used on the tour/booking-heavy pages.
+**Card/button measurements:** two distinct grids — stats row (4 items, 266×116px desktop, radius 15px, `gapX: 25`, no shadow) and services grid (6 items, 363×238px desktop, radius 12px, `gapX: 25`, no shadow). The closing CTA button (a multi-word marketing phrase, not reproduced here): 52px height, radius 30px (pill), orange fill/white text, no shadow, 15px/400 text — a rounder, flatter style than the hard-shadow buttons used on the tour/booking-heavy pages.
 
 **Responsive behavior:** this is one of the only secondary-page templates where `mostCommonContainerWidth` resolves to a real value (1200px, `candidateCount: 4`) at desktop — matching Home and Tours Archive rather than the `null` pattern seen on most other secondary pages. At mobile (`about-loop-trails-tours-ha-giang/mobile.png`) the stat row, services grid, and destination tags all reflow to narrower multi-item rows/stacks; exact column count at mobile isn't reliably inferable from the screenshot's resolution alone, but the underlying items themselves (`itemWidth` 330px range in the mobile JSON) indicate they're no longer laid out at their desktop widths.
 
@@ -94,7 +94,7 @@ Screenshot folder: `docs/reference-screenshots/about-loop-trails-tours-ha-giang/
 
 Screenshot folder: `docs/reference-screenshots/terms-and-conditions/`. Measurement folder: `terms/`.
 
-**Section order**: this is a single long-form legal document, not a composed page — eyebrow label, H1 "Terms & Conditions and Privacy Policy", "Last updated" date line, then ~15 numbered major sections (Prices, Deposit & Full Payment, Booking Confirmation, Cancellation Policy [with a fee table by days-before-departure], Force Majeure, Customer Responsibilities, Motorbike Damage/Loss & Liability, Medical Emergencies & Health, Travel Insurance, Travel Documents & Visa, Photography & Marketing Consent, Liability & Disclaimer, Claims & Disputes, Governing Law, Privacy Policy with its own lettered sub-sections A-J) → "Questions about our Terms or Privacy?" contact callout → "Back to top" link → footer.
+**Section order**: this is a single long-form legal document, not a composed page — eyebrow label, an H1 naming the combined terms/privacy document, a "last updated" date line, then roughly 15 numbered legal sections covering booking/payment terms, a cancellation policy with a fee table scaled by days-before-departure, risk/liability and customer-conduct topics, and a lettered privacy sub-policy appended at the end → a closing contact callout inviting questions about the terms/privacy content → a back-to-top link → footer.
 
 **Typography/color distinct from global:** dedicated legal-doc type scale not used anywhere else: `h2.lt-legal__major` (Poppins 17px/600, section titles), `span.lt-num` (Montserrat 17px/700, section numbers), `h3` sub-headings (Montserrat 12px/700, 1.4px letter-spacing, uppercase-style), body copy `p.lt-legal__updated` (Inter 14.5px/400, 24.65px line-height — noticeably more generous leading than the 22px body line-height used elsewhere, appropriate for long-form reading). Cancellation-fee callouts use a warning red `#d63031` and a light gray callout background `#f7f7f7`.
 
@@ -108,7 +108,7 @@ Screenshot folder: `docs/reference-screenshots/terms-and-conditions/`. Measureme
 
 Screenshot folder: `docs/reference-screenshots/this-page-does-not-exist-xyz123/`. Measurement folder: `404/`.
 
-**Section order**: two-column hero split — left: full-bleed photo (motorbike on a mountain road); right: "404" eyebrow, large H2 "Oops! It seems like you got lost…", one-line body copy with a "Home Page" link, search box with "GO" button → footer (no other sections).
+**Section order**: two-column hero split — left: full-bleed photo (motorbike on a mountain road); right: a "404" status label, a large H2-level error message in a conversational/apologetic tone, one-line body copy with a link back to the homepage, search box with a "GO" button → footer (no other sections).
 
 **Typography/color distinct from global:** this template breaks from the Montserrat/Inter/DM Sans mix used everywhere else and runs on **Rubik** for its own content (`h2` 55px/400, body 16px/400, "GO" button 15px/400) — a one-off font choice specific to this error page. The "404" eyebrow label uses an accent pink-red `#f40045`, distinct from the site's usual orange/pink accents.
 
