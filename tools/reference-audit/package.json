@@ -1,0 +1,12 @@
+{
+  "name": "reference-audit",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "smoke-test": "node capture-smoke-test.mjs",
+    "capture": "node capture.mjs"
+  },
+  "devDependencies": {
+    "playwright": "1.62.1"
+  }
+}
