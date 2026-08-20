@@ -5,7 +5,7 @@ import { pages, VIEWPORTS } from './pages.mjs';
 const OUT_DIR = 'docs/reference-screenshots/interaction-audit';
 mkdirSync(OUT_DIR, { recursive: true });
 
-const homePage = pages.find((p) => p.slug === 'home') ?? pages[0];
+const homePage = pages.find((p) => p.label === 'Home') ?? pages[0];
 const findings = {
 	nav: [],
 	sticky: [],
