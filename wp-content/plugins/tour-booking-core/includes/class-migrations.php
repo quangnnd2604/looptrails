@@ -20,7 +20,12 @@ class Tbc_Migrations {
 	public static function run() {
 		$current = get_option( self::OPTION_KEY, '0.0.0' );
 
-		foreach ( self::get_migrations() as $version => $callback ) {
+		// Run migrations in ascending version order rather than relying on the
+		// array's insertion order, which nothing enforces.
+		$migrations = self::get_migrations();
+		uksort( $migrations, 'version_compare' );
+
+		foreach ( $migrations as $version => $callback ) {
 			if ( version_compare( $current, $version, '<' ) ) {
 				call_user_func( $callback );
 			}

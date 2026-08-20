@@ -27,6 +27,15 @@ class Test_Migrations extends WP_UnitTestCase {
 		$this->assertFalse( get_option( 'tbc_installed_at' ) );
 	}
 
+	public function test_migrations_are_declared_in_ascending_version_order() {
+		$versions = array_keys( Tbc_Migrations::get_migrations() );
+		$sorted   = $versions;
+		usort( $sorted, 'version_compare' );
+
+		// run() sorts defensively, but a mis-ordered declaration is still a smell.
+		$this->assertSame( $sorted, $versions );
+	}
+
 	public function test_maybe_run_executes_when_stale() {
 		update_option( 'tbc_db_version', '0.0.0' );
 		delete_option( 'tbc_installed_at' );

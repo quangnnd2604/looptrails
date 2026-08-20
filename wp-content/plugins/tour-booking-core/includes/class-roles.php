@@ -44,6 +44,12 @@ class Tbc_Roles {
 				'upload_files'         => true,
 				'edit_posts'           => true,
 				'edit_published_posts' => true,
+				// Translators are almost never the original author of the tours
+				// they translate, so editing another author's published tour
+				// requires edit_others_posts on top of edit_published_posts.
+				// Deliberately NOT granted: edit_private_posts, delete_posts,
+				// and every price/booking/voucher capability.
+				'edit_others_posts'    => true,
 			)
 		);
 	}

@@ -19,6 +19,8 @@ class Tbc_Demo_Importer {
 		array( 'title_en' => 'Ha Giang Extreme Loop', 'title_vi' => 'Vòng Cung Mạo Hiểm Hà Giang', 'days' => 6, 'nights' => 5 ),
 	);
 
+	const IMPORTED_OPTION = 'tbc_demo_content_imported';
+
 	public static function import() {
 		$counts = array(
 			'tour'              => 0,
@@ -34,40 +36,60 @@ class Tbc_Demo_Importer {
 			'availability_rule' => 0,
 		);
 
+		// Idempotency guard: a second "Import" click (or CLI run) must not
+		// double the demo content. The flag is cleared by Tbc_Demo_Remover.
+		if ( get_option( self::IMPORTED_OPTION ) ) {
+			return $counts;
+		}
+
 		self::create_voucher();
 		++$counts['voucher'];
 
 		foreach ( self::TOURS as $tour_data ) {
 			$translation_group = uniqid( 'tbc_demo_', true );
+			$destination_id    = null;
 
 			foreach ( array( 'en', 'vi' ) as $lang ) {
 				$tour_id = self::create_tour( $tour_data, $lang, $translation_group );
 				++$counts['tour'];
 
-				$destination_id = self::create_destination( $tour_data, $lang );
-				++$counts['destination'];
+				if ( 'en' === $lang ) {
+					// Operational children are created once per tour pair, keyed to the
+					// canonical (English) tour, and shared by both language tours — per
+					// spec §6, operational values (price, capacity, dates) must not be
+					// duplicated between translations.
+					$destination_id = self::create_destination( $tour_data, $lang );
+					++$counts['destination'];
+
+					foreach ( array( 'motorbike', 'jeep' ) as $vehicle_type ) {
+						self::create_vehicle_option( $tour_id, $vehicle_type );
+						++$counts['vehicle_option'];
+					}
+
+					self::create_accommodation( $tour_id, $lang );
+					++$counts['accommodation'];
+
+					foreach ( array( 'to', 'from' ) as $direction ) {
+						self::create_transfer_option( $tour_id, $direction );
+						++$counts['transfer_option'];
+					}
+
+					self::create_addon( $tour_id, $lang );
+					++$counts['addon'];
+
+					foreach ( self::availability_states() as $offset => $state ) {
+						self::create_availability_rule( $tour_id, $offset, $state );
+						++$counts['availability_rule'];
+					}
+				}
+
 				update_post_meta( $tour_id, 'tbc_destination_id', $destination_id );
 
-				for ( $day = 0; $day <= 1; $day++ ) {
+				// Translatable-only content stays per-language.
+				for ( $day = 1; $day <= 2; $day++ ) {
 					self::create_itinerary_day( $tour_id, $day, $lang );
 					++$counts['itinerary_day'];
 				}
-
-				foreach ( array( 'motorbike', 'jeep' ) as $vehicle_type ) {
-					self::create_vehicle_option( $tour_id, $vehicle_type );
-					++$counts['vehicle_option'];
-				}
-
-				self::create_accommodation( $tour_id, $lang );
-				++$counts['accommodation'];
-
-				foreach ( array( 'to', 'from' ) as $direction ) {
-					self::create_transfer_option( $tour_id, $direction );
-					++$counts['transfer_option'];
-				}
-
-				self::create_addon( $tour_id, $lang );
-				++$counts['addon'];
 
 				self::create_testimonial( $tour_id, $lang );
 				++$counts['testimonial'];
@@ -76,13 +98,10 @@ class Tbc_Demo_Importer {
 					self::create_faq( $tour_id, $lang );
 					++$counts['faq'];
 				}
-
-				foreach ( self::availability_states() as $offset => $state ) {
-					self::create_availability_rule( $tour_id, $offset, $state );
-					++$counts['availability_rule'];
-				}
 			}
 		}
+
+		update_option( self::IMPORTED_OPTION, true );
 
 		return $counts;
 	}
@@ -291,6 +310,12 @@ class Tbc_Demo_Importer {
 
 	public static function cli_import() {
 		$counts = self::import();
+
+		if ( 0 === array_sum( $counts ) ) {
+			WP_CLI::warning( 'Demo content is already imported; nothing was created. Run `wp tbc demo remove` first.' );
+			return;
+		}
+
 		WP_CLI::success( sprintf( 'Imported demo content: %s', wp_json_encode( $counts ) ) );
 	}
 }

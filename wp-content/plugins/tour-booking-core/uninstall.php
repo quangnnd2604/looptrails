@@ -10,3 +10,4 @@ Tbc_Roles::uninstall();
 
 delete_option( 'tbc_db_version' );
 delete_option( 'tbc_installed_at' );
+delete_option( 'tbc_demo_content_imported' );

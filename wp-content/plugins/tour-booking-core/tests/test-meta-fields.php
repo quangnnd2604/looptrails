@@ -44,6 +44,31 @@ class Test_Meta_Fields extends WP_UnitTestCase {
 		$this->assertTrue( current_user_can( 'edit_post_meta', $vehicle_id, 'tbc_price_vnd' ) );
 	}
 
+	/**
+	 * WordPress passes the user being asked about as the 4th argument to the
+	 * auth_{$object_type}_meta_{$meta_key} filter. The callback must answer for
+	 * THAT user, not for whoever happens to be logged in.
+	 */
+	public function test_price_meta_answers_for_the_queried_user_not_the_current_one() {
+		Tbc_Roles::install();
+
+		$translator_id = self::factory()->user->create( array( 'role' => 'translator' ) );
+		$admin_id      = self::factory()->user->create( array( 'role' => 'administrator' ) );
+		$vehicle_id    = self::factory()->post->create( array( 'post_type' => 'vehicle_option' ) );
+
+		// Logged in as the administrator, but asking about the translator.
+		wp_set_current_user( $admin_id );
+
+		$this->assertTrue( user_can( $admin_id, 'edit_post_meta', $vehicle_id, 'tbc_price_vnd' ) );
+		$this->assertFalse( user_can( $translator_id, 'edit_post_meta', $vehicle_id, 'tbc_price_vnd' ) );
+
+		// And the mirror case: logged in as the translator, asking about the admin.
+		wp_set_current_user( $translator_id );
+
+		$this->assertTrue( user_can( $admin_id, 'edit_post_meta', $vehicle_id, 'tbc_price_vnd' ) );
+		$this->assertFalse( user_can( $translator_id, 'edit_post_meta', $vehicle_id, 'tbc_price_vnd' ) );
+	}
+
 	public function test_non_price_meta_only_requires_edit_post_capability() {
 		$admin_id = self::factory()->user->create( array( 'role' => 'administrator' ) );
 		$tour_id  = self::factory()->post->create( array( 'post_type' => 'tour' ) );

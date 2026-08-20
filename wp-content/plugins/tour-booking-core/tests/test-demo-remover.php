@@ -32,6 +32,31 @@ class Test_Demo_Remover extends WP_UnitTestCase {
 		}
 	}
 
+	/**
+	 * 'post_status' => 'any' excludes statuses flagged exclude_from_search,
+	 * and 'trash' is one of them — a trashed demo post used to survive removal.
+	 */
+	public function test_remove_deletes_trashed_demo_posts() {
+		$demo_tour_id = self::factory()->post->create( array( 'post_type' => 'tour' ) );
+		update_post_meta( $demo_tour_id, 'tbc_is_demo', true );
+
+		wp_trash_post( $demo_tour_id );
+		$this->assertSame( 'trash', get_post_status( $demo_tour_id ) );
+
+		Tbc_Demo_Remover::remove();
+
+		$this->assertNull( get_post( $demo_tour_id ) );
+	}
+
+	public function test_remove_clears_the_import_guard() {
+		Tbc_Demo_Importer::import();
+		$this->assertTrue( (bool) get_option( Tbc_Demo_Importer::IMPORTED_OPTION ) );
+
+		Tbc_Demo_Remover::remove();
+
+		$this->assertFalse( get_option( Tbc_Demo_Importer::IMPORTED_OPTION ) );
+	}
+
 	public function test_remove_returns_deleted_count() {
 		self::factory()->post->create(
 			array(

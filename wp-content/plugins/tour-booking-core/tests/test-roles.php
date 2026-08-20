@@ -46,6 +46,65 @@ class Test_Roles extends WP_UnitTestCase {
 		$this->assertTrue( current_user_can( 'edit_post_meta', $booking_id, 'tbc_total_vnd' ) );
 	}
 
+	/**
+	 * booking_manager holds manage_tbc_availability, so the availability_rule
+	 * post type must actually be wired to that capability. Checked through
+	 * current_user_can() against a post authored by somebody else, because
+	 * WP_Role::has_cap() never exercises map_meta_cap()'s real resolution.
+	 */
+	public function test_booking_manager_can_edit_availability_rule_authored_by_another_user() {
+		$other_user_id = self::factory()->user->create( array( 'role' => 'administrator' ) );
+		$manager_id    = self::factory()->user->create( array( 'role' => 'booking_manager' ) );
+		$rule_id       = self::factory()->post->create(
+			array(
+				'post_type'   => 'availability_rule',
+				'post_author' => $other_user_id,
+				'post_status' => 'publish',
+			)
+		);
+
+		wp_set_current_user( $manager_id );
+
+		$this->assertTrue( current_user_can( 'edit_post', $rule_id ) );
+		$this->assertTrue( current_user_can( get_post_type_object( 'availability_rule' )->cap->edit_posts ) );
+	}
+
+	/**
+	 * A translator's whole job is editing tours somebody else authored, which
+	 * needs edit_others_posts on top of edit_published_posts.
+	 */
+	public function test_translator_can_edit_published_tour_authored_by_another_user() {
+		$other_user_id = self::factory()->user->create( array( 'role' => 'administrator' ) );
+		$translator_id = self::factory()->user->create( array( 'role' => 'translator' ) );
+		$tour_id       = self::factory()->post->create(
+			array(
+				'post_type'   => 'tour',
+				'post_author' => $other_user_id,
+				'post_status' => 'publish',
+			)
+		);
+
+		wp_set_current_user( $translator_id );
+
+		$this->assertTrue( current_user_can( 'edit_post', $tour_id ) );
+	}
+
+	public function test_translator_still_cannot_write_price_meta() {
+		$translator_id = self::factory()->user->create( array( 'role' => 'translator' ) );
+		$vehicle_id    = self::factory()->post->create(
+			array(
+				'post_type'   => 'vehicle_option',
+				'post_author' => self::factory()->user->create( array( 'role' => 'administrator' ) ),
+				'post_status' => 'publish',
+			)
+		);
+
+		wp_set_current_user( $translator_id );
+
+		$this->assertFalse( current_user_can( 'edit_tbc_prices' ) );
+		$this->assertFalse( current_user_can( 'edit_post_meta', $vehicle_id, 'tbc_price_vnd' ) );
+	}
+
 	public function test_translator_cannot_edit_booking_at_all() {
 		$user_id    = self::factory()->user->create( array( 'role' => 'translator' ) );
 		$booking_id = self::factory()->post->create( array( 'post_type' => 'booking' ) );
