@@ -124,11 +124,8 @@ class Tbc_Meta_Fields {
 				return false;
 			}
 
-			if ( $is_price ) {
-				// Check if user has edit_tbc_prices capability, or is an admin
-				if ( ! current_user_can( 'edit_tbc_prices' ) && ! current_user_can( 'manage_options' ) ) {
-					return false;
-				}
+			if ( $is_price && ! current_user_can( 'edit_tbc_prices' ) ) {
+				return false;
 			}
 
 			return true;

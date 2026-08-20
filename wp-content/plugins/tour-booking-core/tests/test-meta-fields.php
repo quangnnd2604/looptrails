@@ -35,6 +35,10 @@ class Test_Meta_Fields extends WP_UnitTestCase {
 		$admin_id   = self::factory()->user->create( array( 'role' => 'administrator' ) );
 		$vehicle_id = self::factory()->post->create( array( 'post_type' => 'vehicle_option' ) );
 
+		// Grant edit_tbc_prices capability to the admin user
+		$user = get_userdata( $admin_id );
+		$user->add_cap( 'edit_tbc_prices' );
+
 		wp_set_current_user( $admin_id );
 
 		$this->assertTrue( current_user_can( 'edit_post_meta', $vehicle_id, 'tbc_price_vnd' ) );
