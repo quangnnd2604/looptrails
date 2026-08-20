@@ -54,3 +54,16 @@
 	font-display: swap;
 	src: url("../fonts/open-sans-latin-400-normal.woff2") format("woff2");
 }
+
+.wp-block-button.is-style-book-now .wp-block-button__link {
+	background-color: var(--wp--preset--color--surface);
+	color: var(--wp--preset--color--primary);
+	border-radius: var(--wp--custom--button--radius-pill);
+	height: var(--wp--custom--button--height-nav);
+	display: inline-flex;
+	align-items: center;
+	padding: 0 18px;
+	box-shadow: var(--wp--preset--shadow--button-hard-offset);
+	font-family: var(--wp--preset--font-family--heading);
+	font-weight: 700;
+}

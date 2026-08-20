@@ -41,5 +41,16 @@ function tour_theme_enqueue_fonts() {
 		);
 	}
 
-	wp_enqueue_style( 'tour-theme-fonts', TOUR_THEME_URI . '/assets/css/fonts.css', array(), '0.1.0' );
+	wp_enqueue_style( 'tour-theme-fonts', TOUR_THEME_URI . '/assets/css/theme.css', array(), '0.1.0' );
+}
+
+add_action( 'init', 'tour_theme_register_block_styles' );
+function tour_theme_register_block_styles() {
+	register_block_style(
+		'core/button',
+		array(
+			'name'  => 'book-now',
+			'label' => __( 'Book Now (pill, hard shadow)', 'tour-reference-theme' ),
+		)
+	);
 }
