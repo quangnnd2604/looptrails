@@ -937,6 +937,11 @@ git commit -m "feat: register tour-booking-core post meta schema with price-fiel
 <?php
 class Test_Roles extends WP_UnitTestCase {
 
+	public function set_up() {
+		parent::set_up();
+		Tbc_Roles::install();
+	}
+
 	public function test_administrator_gets_custom_capabilities() {
 		$admin = get_role( 'administrator' );
 
@@ -1115,7 +1120,7 @@ delete_option( 'tbc_installed_at' );
 - [ ] **Step 7: Run tests to verify they pass**
 
 Run: `vendor/bin/phpunit`
-Expected: `OK` — all tests pass. `WP_UnitTestCase` runs each test inside a transaction rolled back afterward, but role/capability changes made via `add_role`/`add_cap` in `wp_options` persist across the suite the same way plugin activation would — this is expected and matches how the real site behaves after activation.
+Expected: `OK` — all tests pass. `Test_Roles::set_up()` calls `Tbc_Roles::install()` directly so these tests are self-contained and order-independent — they pass whether run as part of the full suite or in isolation with `--filter Test_Roles`, regardless of whether an earlier test file already triggered a migration.
 
 - [ ] **Step 8: Commit**
 
