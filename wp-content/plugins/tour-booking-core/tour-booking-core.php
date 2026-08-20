@@ -25,3 +25,7 @@ add_action( 'init', array( 'Tbc_Post_Types', 'register' ) );
 require_once TBC_PLUGIN_DIR . 'includes/class-taxonomies.php';
 
 add_action( 'init', array( 'Tbc_Taxonomies', 'register' ), 10 );
+
+require_once TBC_PLUGIN_DIR . 'includes/class-meta-fields.php';
+
+add_action( 'init', array( 'Tbc_Meta_Fields', 'register' ), 20 );
