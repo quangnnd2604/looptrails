@@ -1,4 +1,5 @@
 {
+	"_note_phpunit_pin": "PHPUnit constraint narrowed from plan's ^9.6 || ^10.0 || ^11.0 to ^9.6 only: PHPUnit 10/11 are incompatible with wp-phpunit 7.1.0 (missing parseTestMethodAnnotations method). Version 9.6.36 works correctly with wp-phpunit 7.1.0 and yoast/phpunit-polyfills 3.1.2.",
 	"name": "looptrails/tour-booking-core",
 	"description": "Companion plugin for a WordPress tour-booking site: post types, taxonomies, roles, migrations, booking, pricing, availability and payments.",
 	"type": "wordpress-plugin",
