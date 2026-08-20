@@ -17,9 +17,30 @@ for ( const vp of VIEWPORTS ) {
 		const btn = document.querySelector( '.wp-block-button.is-style-book-now .wp-block-button__link' );
 		const cs = getComputedStyle( btn );
 		const rect = btn.getBoundingClientRect();
+
+		// line-height computes to the keyword "normal" here (never explicitly
+		// set), and per the CSS Values spec that keyword is the *computed*
+		// value -- getComputedStyle never resolves it to a px number. To get
+		// the actual used/rendered line-box height, probe it directly: render
+		// the same font/size/weight in an isolated span and measure its
+		// rendered height.
+		const probe = document.createElement( 'span' );
+		probe.style.fontFamily = cs.fontFamily;
+		probe.style.fontSize = cs.fontSize;
+		probe.style.fontWeight = cs.fontWeight;
+		probe.style.lineHeight = 'normal';
+		probe.style.position = 'absolute';
+		probe.style.visibility = 'hidden';
+		probe.style.whiteSpace = 'nowrap';
+		probe.textContent = 'Book Now';
+		document.body.appendChild( probe );
+		const resolvedLineHeightPx = probe.getBoundingClientRect().height;
+		probe.remove();
+
 		return {
 			fontSize: cs.fontSize,
 			lineHeight: cs.lineHeight,
+			resolvedLineHeightPx,
 			fontWeight: cs.fontWeight,
 			height: rect.height,
 			borderRadius: cs.borderRadius,
