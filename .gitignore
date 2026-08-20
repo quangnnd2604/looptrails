@@ -52,3 +52,6 @@ Thumbs.db
 # Companion plugin PHPUnit/Composer dev dependencies (reinstall via `composer install`)
 /wp-content/plugins/tour-booking-core/vendor/
 /wp-content/plugins/tour-booking-core/.phpunit.result.cache
+
+# Theme PHPUnit/Composer dev dependencies (reinstall via `composer install`)
+/wp-content/themes/tour-reference-theme/vendor/
