@@ -33,10 +33,12 @@ require_once TBC_PLUGIN_DIR . 'includes/class-meta-fields.php';
 add_action( 'init', array( 'Tbc_Meta_Fields', 'register' ), 20 );
 
 require_once TBC_PLUGIN_DIR . 'includes/class-demo-importer.php';
+require_once TBC_PLUGIN_DIR . 'includes/class-demo-remover.php';
 require_once TBC_PLUGIN_DIR . 'includes/class-admin-page.php';
 
 Tbc_Admin_Page::register();
 
 if ( defined( 'WP_CLI' ) && WP_CLI ) {
 	WP_CLI::add_command( 'tbc demo import', array( 'Tbc_Demo_Importer', 'cli_import' ) );
+	WP_CLI::add_command( 'tbc demo remove', array( 'Tbc_Demo_Remover', 'cli_remove' ) );
 }
