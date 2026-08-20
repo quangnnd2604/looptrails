@@ -67,3 +67,13 @@
 	font-family: var(--wp--preset--font-family--heading);
 	font-weight: 700;
 }
+
+.footer-social .wp-social-link.wp-social-link-facebook { background-color: var(--wp--preset--color--social-facebook); }
+.footer-social .wp-social-link.wp-social-link-instagram { background-color: var(--wp--preset--color--social-instagram); }
+.footer-social .wp-social-link.wp-social-link-whatsapp { background-color: var(--wp--preset--color--social-whatsapp); }
+.footer-social .wp-social-link.wp-social-link-tiktok { background-color: var(--wp--preset--color--social-tiktok); }
+
+.footer-legal-bar p {
+	letter-spacing: 0.5px;
+	line-height: 22px;
+}
