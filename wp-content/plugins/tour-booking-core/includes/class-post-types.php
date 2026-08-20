@@ -1,0 +1,130 @@
+<?php
+/**
+ * Registers the plugin's custom post types from a single schema array.
+ */
+
+defined( 'ABSPATH' ) || exit;
+
+class Tbc_Post_Types {
+
+	public static function get_schema() {
+		return array(
+			'tour'               => array(
+				'public'       => true,
+				'has_archive'  => true,
+				'supports'     => array( 'title', 'editor', 'excerpt', 'thumbnail' ),
+				'menu_icon'    => 'dashicons-palmtree',
+				'rewrite_slug' => 'tours',
+			),
+			'destination'        => array(
+				'public'       => true,
+				'has_archive'  => true,
+				'supports'     => array( 'title', 'editor', 'thumbnail' ),
+				'menu_icon'    => 'dashicons-location-alt',
+				'rewrite_slug' => 'destinations',
+			),
+			'testimonial'        => array(
+				'public'       => true,
+				'has_archive'  => false,
+				'supports'     => array( 'title', 'editor' ),
+				'menu_icon'    => 'dashicons-format-quote',
+				'rewrite_slug' => 'testimonials',
+			),
+			'faq'                => array(
+				'public'       => true,
+				'has_archive'  => false,
+				'supports'     => array( 'title', 'editor' ),
+				'menu_icon'    => 'dashicons-editor-help',
+				'rewrite_slug' => 'faqs',
+			),
+			'itinerary_day'      => array(
+				'public'    => false,
+				'supports'  => array( 'title', 'editor' ),
+				'menu_icon' => 'dashicons-calendar-alt',
+			),
+			'vehicle_option'     => array(
+				'public'    => false,
+				'supports'  => array( 'title' ),
+				'menu_icon' => 'dashicons-car',
+			),
+			'accommodation'      => array(
+				'public'    => false,
+				'supports'  => array( 'title', 'editor', 'thumbnail' ),
+				'menu_icon' => 'dashicons-admin-home',
+			),
+			'transfer_option'    => array(
+				'public'    => false,
+				'supports'  => array( 'title' ),
+				'menu_icon' => 'dashicons-migrate',
+			),
+			'addon'              => array(
+				'public'    => false,
+				'supports'  => array( 'title', 'editor' ),
+				'menu_icon' => 'dashicons-plus-alt',
+			),
+			'availability_rule'  => array(
+				'public'    => false,
+				'supports'  => array( 'title' ),
+				'menu_icon' => 'dashicons-clock',
+			),
+			'booking'            => array(
+				'public'          => false,
+				'supports'        => array( 'title' ),
+				'menu_icon'       => 'dashicons-tickets-alt',
+				'capability_type' => array( 'tbc_booking', 'tbc_bookings' ),
+				'map_meta_cap'    => true,
+				'capabilities'    => array(
+					'edit_post'          => 'edit_tbc_booking',
+					'edit_posts'         => 'manage_tbc_bookings',
+					'edit_others_posts'  => 'manage_tbc_bookings',
+					'publish_posts'      => 'manage_tbc_bookings',
+					'read_post'          => 'read_tbc_booking',
+					'read_private_posts' => 'manage_tbc_bookings',
+					'delete_post'        => 'manage_tbc_bookings',
+				),
+			),
+			'voucher'            => array(
+				'public'          => false,
+				'supports'        => array( 'title' ),
+				'menu_icon'       => 'dashicons-tag',
+				'capability_type' => array( 'tbc_voucher', 'tbc_vouchers' ),
+				'map_meta_cap'    => true,
+				'capabilities'    => array(
+					'edit_post'          => 'edit_tbc_voucher',
+					'edit_posts'         => 'manage_tbc_vouchers',
+					'edit_others_posts'  => 'manage_tbc_vouchers',
+					'publish_posts'      => 'manage_tbc_vouchers',
+					'read_post'          => 'read_tbc_voucher',
+					'read_private_posts' => 'manage_tbc_vouchers',
+					'delete_post'        => 'manage_tbc_vouchers',
+				),
+			),
+		);
+	}
+
+	public static function register() {
+		foreach ( self::get_schema() as $post_type => $args ) {
+			register_post_type( $post_type, self::build_args( $post_type, $args ) );
+		}
+	}
+
+	private static function build_args( $post_type, $args ) {
+		$defaults = array(
+			'label'        => ucwords( str_replace( '_', ' ', $post_type ) ),
+			'public'       => false,
+			'show_ui'      => true,
+			'show_in_rest' => true,
+			'supports'     => array( 'title' ),
+			'menu_icon'    => 'dashicons-admin-generic',
+		);
+
+		$args = wp_parse_args( $args, $defaults );
+
+		if ( ! empty( $args['rewrite_slug'] ) ) {
+			$args['rewrite'] = array( 'slug' => $args['rewrite_slug'] );
+			unset( $args['rewrite_slug'] );
+		}
+
+		return $args;
+	}
+}
