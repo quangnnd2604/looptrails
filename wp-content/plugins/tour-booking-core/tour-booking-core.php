@@ -21,3 +21,7 @@ add_action( 'admin_init', array( 'Tbc_Migrations', 'maybe_run' ) );
 require_once TBC_PLUGIN_DIR . 'includes/class-post-types.php';
 
 add_action( 'init', array( 'Tbc_Post_Types', 'register' ) );
+
+require_once TBC_PLUGIN_DIR . 'includes/class-taxonomies.php';
+
+add_action( 'init', array( 'Tbc_Taxonomies', 'register' ), 10 );
