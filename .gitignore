@@ -48,3 +48,6 @@ Thumbs.db
 # identification — local-only evidence, same treatment as reference-screenshots/)
 /docs/design-measurements/*
 !/docs/design-measurements/README.md
+
+# Companion plugin PHPUnit/Composer dev dependencies (reinstall via `composer install`)
+/wp-content/plugins/tour-booking-core/vendor/

@@ -1,0 +1,12 @@
+{
+	"name": "looptrails/tour-booking-core",
+	"description": "Companion plugin for a WordPress tour-booking site: post types, taxonomies, roles, migrations, booking, pricing, availability and payments.",
+	"type": "wordpress-plugin",
+	"license": "GPL-2.0-or-later",
+	"require-dev": {
+		"phpunit/phpunit": "^9.6",
+		"yoast/phpunit-polyfills": "^2.0 || ^3.0",
+		"wp-phpunit/wp-phpunit": "*"
+	},
+	"minimum-stability": "stable"
+}
