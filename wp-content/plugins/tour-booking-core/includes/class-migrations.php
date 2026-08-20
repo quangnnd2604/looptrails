@@ -13,6 +13,7 @@ class Tbc_Migrations {
 	public static function get_migrations() {
 		return array(
 			'0.1.0' => array( __CLASS__, 'migrate_0_1_0' ),
+			'0.2.0' => array( __CLASS__, 'migrate_0_2_0' ),
 		);
 	}
 
@@ -37,5 +38,10 @@ class Tbc_Migrations {
 	private static function migrate_0_1_0() {
 		update_option( 'tbc_installed_at', current_time( 'mysql', true ) );
 		flush_rewrite_rules();
+	}
+
+	private static function migrate_0_2_0() {
+		require_once TBC_PLUGIN_DIR . 'includes/class-roles.php';
+		Tbc_Roles::install();
 	}
 }
