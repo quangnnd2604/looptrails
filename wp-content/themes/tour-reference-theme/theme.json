@@ -1,0 +1,197 @@
+{
+	"$schema": "https://schemas.wp.org/trunk/theme.json",
+	"version": 3,
+	"settings": {
+		"appearanceTools": true,
+		"layout": {
+			"contentSize": "1200px",
+			"wideSize": "1320px"
+		},
+		"color": {
+			"defaultPalette": false,
+			"palette": [
+				{ "slug": "primary", "color": "#ff6602", "name": "Primary" },
+				{ "slug": "ink", "color": "#36343b", "name": "Ink" },
+				{ "slug": "text-body", "color": "#212121", "name": "Body text" },
+				{ "slug": "text-heading", "color": "#333333", "name": "Heading text" },
+				{ "slug": "surface", "color": "#ffffff", "name": "Surface" },
+				{ "slug": "accent-secondary", "color": "#e5396e", "name": "Accent secondary" },
+				{ "slug": "surface-header-footer", "color": "#e4e0da", "name": "Header/footer surface" },
+				{ "slug": "surface-muted", "color": "#f7f7f7", "name": "Muted surface" },
+				{ "slug": "border-default", "color": "#dddddd", "name": "Default border" },
+				{ "slug": "social-facebook", "color": "#1877f2", "name": "Facebook" },
+				{ "slug": "social-instagram", "color": "#e1306c", "name": "Instagram" },
+				{ "slug": "social-whatsapp", "color": "#25d366", "name": "WhatsApp" },
+				{ "slug": "social-tiktok", "color": "#000000", "name": "TikTok" },
+				{ "slug": "social-tripadvisor", "color": "#34e0a1", "name": "Tripadvisor" }
+			],
+			"custom": true,
+			"customDuotone": false
+		},
+		"typography": {
+			"fluid": true,
+			"defaultFontSizes": false,
+			"fontFamilies": [
+				{
+					"slug": "heading",
+					"fontFamily": "Montserrat, sans-serif",
+					"name": "Montserrat",
+					"fontFace": [
+						{
+							"fontFamily": "Montserrat",
+							"fontStyle": "normal",
+							"fontWeight": "700",
+							"fontDisplay": "swap",
+							"src": [ "file:./assets/fonts/montserrat-latin-700-normal.woff2" ]
+						},
+						{
+							"fontFamily": "Montserrat",
+							"fontStyle": "normal",
+							"fontWeight": "800",
+							"fontDisplay": "swap",
+							"src": [ "file:./assets/fonts/montserrat-latin-800-normal.woff2" ]
+						}
+					]
+				},
+				{
+					"slug": "card-title",
+					"fontFamily": "Poppins, sans-serif",
+					"name": "Poppins",
+					"fontFace": [
+						{
+							"fontFamily": "Poppins",
+							"fontStyle": "normal",
+							"fontWeight": "600",
+							"fontDisplay": "swap",
+							"src": [ "file:./assets/fonts/poppins-latin-600-normal.woff2" ]
+						}
+					]
+				},
+				{
+					"slug": "body",
+					"fontFamily": "Inter, sans-serif",
+					"name": "Inter",
+					"fontFace": [
+						{
+							"fontFamily": "Inter",
+							"fontStyle": "normal",
+							"fontWeight": "400",
+							"fontDisplay": "swap",
+							"src": [ "file:./assets/fonts/inter-latin-400-normal.woff2" ]
+						},
+						{
+							"fontFamily": "Inter",
+							"fontStyle": "normal",
+							"fontWeight": "600",
+							"fontDisplay": "swap",
+							"src": [ "file:./assets/fonts/inter-latin-600-normal.woff2" ]
+						},
+						{
+							"fontFamily": "Inter",
+							"fontStyle": "normal",
+							"fontWeight": "700",
+							"fontDisplay": "swap",
+							"src": [ "file:./assets/fonts/inter-latin-700-normal.woff2" ]
+						}
+					]
+				},
+				{
+					"slug": "form-label",
+					"fontFamily": "\"DM Sans\", sans-serif",
+					"name": "DM Sans",
+					"fontFace": [
+						{
+							"fontFamily": "DM Sans",
+							"fontStyle": "normal",
+							"fontWeight": "600",
+							"fontDisplay": "swap",
+							"src": [ "file:./assets/fonts/dm-sans-latin-600-normal.woff2" ]
+						}
+					]
+				},
+				{
+					"slug": "footer-legal",
+					"fontFamily": "\"Open Sans\", sans-serif",
+					"name": "Open Sans",
+					"fontFace": [
+						{
+							"fontFamily": "Open Sans",
+							"fontStyle": "normal",
+							"fontWeight": "400",
+							"fontDisplay": "swap",
+							"src": [ "file:./assets/fonts/open-sans-latin-400-normal.woff2" ]
+						}
+					]
+				}
+			],
+			"fontSizes": [
+				{ "slug": "caption", "size": "11.5px", "name": "Caption" },
+				{ "slug": "body", "size": "14.5px", "name": "Body" },
+				{ "slug": "footer-legal", "size": "12px", "name": "Footer legal" },
+				{ "slug": "nav-cta", "size": "14.5px", "fluid": false, "name": "Nav CTA" },
+				{ "slug": "nav-cta-touch", "size": "15.5px", "fluid": false, "name": "Nav CTA (touch)" },
+				{ "slug": "h3", "size": "18px", "name": "H3" },
+				{ "slug": "h2", "size": "22px", "fluid": { "min": "18px", "max": "22px" }, "name": "H2" },
+				{ "slug": "h1", "size": "60px", "fluid": { "min": "28px", "max": "60px" }, "name": "H1" }
+			],
+			"customFontSize": false
+		},
+		"spacing": {
+			"units": ["px", "%", "vw", "rem"],
+			"defaultSpacingSizes": false,
+			"customSpacingSize": true
+		},
+		"shadow": {
+			"defaultPresets": false,
+			"presets": [
+				{ "slug": "button-hard-offset", "shadow": "2px 3px 0px 0px #36343b", "name": "Button hard offset" }
+			]
+		},
+		"custom": {
+			"button": {
+				"radius-standard": "7px",
+				"radius-pill": "25px",
+				"height-nav": "35px"
+			}
+		}
+	},
+	"styles": {
+		"color": {
+			"background": "var(--wp--preset--color--surface)",
+			"text": "var(--wp--preset--color--text-body)"
+		},
+		"typography": {
+			"fontFamily": "var(--wp--preset--font-family--body)",
+			"fontSize": "var(--wp--preset--font-size--body)"
+		},
+		"elements": {
+			"h1": {
+				"typography": {
+					"fontFamily": "var(--wp--preset--font-family--heading)",
+					"fontSize": "var(--wp--preset--font-size--h1)",
+					"fontWeight": "800",
+					"letterSpacing": "-1px",
+					"lineHeight": "1.08"
+				},
+				"color": { "text": "var(--wp--preset--color--text-heading)" }
+			},
+			"h2": {
+				"typography": {
+					"fontFamily": "var(--wp--preset--font-family--heading)",
+					"fontSize": "var(--wp--preset--font-size--h2)",
+					"fontWeight": "700",
+					"letterSpacing": "-0.3px",
+					"lineHeight": "1.25"
+				},
+				"color": { "text": "var(--wp--preset--color--text-heading)" }
+			},
+			"link": {
+				"color": { "text": "var(--wp--preset--color--primary)" }
+			}
+		}
+	},
+	"templateParts": [
+		{ "name": "header", "title": "Header", "area": "header" },
+		{ "name": "footer", "title": "Footer", "area": "footer" }
+	]
+}
