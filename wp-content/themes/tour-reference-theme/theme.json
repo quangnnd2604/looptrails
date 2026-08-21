@@ -8,6 +8,7 @@
 			"wideSize": "1320px"
 		},
 		"color": {
+			"defaultPalette": false,
 			"palette": [
 				{ "slug": "primary", "color": "#ff6602", "name": "Primary" },
 				{ "slug": "ink", "color": "#36343b", "name": "Ink" },
@@ -29,17 +30,106 @@
 		},
 		"typography": {
 			"fluid": true,
+			"defaultFontSizes": false,
 			"fontFamilies": [
-				{ "slug": "heading", "fontFamily": "Montserrat, sans-serif", "name": "Montserrat" },
-				{ "slug": "card-title", "fontFamily": "Poppins, sans-serif", "name": "Poppins" },
-				{ "slug": "body", "fontFamily": "Inter, sans-serif", "name": "Inter" },
-				{ "slug": "form-label", "fontFamily": "\"DM Sans\", sans-serif", "name": "DM Sans" },
-				{ "slug": "footer-legal", "fontFamily": "\"Open Sans\", sans-serif", "name": "Open Sans" }
+				{
+					"slug": "heading",
+					"fontFamily": "Montserrat, sans-serif",
+					"name": "Montserrat",
+					"fontFace": [
+						{
+							"fontFamily": "Montserrat",
+							"fontStyle": "normal",
+							"fontWeight": "700",
+							"fontDisplay": "swap",
+							"src": [ "file:./assets/fonts/montserrat-latin-700-normal.woff2" ]
+						},
+						{
+							"fontFamily": "Montserrat",
+							"fontStyle": "normal",
+							"fontWeight": "800",
+							"fontDisplay": "swap",
+							"src": [ "file:./assets/fonts/montserrat-latin-800-normal.woff2" ]
+						}
+					]
+				},
+				{
+					"slug": "card-title",
+					"fontFamily": "Poppins, sans-serif",
+					"name": "Poppins",
+					"fontFace": [
+						{
+							"fontFamily": "Poppins",
+							"fontStyle": "normal",
+							"fontWeight": "600",
+							"fontDisplay": "swap",
+							"src": [ "file:./assets/fonts/poppins-latin-600-normal.woff2" ]
+						}
+					]
+				},
+				{
+					"slug": "body",
+					"fontFamily": "Inter, sans-serif",
+					"name": "Inter",
+					"fontFace": [
+						{
+							"fontFamily": "Inter",
+							"fontStyle": "normal",
+							"fontWeight": "400",
+							"fontDisplay": "swap",
+							"src": [ "file:./assets/fonts/inter-latin-400-normal.woff2" ]
+						},
+						{
+							"fontFamily": "Inter",
+							"fontStyle": "normal",
+							"fontWeight": "600",
+							"fontDisplay": "swap",
+							"src": [ "file:./assets/fonts/inter-latin-600-normal.woff2" ]
+						},
+						{
+							"fontFamily": "Inter",
+							"fontStyle": "normal",
+							"fontWeight": "700",
+							"fontDisplay": "swap",
+							"src": [ "file:./assets/fonts/inter-latin-700-normal.woff2" ]
+						}
+					]
+				},
+				{
+					"slug": "form-label",
+					"fontFamily": "\"DM Sans\", sans-serif",
+					"name": "DM Sans",
+					"fontFace": [
+						{
+							"fontFamily": "DM Sans",
+							"fontStyle": "normal",
+							"fontWeight": "600",
+							"fontDisplay": "swap",
+							"src": [ "file:./assets/fonts/dm-sans-latin-600-normal.woff2" ]
+						}
+					]
+				},
+				{
+					"slug": "footer-legal",
+					"fontFamily": "\"Open Sans\", sans-serif",
+					"name": "Open Sans",
+					"fontFace": [
+						{
+							"fontFamily": "Open Sans",
+							"fontStyle": "normal",
+							"fontWeight": "400",
+							"fontDisplay": "swap",
+							"src": [ "file:./assets/fonts/open-sans-latin-400-normal.woff2" ]
+						}
+					]
+				}
 			],
 			"fontSizes": [
 				{ "slug": "caption", "size": "11.5px", "name": "Caption" },
 				{ "slug": "body", "size": "14.5px", "name": "Body" },
 				{ "slug": "footer-legal", "size": "12px", "name": "Footer legal" },
+				{ "slug": "nav-cta", "size": "14.5px", "fluid": false, "name": "Nav CTA" },
+				{ "slug": "nav-cta-touch", "size": "15.5px", "fluid": false, "name": "Nav CTA (touch)" },
 				{ "slug": "h3", "size": "18px", "name": "H3" },
 				{ "slug": "h2", "size": "22px", "fluid": { "min": "18px", "max": "22px" }, "name": "H2" },
 				{ "slug": "h1", "size": "60px", "fluid": { "min": "28px", "max": "60px" }, "name": "H1" }
@@ -48,9 +138,11 @@
 		},
 		"spacing": {
 			"units": ["px", "%", "vw", "rem"],
+			"defaultSpacingSizes": false,
 			"customSpacingSize": true
 		},
 		"shadow": {
+			"defaultPresets": false,
 			"presets": [
 				{ "slug": "button-hard-offset", "shadow": "2px 3px 0px 0px #36343b", "name": "Button hard offset" }
 			]
@@ -97,5 +189,9 @@
 				"color": { "text": "var(--wp--preset--color--primary)" }
 			}
 		}
-	}
+	},
+	"templateParts": [
+		{ "name": "header", "title": "Header", "area": "header" },
+		{ "name": "footer", "title": "Footer", "area": "footer" }
+	]
 }

@@ -55,3 +55,4 @@ Thumbs.db
 
 # Theme PHPUnit/Composer dev dependencies (reinstall via `composer install`)
 /wp-content/themes/tour-reference-theme/vendor/
+/wp-content/themes/tour-reference-theme/.phpunit.result.cache

@@ -1,6 +1,12 @@
 <?php
 /**
- * Theme bootstrap: supports, self-hosted fonts. No business logic — see tour-booking-core.
+ * Theme bootstrap: supports, editor styles, self-hosted font preloads.
+ * No business logic — see tour-booking-core.
+ *
+ * The @font-face declarations themselves live in theme.json
+ * (settings.typography.fontFamilies[].fontFace), so WordPress emits them for
+ * both the front end and the Site Editor. This file only preloads the two
+ * critical faces and enqueues the theme's component CSS.
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -14,6 +20,12 @@ function tour_theme_supports() {
 	add_theme_support( 'post-thumbnails' );
 	add_theme_support( 'responsive-embeds' );
 	add_theme_support( 'align-wide' );
+
+	// Make the Site Editor / block editor render with the same component CSS
+	// (Book Now button, social icon colors, legal bar) as the front end.
+	add_theme_support( 'editor-styles' );
+	add_editor_style( 'assets/css/theme.css' );
+
 	register_nav_menus(
 		array(
 			'primary' => __( 'Primary Navigation', 'tour-reference-theme' ),
@@ -21,8 +33,8 @@ function tour_theme_supports() {
 	);
 }
 
-add_action( 'wp_enqueue_scripts', 'tour_theme_enqueue_fonts' );
-function tour_theme_enqueue_fonts() {
+add_action( 'wp_enqueue_scripts', 'tour_theme_enqueue_assets' );
+function tour_theme_enqueue_assets() {
 	$fonts = array(
 		'montserrat-700' => 'montserrat-latin-700-normal.woff2',
 		'montserrat-800' => 'montserrat-latin-800-normal.woff2',
@@ -41,7 +53,9 @@ function tour_theme_enqueue_fonts() {
 		);
 	}
 
-	wp_enqueue_style( 'tour-theme-fonts', TOUR_THEME_URI . '/assets/css/theme.css', array(), '0.1.0' );
+	// Handle is deliberately not "…-fonts": this stylesheet now carries the
+	// Book Now button, social icon and legal-bar rules, not @font-face.
+	wp_enqueue_style( 'tour-theme-styles', TOUR_THEME_URI . '/assets/css/theme.css', array(), '0.1.0' );
 }
 
 add_action( 'init', 'tour_theme_register_block_styles' );

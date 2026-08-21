@@ -1,59 +1,16 @@
-@font-face {
-	font-family: "Montserrat";
-	font-style: normal;
-	font-weight: 700;
-	font-display: swap;
-	src: url("../fonts/montserrat-latin-700-normal.woff2") format("woff2");
-}
-@font-face {
-	font-family: "Montserrat";
-	font-style: normal;
-	font-weight: 800;
-	font-display: swap;
-	src: url("../fonts/montserrat-latin-800-normal.woff2") format("woff2");
-}
-@font-face {
-	font-family: "Poppins";
-	font-style: normal;
-	font-weight: 600;
-	font-display: swap;
-	src: url("../fonts/poppins-latin-600-normal.woff2") format("woff2");
-}
-@font-face {
-	font-family: "Inter";
-	font-style: normal;
-	font-weight: 400;
-	font-display: swap;
-	src: url("../fonts/inter-latin-400-normal.woff2") format("woff2");
-}
-@font-face {
-	font-family: "Inter";
-	font-style: normal;
-	font-weight: 600;
-	font-display: swap;
-	src: url("../fonts/inter-latin-600-normal.woff2") format("woff2");
-}
-@font-face {
-	font-family: "Inter";
-	font-style: normal;
-	font-weight: 700;
-	font-display: swap;
-	src: url("../fonts/inter-latin-700-normal.woff2") format("woff2");
-}
-@font-face {
-	font-family: "DM Sans";
-	font-style: normal;
-	font-weight: 600;
-	font-display: swap;
-	src: url("../fonts/dm-sans-latin-600-normal.woff2") format("woff2");
-}
-@font-face {
-	font-family: "Open Sans";
-	font-style: normal;
-	font-weight: 400;
-	font-display: swap;
-	src: url("../fonts/open-sans-latin-400-normal.woff2") format("woff2");
-}
+/**
+ * Theme CSS for tour-reference-theme.
+ *
+ * Font-face declarations are deliberately NOT here: they live in theme.json's
+ * settings.typography.fontFamilies[].fontFace (WP 6.5+), so WordPress emits
+ * them for both the front end and the Site Editor, and the families show up in
+ * the Font Library. This file is also loaded as an editor stylesheet via
+ * add_editor_style() so the Book Now button and social icons look the same in
+ * the Site Editor as on the front end.
+ *
+ * Every value below is either a theme.json token or a figure traced to a
+ * Milestone 1/2b measurement -- no invented constants.
+ */
 
 .wp-block-button.is-style-book-now .wp-block-button__link {
 	background-color: var(--wp--preset--color--surface);
@@ -65,13 +22,34 @@
 	padding: 0 18px;
 	box-shadow: var(--wp--preset--shadow--button-hard-offset);
 	font-family: var(--wp--preset--font-family--heading);
+	font-size: var(--wp--preset--font-size--nav-cta);
 	font-weight: 700;
 }
 
-.footer-social .wp-social-link.wp-social-link-facebook { background-color: var(--wp--preset--color--social-facebook); }
-.footer-social .wp-social-link.wp-social-link-instagram { background-color: var(--wp--preset--color--social-instagram); }
-.footer-social .wp-social-link.wp-social-link-whatsapp { background-color: var(--wp--preset--color--social-whatsapp); }
-.footer-social .wp-social-link.wp-social-link-tiktok { background-color: var(--wp--preset--color--social-tiktok); }
+/*
+ * The reference's header CTA does not shrink with the sitewide fluid body
+ * scale at narrow viewports -- M1's 00-global.md §4 measured it *growing* to a
+ * 15-16px font on tablet/mobile as a deliberately larger tap target. 781px is
+ * WordPress core's own mobile breakpoint, and it sits above the 768px tablet
+ * capture and below the 1280px laptop capture, so it separates exactly the
+ * viewports M1 distinguished.
+ */
+@media (max-width: 781px) {
+	.wp-block-button.is-style-book-now .wp-block-button__link {
+		font-size: var(--wp--preset--font-size--nav-cta-touch);
+	}
+}
+
+/*
+ * `color:` (not `background-color:`) -- core's is-style-logos-only renders a
+ * bare icon with no circle, and its SVG uses fill: currentColor, so setting
+ * `color` on the list item paints the glyph itself in the brand token.
+ * Specificity here is (0,3,0), which beats core's :where() rules at (0,1,0).
+ */
+.footer-social .wp-social-link.wp-social-link-facebook { color: var(--wp--preset--color--social-facebook); }
+.footer-social .wp-social-link.wp-social-link-instagram { color: var(--wp--preset--color--social-instagram); }
+.footer-social .wp-social-link.wp-social-link-whatsapp { color: var(--wp--preset--color--social-whatsapp); }
+.footer-social .wp-social-link.wp-social-link-tiktok { color: var(--wp--preset--color--social-tiktok); }
 
 .footer-legal-bar p {
 	letter-spacing: 0.5px;
