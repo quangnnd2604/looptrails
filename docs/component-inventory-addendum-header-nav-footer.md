@@ -37,4 +37,13 @@ The computed style of the `<footer>` element is `display: block`, `gridTemplateC
 
 `findings.langSwitcher` is `null`. The script only stops re-checking once a match is found (`if (!findings.langSwitcher)`), so with no match ever found it re-ran the same search at all five viewports — desktop, laptop, tablet, mobile, and narrow-mobile all returned no candidate. The search looked for any element inside `header` whose text matches `/\b(EN|VI|USD|VND)\b/` and has at most 2 children.
 
-**Conclusion:** there is no visible language or currency switcher in the header. The reference site's header does not expose a language or currency selector element matching the audited patterns — this is a genuine absence, not an unmeasured gap. Tasks 3/4 should not include a language/currency switcher in the header (or, if one is desired for the original theme, it should be treated as new functionality with no reference-site precedent to match).
+**Conclusion:** there is no visible language or currency switcher in the header. The reference site's header does not expose a language or currency selector element matching the audited patterns — this is a genuine absence, not an unmeasured gap.
+
+**Correction (final review, 2026-08-21) — do not read the above as "don't build it".** An earlier version of this section told implementers that Tasks 3/4 "should not include a language/currency switcher in the header." That instruction was wrong and has been withdrawn. Spec §5.1 requires a *"language/currency control for EN/USD and VI/VND"* in the header **unconditionally**; the reference site's absence of one is a measurement of the reference, not a waiver of a spec requirement. The reference is the visual target, not the requirements document.
+
+What actually applies:
+
+- The control **is** required by spec §5.1 and **will** be built.
+- It is **deferred to Milestone 7** ("EN/VI and USD/VND behavior"), which is where the language/currency switching behavior itself is specified — deferring it there is legitimate under spec §13's milestone ordering, since Milestone 4 ships the theme shell and Milestone 7 ships the behavior the control would drive. Building an inert control in Milestone 4 with no switching behavior behind it would be worse than deferring it.
+- This deferral is a **disclosed deviation** per spec §15's zero-undisclosed-deviation rule and is recorded as such in `docs/visual-acceptance-report-m4.md` ("Disclosed deviations carried out of Milestone 4").
+- Because there is no reference-site precedent for its appearance, Milestone 7's implementer will need to design it as original UI consistent with the theme's tokens, rather than matching a measured reference component.
