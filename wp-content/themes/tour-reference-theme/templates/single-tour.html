@@ -37,35 +37,13 @@
 				</div>
 				<!-- /wp:group -->
 
-				<!-- Itinerary Section -->
+				<!-- Dynamic Itinerary Section -->
 				<div class="tour-itinerary-section">
 					<h2 class="wp-block-heading" style="font-size:26px;font-weight:700;margin-bottom:20px;">Day-by-Day Itinerary</h2>
 
-					<div class="itinerary-timeline">
-						<div class="itinerary-day">
-							<div class="itinerary-day__header">
-								<span class="itinerary-day__number">Day 1</span>
-								<h3 class="itinerary-day__title">Ha Giang City → Quan Ba Heaven Gate → Yen Minh</h3>
-							</div>
-							<p class="itinerary-day__desc">Depart morning from Ha Giang town. Climb up Bac Sum Pass, admire Quan Ba Twin Mountains, and ride through pine forests to Yen Minh town for local homestay check-in and family dinner.</p>
-						</div>
-
-						<div class="itinerary-day">
-							<div class="itinerary-day__header">
-								<span class="itinerary-day__number">Day 2</span>
-								<h3 class="itinerary-day__title">Yen Minh → Tham Ma Pass → Vuong Palace → Dong Van</h3>
-							</div>
-							<p class="itinerary-day__desc">Conquer the famous 9-turn Tham Ma pass, visit the 100-year-old H’mong King Palace, and explore the Dong Van ancient street at night with local street food.</p>
-						</div>
-
-						<div class="itinerary-day">
-							<div class="itinerary-day__header">
-								<span class="itinerary-day__number">Day 3</span>
-								<h3 class="itinerary-day__title">Dong Van → Ma Pi Leng Pass → Tu San Canyon → Du Gia</h3>
-							</div>
-							<p class="itinerary-day__desc">Ride across the legendary Ma Pi Leng Pass, take a boat tour on the emerald Nho Que River through Tu San Canyon, and continue along scenic backroads to Du Gia waterfall village.</p>
-						</div>
-					</div>
+					<!-- wp:shortcode -->
+					[tour_single_itinerary]
+					<!-- /wp:shortcode -->
 				</div>
 
 				<!-- Included / Excluded Box -->
@@ -101,20 +79,9 @@
 				<div class="tour-booking-sidebar-card">
 					<h3 class="booking-card-title">Book This Tour</h3>
 
-					<div class="booking-price-tier">
-						<span class="booking-price-label">Self-Ride (Semi-auto / Manual)</span>
-						<span class="booking-price-value">$140 <small>USD / person</small></span>
-					</div>
-
-					<div class="booking-price-tier is-highlighted">
-						<span class="booking-price-label">Easy Rider (With Local Driver)</span>
-						<span class="booking-price-value">$208 <small>USD / person</small></span>
-					</div>
-
-					<div class="booking-price-tier">
-						<span class="booking-price-label">Private 4x4 / Jeep Option</span>
-						<span class="booking-price-value">$290 <small>USD / person</small></span>
-					</div>
+					<!-- wp:shortcode -->
+					[tour_single_pricing]
+					<!-- /wp:shortcode -->
 
 					<div class="booking-card-cta" style="margin-top:24px;">
 						<!-- wp:buttons {"layout":{"type":"flex","justifyContent":"center"}} -->

@@ -6,8 +6,8 @@
  * Description: 3-column review card presentation with platform ratings and customer quotes.
  */
 ?>
-<!-- wp:group {"align":"full","className":"testimonials-section","style":{"spacing":{"padding":{"top":"80px","bottom":"80px","left":"20px","right":"20px"}}},"backgroundColor":"surface-header-footer","layout":{"type":"constrained","contentSize":"1200px"}} -->
-<div class="wp-block-group alignfull testimonials-section has-surface-header-footer-background-color has-background" style="padding-top:80px;padding-right:20px;padding-bottom:80px;padding-left:20px">
+<!-- wp:group {"align":"full","className":"testimonials-section","style":{"spacing":{"padding":{"top":"80px","bottom":"80px","left":"20px","right":"20px"}}},"layout":{"type":"constrained","contentSize":"1200px"}} -->
+<div class="wp-block-group alignfull testimonials-section" style="padding-top:80px;padding-right:20px;padding-bottom:80px;padding-left:20px">
 	<!-- wp:group {"style":{"spacing":{"blockGap":"10px","margin":{"bottom":"40px"}}},"layout":{"type":"flex","orientation":"vertical","justifyContent":"center"}} -->
 	<div class="wp-block-group" style="margin-bottom:40px">
 		<!-- wp:paragraph {"align":"center","style":{"typography":{"textTransform":"uppercase","letterSpacing":"1.5px","fontSize":"13px","fontWeight":"700"}},"textColor":"primary"} -->

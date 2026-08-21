@@ -1,0 +1,66 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1920 1080" width="1920" height="1080">
+  <defs>
+    <linearGradient id="sky" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#141e30"/>
+      <stop offset="45%" stop-color="#243b55"/>
+      <stop offset="80%" stop-color="#4a5f78"/>
+      <stop offset="100%" stop-color="#e28743"/>
+    </linearGradient>
+    <linearGradient id="sun" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#ffedd5" stop-opacity="0.9"/>
+      <stop offset="100%" stop-color="#f97316" stop-opacity="0"/>
+    </linearGradient>
+    <linearGradient id="mountains-far" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#2c3e50" stop-opacity="0.8"/>
+      <stop offset="100%" stop-color="#1a252f"/>
+    </linearGradient>
+    <linearGradient id="mountains-mid" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#1f2d3d"/>
+      <stop offset="100%" stop-color="#111822"/>
+    </linearGradient>
+    <linearGradient id="mountains-front" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#141c24"/>
+      <stop offset="100%" stop-color="#0a0e14"/>
+    </linearGradient>
+    <linearGradient id="road" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#555"/>
+      <stop offset="50%" stop-color="#777"/>
+      <stop offset="100%" stop-color="#444"/>
+    </linearGradient>
+  </defs>
+
+  <!-- Sky -->
+  <rect width="1920" height="1080" fill="url(#sky)"/>
+
+  <!-- Morning Sunrise Glow -->
+  <circle cx="1350" cy="550" r="320" fill="url(#sun)"/>
+
+  <!-- Distant Karst Peaks (Ha Giang Karst Plateau style) -->
+  <path d="M0 650 L120 480 L280 580 L420 420 L580 550 L750 380 L920 520 L1100 350 L1280 490 L1450 390 L1620 510 L1780 430 L1920 540 L1920 1080 L0 1080 Z" fill="url(#mountains-far)"/>
+
+  <!-- Mid-distance Ridge & Serpentine Peaks -->
+  <path d="M0 720 L160 560 L340 680 L520 500 L700 640 L890 470 L1080 610 L1260 450 L1440 590 L1630 480 L1810 600 L1920 550 L1920 1080 L0 1080 Z" fill="url(#mountains-mid)"/>
+
+  <!-- Foreground Dramatic Cliff Faces & Passes -->
+  <path d="M0 790 L220 630 L450 750 L680 570 L910 720 L1140 540 L1380 690 L1610 560 L1840 710 L1920 660 L1920 1080 L0 1080 Z" fill="url(#mountains-front)"/>
+
+  <!-- Winding Mountain Pass Highway Curves (Ma Pi Leng / Tham Ma vibe) -->
+  <path d="M150 1080 C 250 960, 420 980, 560 900 C 720 810, 850 870, 1020 780 C 1140 720, 1280 750, 1390 680" fill="none" stroke="url(#road)" stroke-width="18" stroke-linecap="round"/>
+  <path d="M150 1080 C 250 960, 420 980, 560 900 C 720 810, 850 870, 1020 780 C 1140 720, 1280 750, 1390 680" fill="none" stroke="#f59e0b" stroke-dasharray="24,20" stroke-width="3"/>
+
+  <!-- Forest Pine Silhouettes on near ridge -->
+  <g fill="#070a0e" opacity="0.95">
+    <polygon points="40,820 50,780 60,820"/>
+    <polygon points="55,830 65,770 75,830"/>
+    <polygon points="70,825 80,785 90,825"/>
+    <polygon points="210,750 220,700 230,750"/>
+    <polygon points="225,760 235,690 245,760"/>
+    <polygon points="440,810 450,760 460,810"/>
+    <polygon points="670,720 680,660 690,720"/>
+    <polygon points="685,730 695,650 705,730"/>
+    <polygon points="900,770 910,710 920,770"/>
+    <polygon points="1130,680 1140,620 1150,680"/>
+    <polygon points="1370,740 1380,670 1390,740"/>
+    <polygon points="1600,690 1610,630 1620,690"/>
+  </g>
+</svg>

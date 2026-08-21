@@ -5,6 +5,10 @@
  * Categories: featured, posts
  * Description: 3-column article cards showcasing travel tips, motorbike guides, and route insights.
  */
+
+$blog_svg_1 = "<svg xmlns='http://www.w3.org/2000/svg' width='400' height='260' viewBox='0 0 400 260'><rect fill='#c5beb2' width='400' height='260'/><text fill='#333' font-family='sans-serif' font-size='16' font-weight='bold' x='50%' y='50%' text-anchor='middle'>Ha Giang Weather Guide</text></svg>";
+$blog_svg_2 = "<svg xmlns='http://www.w3.org/2000/svg' width='400' height='260' viewBox='0 0 400 260'><rect fill='#ded8ce' width='400' height='260'/><text fill='#333' font-family='sans-serif' font-size='16' font-weight='bold' x='50%' y='50%' text-anchor='middle'>Packing Checklist</text></svg>";
+$blog_svg_3 = "<svg xmlns='http://www.w3.org/2000/svg' width='400' height='260' viewBox='0 0 400 260'><rect fill='#b8b0a2' width='400' height='260'/><text fill='#333' font-family='sans-serif' font-size='16' font-weight='bold' x='50%' y='50%' text-anchor='middle'>Self-Ride vs Easy Rider</text></svg>";
 ?>
 <!-- wp:group {"align":"full","className":"blog-teaser-section","style":{"spacing":{"padding":{"top":"80px","bottom":"80px","left":"20px","right":"20px"}}},"layout":{"type":"constrained","contentSize":"1200px"}} -->
 <div class="wp-block-group alignfull blog-teaser-section" style="padding-top:80px;padding-right:20px;padding-bottom:80px;padding-left:20px">
@@ -25,7 +29,7 @@
 		<!-- Article 1 -->
 		<article class="blog-card">
 			<div class="blog-card__media">
-				<img src="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='400' height='260' viewBox='0 0 400 260'><rect fill='%23c5beb2' width='400' height='260'/><text fill='%23333' font-family='sans-serif' font-size='16' font-weight='bold' x='50%' y='50%' text-anchor='middle'>Ha Giang Weather Guide</text></svg>" alt="Weather Guide" />
+				<img src="<?php echo esc_attr( 'data:image/svg+xml,' . rawurlencode( $blog_svg_1 ) ); ?>" alt="<?php esc_attr_e( 'Weather Guide', 'tour-reference-theme' ); ?>" />
 				<span class="blog-card__badge"><?php esc_html_e( 'Travel Tips', 'tour-reference-theme' ); ?></span>
 			</div>
 			<div class="blog-card__body">
@@ -39,7 +43,7 @@
 		<!-- Article 2 -->
 		<article class="blog-card">
 			<div class="blog-card__media">
-				<img src="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='400' height='260' viewBox='0 0 400 260'><rect fill='%23ded8ce' width='400' height='260'/><text fill='%23333' font-family='sans-serif' font-size='16' font-weight='bold' x='50%' y='50%' text-anchor='middle'>Packing Checklist</text></svg>" alt="Packing Guide" />
+				<img src="<?php echo esc_attr( 'data:image/svg+xml,' . rawurlencode( $blog_svg_2 ) ); ?>" alt="<?php esc_attr_e( 'Packing Guide', 'tour-reference-theme' ); ?>" />
 				<span class="blog-card__badge"><?php esc_html_e( 'Checklist', 'tour-reference-theme' ); ?></span>
 			</div>
 			<div class="blog-card__body">
@@ -53,7 +57,7 @@
 		<!-- Article 3 -->
 		<article class="blog-card">
 			<div class="blog-card__media">
-				<img src="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='400' height='260' viewBox='0 0 400 260'><rect fill='%23b8b0a2' width='400' height='260'/><text fill='%23333' font-family='sans-serif' font-size='16' font-weight='bold' x='50%' y='50%' text-anchor='middle'>Self-Ride vs Easy Rider</text></svg>" alt="Riding Styles" />
+				<img src="<?php echo esc_attr( 'data:image/svg+xml,' . rawurlencode( $blog_svg_3 ) ); ?>" alt="<?php esc_attr_e( 'Riding Styles', 'tour-reference-theme' ); ?>" />
 				<span class="blog-card__badge"><?php esc_html_e( 'Rider Guide', 'tour-reference-theme' ); ?></span>
 			</div>
 			<div class="blog-card__body">

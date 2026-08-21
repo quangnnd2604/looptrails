@@ -5,6 +5,15 @@
  * Categories: featured, gallery
  * Description: Tabbed showcase for highland destinations, routes, and travel essentials with 8 destination cards.
  */
+
+$dest_svg_1 = "<svg xmlns='http://www.w3.org/2000/svg' width='400' height='300' viewBox='0 0 400 300'><rect fill='#ccc5b9' width='400' height='300'/><text fill='#333' font-family='sans-serif' font-size='16' font-weight='bold' x='50%' y='50%' text-anchor='middle'>Ma Pi Leng Pass</text></svg>";
+$dest_svg_2 = "<svg xmlns='http://www.w3.org/2000/svg' width='400' height='300' viewBox='0 0 400 300'><rect fill='#b8b0a2' width='400' height='300'/><text fill='#333' font-family='sans-serif' font-size='16' font-weight='bold' x='50%' y='50%' text-anchor='middle'>Dong Van Geopark</text></svg>";
+$dest_svg_3 = "<svg xmlns='http://www.w3.org/2000/svg' width='400' height='300' viewBox='0 0 400 300'><rect fill='#c5beb2' width='400' height='300'/><text fill='#333' font-family='sans-serif' font-size='16' font-weight='bold' x='50%' y='50%' text-anchor='middle'>Tu San Canyon</text></svg>";
+$dest_svg_4 = "<svg xmlns='http://www.w3.org/2000/svg' width='400' height='300' viewBox='0 0 400 300'><rect fill='#ded8ce' width='400' height='300'/><text fill='#333' font-family='sans-serif' font-size='16' font-weight='bold' x='50%' y='50%' text-anchor='middle'>Tham Ma Pass</text></svg>";
+$dest_svg_5 = "<svg xmlns='http://www.w3.org/2000/svg' width='400' height='300' viewBox='0 0 400 300'><rect fill='#d0cac0' width='400' height='300'/><text fill='#333' font-family='sans-serif' font-size='16' font-weight='bold' x='50%' y='50%' text-anchor='middle'>Du Gia Village</text></svg>";
+$dest_svg_6 = "<svg xmlns='http://www.w3.org/2000/svg' width='400' height='300' viewBox='0 0 400 300'><rect fill='#bfb8ab' width='400' height='300'/><text fill='#333' font-family='sans-serif' font-size='16' font-weight='bold' x='50%' y='50%' text-anchor='middle'>Lung Cu Flag Tower</text></svg>";
+$dest_svg_7 = "<svg xmlns='http://www.w3.org/2000/svg' width='400' height='300' viewBox='0 0 400 300'><rect fill='#e4e0da' width='400' height='300'/><text fill='#333' font-family='sans-serif' font-size='16' font-weight='bold' x='50%' y='50%' text-anchor='middle'>Vuong Palace</text></svg>";
+$dest_svg_8 = "<svg xmlns='http://www.w3.org/2000/svg' width='400' height='300' viewBox='0 0 400 300'><rect fill='#d8d2c6' width='400' height='300'/><text fill='#333' font-family='sans-serif' font-size='16' font-weight='bold' x='50%' y='50%' text-anchor='middle'>Quan Ba Twin Mountains</text></svg>";
 ?>
 <!-- wp:group {"align":"full","className":"destinations-section","style":{"spacing":{"padding":{"top":"80px","bottom":"80px","left":"20px","right":"20px"}}},"layout":{"type":"constrained","contentSize":"1200px"}} -->
 <div class="wp-block-group alignfull destinations-section" id="destinations" style="padding-top:80px;padding-right:20px;padding-bottom:80px;padding-left:20px">
@@ -33,7 +42,7 @@
 		<!-- Destination Card 1 -->
 		<div class="destination-card lt-grid__item">
 			<div class="destination-card__media">
-				<img src="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='400' height='300' viewBox='0 0 400 300'><rect fill='%23ccc5b9' width='400' height='300'/><text fill='%23333' font-family='sans-serif' font-size='16' font-weight='bold' x='50%' y='50%' text-anchor='middle'>Ma Pi Leng Pass</text></svg>" alt="Ma Pi Leng Pass" />
+				<img src="<?php echo esc_attr( 'data:image/svg+xml,' . rawurlencode( $dest_svg_1 ) ); ?>" alt="<?php esc_attr_e( 'Ma Pi Leng Pass', 'tour-reference-theme' ); ?>" />
 				<span class="destination-card__tag"><?php esc_html_e( 'Iconic Pass', 'tour-reference-theme' ); ?></span>
 			</div>
 			<div class="destination-card__body">
@@ -45,7 +54,7 @@
 		<!-- Destination Card 2 -->
 		<div class="destination-card lt-grid__item">
 			<div class="destination-card__media">
-				<img src="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='400' height='300' viewBox='0 0 400 300'><rect fill='%23b8b0a2' width='400' height='300'/><text fill='%23333' font-family='sans-serif' font-size='16' font-weight='bold' x='50%' y='50%' text-anchor='middle'>Dong Van Geopark</text></svg>" alt="Dong Van Geopark" />
+				<img src="<?php echo esc_attr( 'data:image/svg+xml,' . rawurlencode( $dest_svg_2 ) ); ?>" alt="<?php esc_attr_e( 'Dong Van Geopark', 'tour-reference-theme' ); ?>" />
 				<span class="destination-card__tag"><?php esc_html_e( 'UNESCO Heritage', 'tour-reference-theme' ); ?></span>
 			</div>
 			<div class="destination-card__body">
@@ -57,7 +66,7 @@
 		<!-- Destination Card 3 -->
 		<div class="destination-card lt-grid__item">
 			<div class="destination-card__media">
-				<img src="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='400' height='300' viewBox='0 0 400 300'><rect fill='%23c5beb2' width='400' height='300'/><text fill='%23333' font-family='sans-serif' font-size='16' font-weight='bold' x='50%' y='50%' text-anchor='middle'>Tu San Canyon</text></svg>" alt="Nho Que River" />
+				<img src="<?php echo esc_attr( 'data:image/svg+xml,' . rawurlencode( $dest_svg_3 ) ); ?>" alt="<?php esc_attr_e( 'Tu San Canyon', 'tour-reference-theme' ); ?>" />
 				<span class="destination-card__tag"><?php esc_html_e( 'Deepest Canyon', 'tour-reference-theme' ); ?></span>
 			</div>
 			<div class="destination-card__body">
@@ -69,7 +78,7 @@
 		<!-- Destination Card 4 -->
 		<div class="destination-card lt-grid__item">
 			<div class="destination-card__media">
-				<img src="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='400' height='300' viewBox='0 0 400 300'><rect fill='%23ded8ce' width='400' height='300'/><text fill='%23333' font-family='sans-serif' font-size='16' font-weight='bold' x='50%' y='50%' text-anchor='middle'>Tham Ma Pass</text></svg>" alt="Tham Ma Slope" />
+				<img src="<?php echo esc_attr( 'data:image/svg+xml,' . rawurlencode( $dest_svg_4 ) ); ?>" alt="<?php esc_attr_e( 'Tham Ma Pass', 'tour-reference-theme' ); ?>" />
 				<span class="destination-card__tag"><?php esc_html_e( 'Nine Turns', 'tour-reference-theme' ); ?></span>
 			</div>
 			<div class="destination-card__body">
@@ -81,7 +90,7 @@
 		<!-- Destination Card 5 -->
 		<div class="destination-card lt-grid__item">
 			<div class="destination-card__media">
-				<img src="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='400' height='300' viewBox='0 0 400 300'><rect fill='%23d0cac0' width='400' height='300'/><text fill='%23333' font-family='sans-serif' font-size='16' font-weight='bold' x='50%' y='50%' text-anchor='middle'>Du Gia Village</text></svg>" alt="Du Gia Waterfall" />
+				<img src="<?php echo esc_attr( 'data:image/svg+xml,' . rawurlencode( $dest_svg_5 ) ); ?>" alt="<?php esc_attr_e( 'Du Gia Village', 'tour-reference-theme' ); ?>" />
 				<span class="destination-card__tag"><?php esc_html_e( 'Hidden Oasis', 'tour-reference-theme' ); ?></span>
 			</div>
 			<div class="destination-card__body">
@@ -93,7 +102,7 @@
 		<!-- Destination Card 6 -->
 		<div class="destination-card lt-grid__item">
 			<div class="destination-card__media">
-				<img src="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='400' height='300' viewBox='0 0 400 300'><rect fill='%23bfb8ab' width='400' height='300'/><text fill='%23333' font-family='sans-serif' font-size='16' font-weight='bold' x='50%' y='50%' text-anchor='middle'>Lung Cu Flag Tower</text></svg>" alt="Lung Cu Flag Tower" />
+				<img src="<?php echo esc_attr( 'data:image/svg+xml,' . rawurlencode( $dest_svg_6 ) ); ?>" alt="<?php esc_attr_e( 'Lung Cu Flag Tower', 'tour-reference-theme' ); ?>" />
 				<span class="destination-card__tag"><?php esc_html_e( 'Northern Point', 'tour-reference-theme' ); ?></span>
 			</div>
 			<div class="destination-card__body">
@@ -105,7 +114,7 @@
 		<!-- Destination Card 7 -->
 		<div class="destination-card lt-grid__item">
 			<div class="destination-card__media">
-				<img src="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='400' height='300' viewBox='0 0 400 300'><rect fill='%23e4e0da' width='400' height='300'/><text fill='%23333' font-family='sans-serif' font-size='16' font-weight='bold' x='50%' y='50%' text-anchor='middle'>Vuong Palace</text></svg>" alt="Hmong King Palace" />
+				<img src="<?php echo esc_attr( 'data:image/svg+xml,' . rawurlencode( $dest_svg_7 ) ); ?>" alt="<?php esc_attr_e( 'Vuong Palace', 'tour-reference-theme' ); ?>" />
 				<span class="destination-card__tag"><?php esc_html_e( 'History', 'tour-reference-theme' ); ?></span>
 			</div>
 			<div class="destination-card__body">
@@ -117,7 +126,7 @@
 		<!-- Destination Card 8 -->
 		<div class="destination-card lt-grid__item">
 			<div class="destination-card__media">
-				<img src="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='400' height='300' viewBox='0 0 400 300'><rect fill='%23d8d2c6' width='400' height='300'/><text fill='%23333' font-family='sans-serif' font-size='16' font-weight='bold' x='50%' y='50%' text-anchor='middle'>Quan Ba Twin Mountains</text></svg>" alt="Quan Ba Fairy Bosom" />
+				<img src="<?php echo esc_attr( 'data:image/svg+xml,' . rawurlencode( $dest_svg_8 ) ); ?>" alt="<?php esc_attr_e( 'Quan Ba Twin Mountains', 'tour-reference-theme' ); ?>" />
 				<span class="destination-card__tag"><?php esc_html_e( 'Heaven Gate', 'tour-reference-theme' ); ?></span>
 			</div>
 			<div class="destination-card__body">

@@ -5,6 +5,11 @@
  * Categories: featured, gallery
  * Description: Fleet cards for motorcycle and scooter rentals with specifications and day rates.
  */
+
+$bike_svg_1 = "<svg xmlns='http://www.w3.org/2000/svg' width='400' height='280' viewBox='0 0 400 280'><rect fill='#e4e0da' width='400' height='280'/><text fill='#333' font-family='sans-serif' font-size='18' font-weight='bold' x='50%' y='50%' text-anchor='middle'>Honda Wave 110cc</text></svg>";
+$bike_svg_2 = "<svg xmlns='http://www.w3.org/2000/svg' width='400' height='280' viewBox='0 0 400 280'><rect fill='#d8d2c6' width='400' height='280'/><text fill='#333' font-family='sans-serif' font-size='18' font-weight='bold' x='50%' y='50%' text-anchor='middle'>Honda Blade 110cc</text></svg>";
+$bike_svg_3 = "<svg xmlns='http://www.w3.org/2000/svg' width='400' height='280' viewBox='0 0 400 280'><rect fill='#ccc5b9' width='400' height='280'/><text fill='#333' font-family='sans-serif' font-size='18' font-weight='bold' x='50%' y='50%' text-anchor='middle'>Honda XR 150cc</text></svg>";
+$bike_svg_4 = "<svg xmlns='http://www.w3.org/2000/svg' width='400' height='280' viewBox='0 0 400 280'><rect fill='#bfb8ab' width='400' height='280'/><text fill='#333' font-family='sans-serif' font-size='18' font-weight='bold' x='50%' y='50%' text-anchor='middle'>Honda CB500X 500cc</text></svg>";
 ?>
 <!-- wp:group {"align":"full","className":"rental-fleet-section","style":{"spacing":{"padding":{"top":"60px","bottom":"60px","left":"20px","right":"20px"}}},"layout":{"type":"constrained","contentSize":"1200px"}} -->
 <div class="wp-block-group alignfull rental-fleet-section" style="padding-top:60px;padding-right:20px;padding-bottom:60px;padding-left:20px">
@@ -12,7 +17,7 @@
 		<!-- Bike 1 -->
 		<div class="bike-card">
 			<div class="bike-card__media">
-				<img src="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='400' height='280' viewBox='0 0 400 280'><rect fill='%23e4e0da' width='400' height='280'/><text fill='%23333' font-family='sans-serif' font-size='18' font-weight='bold' x='50%' y='50%' text-anchor='middle'>Honda Wave 110cc</text></svg>" alt="Honda Wave Alpha" />
+				<img src="<?php echo esc_attr( 'data:image/svg+xml,' . rawurlencode( $bike_svg_1 ) ); ?>" alt="<?php esc_attr_e( 'Honda Wave Alpha', 'tour-reference-theme' ); ?>" />
 				<span class="bike-card__type"><?php esc_html_e( 'Semi-Automatic', 'tour-reference-theme' ); ?></span>
 			</div>
 			<div class="bike-card__body">
@@ -30,7 +35,7 @@
 		<!-- Bike 2 -->
 		<div class="bike-card is-popular">
 			<div class="bike-card__media">
-				<img src="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='400' height='280' viewBox='0 0 400 280'><rect fill='%23d8d2c6' width='400' height='280'/><text fill='%23333' font-family='sans-serif' font-size='18' font-weight='bold' x='50%' y='50%' text-anchor='middle'>Honda Blade 110cc</text></svg>" alt="Honda Blade 110" />
+				<img src="<?php echo esc_attr( 'data:image/svg+xml,' . rawurlencode( $bike_svg_2 ) ); ?>" alt="<?php esc_attr_e( 'Honda Blade 110', 'tour-reference-theme' ); ?>" />
 				<span class="bike-card__type"><?php esc_html_e( 'Semi-Automatic (Stronger)', 'tour-reference-theme' ); ?></span>
 			</div>
 			<div class="bike-card__body">
@@ -48,7 +53,7 @@
 		<!-- Bike 3 -->
 		<div class="bike-card">
 			<div class="bike-card__media">
-				<img src="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='400' height='280' viewBox='0 0 400 280'><rect fill='%23ccc5b9' width='400' height='280'/><text fill='%23333' font-family='sans-serif' font-size='18' font-weight='bold' x='50%' y='50%' text-anchor='middle'>Honda XR 150cc</text></svg>" alt="Honda XR 150L" />
+				<img src="<?php echo esc_attr( 'data:image/svg+xml,' . rawurlencode( $bike_svg_3 ) ); ?>" alt="<?php esc_attr_e( 'Honda XR 150L', 'tour-reference-theme' ); ?>" />
 				<span class="bike-card__type"><?php esc_html_e( 'Dual-Sport Manual', 'tour-reference-theme' ); ?></span>
 			</div>
 			<div class="bike-card__body">
@@ -66,7 +71,7 @@
 		<!-- Bike 4 -->
 		<div class="bike-card">
 			<div class="bike-card__media">
-				<img src="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='400' height='280' viewBox='0 0 400 280'><rect fill='%23bfb8ab' width='400' height='280'/><text fill='%23333' font-family='sans-serif' font-size='18' font-weight='bold' x='50%' y='50%' text-anchor='middle'>Honda CB500X 500cc</text></svg>" alt="Honda CB500X" />
+				<img src="<?php echo esc_attr( 'data:image/svg+xml,' . rawurlencode( $bike_svg_4 ) ); ?>" alt="<?php esc_attr_e( 'Honda CB500X', 'tour-reference-theme' ); ?>" />
 				<span class="bike-card__type"><?php esc_html_e( 'Adventure Touring', 'tour-reference-theme' ); ?></span>
 			</div>
 			<div class="bike-card__body">

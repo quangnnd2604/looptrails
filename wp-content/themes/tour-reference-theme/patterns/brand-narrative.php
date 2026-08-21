@@ -6,8 +6,8 @@
  * Description: 2-column narrative section with feature callouts, image showcase, and statistics.
  */
 ?>
-<!-- wp:group {"align":"full","className":"brand-narrative-section","style":{"spacing":{"padding":{"top":"80px","bottom":"80px","left":"20px","right":"20px"}}},"backgroundColor":"surface-header-footer","layout":{"type":"constrained","contentSize":"1200px"}} -->
-<div class="wp-block-group alignfull brand-narrative-section has-surface-header-footer-background-color has-background" style="padding-top:80px;padding-right:20px;padding-bottom:80px;padding-left:20px">
+<!-- wp:group {"align":"full","className":"brand-narrative-section","style":{"spacing":{"padding":{"top":"80px","bottom":"80px","left":"20px","right":"20px"}}},"layout":{"type":"constrained","contentSize":"1200px"}} -->
+<div class="wp-block-group alignfull brand-narrative-section" style="padding-top:80px;padding-right:20px;padding-bottom:80px;padding-left:20px">
 	<!-- wp:columns {"align":"wide","style":{"spacing":{"blockGap":{"top":"40px","left":"60px"}}}} -->
 	<div class="wp-block-columns alignwide">
 		<!-- wp:column {"verticalAlignment":"center","width":"50%"} -->
@@ -67,7 +67,10 @@
 			<div class="wp-block-group narrative-media-wrapper">
 				<!-- wp:image {"sizeSlug":"large","linkDestination":"none","className":"narrative-image"} -->
 				<figure class="wp-block-image size-large narrative-image">
-					<img src="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='600' height='450' viewBox='0 0 600 450'><rect fill='%23d0cac0' width='600' height='450'/><text fill='%23444' font-family='sans-serif' font-size='22' font-weight='bold' x='50%' y='50%' text-anchor='middle'>Highland Trail Landscape</text></svg>" alt="Highland Trail" />
+					<?php
+					$narrative_svg = "<svg xmlns='http://www.w3.org/2000/svg' width='600' height='450' viewBox='0 0 600 450'><rect fill='#d0cac0' width='600' height='450'/><text fill='#444' font-family='sans-serif' font-size='22' font-weight='bold' x='50%' y='50%' text-anchor='middle'>Highland Trail Landscape</text></svg>";
+					?>
+					<img src="<?php echo esc_attr( 'data:image/svg+xml,' . rawurlencode( $narrative_svg ) ); ?>" alt="<?php esc_attr_e( 'Highland Trail', 'tour-reference-theme' ); ?>" />
 				</figure>
 				<!-- /wp:image -->
 			</div>

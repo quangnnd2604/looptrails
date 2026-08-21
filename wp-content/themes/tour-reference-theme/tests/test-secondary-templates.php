@@ -7,7 +7,7 @@ class Test_Secondary_Templates extends WP_UnitTestCase {
 
 	public function test_all_secondary_templates_exist_and_have_main_landmarks() {
 		$templates = array(
-			'single-tour.html'           => array( 'tour-detail-hero', 'itinerary-timeline', 'tour-booking-sidebar-card' ),
+			'single-tour.html'           => array( 'tour-detail-hero', 'tour_single_itinerary', 'tour-booking-sidebar-card' ),
 			'archive-tour.html'          => array( 'archive-hero-banner', 'tour_featured_grid' ),
 			'page-motorbike-rental.html' => array( 'rental-hero-banner', 'rental-bikes' ),
 			'single.html'                => array( 'wp:post-title', 'wp:post-content' ),

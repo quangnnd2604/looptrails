@@ -48,7 +48,7 @@ class Tbc_Seo {
 		$schema = array();
 
 		$business_name  = get_option( 'tbc_site_business_name', get_bloginfo( 'name' ) );
-		$business_email = get_option( 'tbc_site_email', get_option( 'admin_email' ) );
+		$business_email = get_option( 'tbc_site_email', '' );
 		$business_phone = get_option( 'tbc_site_phone', '+84 123 456 789' );
 		$business_addr  = get_option( 'tbc_site_address', 'Ha Giang City, Vietnam' );
 
@@ -59,7 +59,6 @@ class Tbc_Seo {
 			'name'       => $business_name,
 			'url'        => home_url( '/' ),
 			'telephone'  => $business_phone,
-			'email'      => $business_email,
 			'priceRange' => '$$',
 			'address'    => array(
 				'@type'           => 'PostalAddress',
@@ -68,6 +67,9 @@ class Tbc_Seo {
 				'addressCountry'  => 'VN',
 			),
 		);
+		if ( ! empty( $business_email ) ) {
+			$agency_schema['email'] = $business_email;
+		}
 		$schema[] = $agency_schema;
 
 		// 2. TouristTrip / Product Schema on single tours

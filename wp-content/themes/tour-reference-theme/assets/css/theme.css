@@ -122,9 +122,7 @@ img, svg {
    Hero Home Section
    ========================================================================== */
 .hero-home-section {
-	background: linear-gradient(rgba(18, 18, 22, 0.62), rgba(18, 18, 22, 0.82)), #222228;
-	background-size: cover;
-	background-position: center;
+	background: linear-gradient(rgba(18, 18, 22, 0.55), rgba(18, 18, 22, 0.78)), url('../images/hero-mountain.svg') center center / cover no-repeat, #222228;
 	min-height: 540px;
 	display: flex;
 	align-items: center;

@@ -155,9 +155,42 @@ class Tbc_Pricing_Engine {
 	}
 
 	/**
-	 * Find the cheapest published vehicle_option linked to a tour.
+	 * Find the cheapest published vehicle_option linked to a tour (or its translation siblings).
 	 */
 	public static function get_cheapest_vehicle_for_tour( $tour_id ) {
+		$cheapest = self::query_cheapest_vehicle_direct( $tour_id );
+		if ( $cheapest ) {
+			return $cheapest;
+		}
+
+		// Resolve via tbc_translation_group if this tour (e.g. VI version) has no vehicle_option of its own
+		$group = get_post_meta( $tour_id, 'tbc_translation_group', true );
+		if ( ! $group ) {
+			return null;
+		}
+		$siblings = get_posts(
+			array(
+				'post_type'      => 'tour',
+				'post_status'    => 'publish',
+				'posts_per_page' => -1,
+				'post__not_in'   => array( $tour_id ),
+				'meta_key'       => 'tbc_translation_group',
+				'meta_value'     => $group,
+			)
+		);
+		foreach ( $siblings as $sibling ) {
+			$sibling_cheapest = self::query_cheapest_vehicle_direct( $sibling->ID );
+			if ( $sibling_cheapest ) {
+				return $sibling_cheapest;
+			}
+		}
+		return null;
+	}
+
+	/**
+	 * Query cheapest vehicle directly linked to a tour_id.
+	 */
+	private static function query_cheapest_vehicle_direct( $tour_id ) {
 		$vehicles = get_posts(
 			array(
 				'post_type'      => 'vehicle_option',
@@ -335,6 +368,24 @@ class Tbc_Pricing_Engine {
 		$cheapest = self::get_cheapest_vehicle_for_tour( $tour_id );
 		if ( $cheapest ) {
 			update_post_meta( $tour_id, 'tbc_price_from_vnd', $cheapest['price_vnd'] );
+
+			// Also sync to sibling tours in the same translation group
+			$group = get_post_meta( $tour_id, 'tbc_translation_group', true );
+			if ( $group ) {
+				$siblings = get_posts(
+					array(
+						'post_type'      => 'tour',
+						'post_status'    => 'publish',
+						'posts_per_page' => -1,
+						'post__not_in'   => array( $tour_id ),
+						'meta_key'       => 'tbc_translation_group',
+						'meta_value'     => $group,
+					)
+				);
+				foreach ( $siblings as $sibling ) {
+					update_post_meta( $sibling->ID, 'tbc_price_from_vnd', $cheapest['price_vnd'] );
+				}
+			}
 		}
 	}
 }

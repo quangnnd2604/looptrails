@@ -31,7 +31,7 @@ class Tbc_Admin_Page {
 		}
 
 		$business_name   = get_option( 'tbc_site_business_name', get_bloginfo( 'name' ) );
-		$business_email  = get_option( 'tbc_site_email', get_option( 'admin_email' ) );
+		$business_email  = get_option( 'tbc_site_email', 'contact@example.com' );
 		$business_phone  = get_option( 'tbc_site_phone', '+84 123 456 789' );
 		$business_addr   = get_option( 'tbc_site_address', 'Ha Giang City, Vietnam' );
 		$exchange_rate   = get_option( 'tbc_exchange_rate', 25400 );

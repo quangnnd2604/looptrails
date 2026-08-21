@@ -53,9 +53,13 @@ function tour_theme_render_tour_card( $post_id ) {
 	if ( has_post_thumbnail( $post_id ) ) {
 		$thumb_html = get_the_post_thumbnail( $post_id, 'large', array( 'class' => 'tour-card__img' ) );
 	} else {
+		$card_svg   = sprintf(
+			"<svg xmlns='http://www.w3.org/2000/svg' width='400' height='300' viewBox='0 0 400 300'><rect fill='#e4e0da' width='400' height='300'/><text fill='#333' font-family='sans-serif' font-size='18' font-weight='bold' x='50%%' y='50%%' text-anchor='middle'>%s</text></svg>",
+			esc_html( $title )
+		);
 		$thumb_html = sprintf(
-			'<img src="data:image/svg+xml;utf8,<svg xmlns=\'http://www.w3.org/2000/svg\' width=\'400\' height=\'300\' viewBox=\'0 0 400 300\'><rect fill=\'%%23e4e0da\' width=\'400\' height=\'300\'/><text fill=\'%%23333\' font-family=\'sans-serif\' font-size=\'18\' font-weight=\'bold\' x=\'50%%\' y=\'50%%\' text-anchor=\'middle\'>%s</text></svg>" alt="%s" class="tour-card__img" />',
-			esc_attr( $title ),
+			'<img src="%s" alt="%s" class="tour-card__img" />',
+			esc_attr( 'data:image/svg+xml,' . rawurlencode( $card_svg ) ),
 			esc_attr( $title )
 		);
 	}
@@ -68,6 +72,33 @@ function tour_theme_render_tour_card( $post_id ) {
 		'meta_key'       => 'tbc_tour_id',
 		'meta_value'     => $post_id,
 	) );
+	if ( empty( $vehicles ) ) {
+		$group = get_post_meta( $post_id, 'tbc_translation_group', true );
+		if ( $group ) {
+			$siblings = get_posts( array(
+				'post_type'      => 'tour',
+				'post_status'    => 'publish',
+				'posts_per_page' => -1,
+				'post__not_in'   => array( $post_id ),
+				'meta_key'       => 'tbc_translation_group',
+				'meta_value'     => $group,
+			) );
+			foreach ( $siblings as $sibling ) {
+				$sibling_vehicles = get_posts( array(
+					'post_type'      => 'vehicle_option',
+					'post_status'    => 'publish',
+					'posts_per_page' => -1,
+					'meta_key'       => 'tbc_tour_id',
+					'meta_value'     => $sibling->ID,
+				) );
+				if ( ! empty( $sibling_vehicles ) ) {
+					$vehicles = $sibling_vehicles;
+					break;
+				}
+			}
+		}
+	}
+
 	$price_rows = array();
 	foreach ( $vehicles as $v ) {
 		$vnd = intval( get_post_meta( $v->ID, 'tbc_price_vnd', true ) );
@@ -194,7 +225,13 @@ function tour_theme_render_featured_tours( $atts = array() ) {
 				?>
 				<div class="tour-card lt-tour-card">
 					<div class="tour-card__media">
-						<img src="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='400' height='300' viewBox='0 0 400 300'><rect fill='%23e4e0da' width='400' height='300'/><text fill='%23333' font-family='sans-serif' font-size='16' font-weight='bold' x='50%' y='50%' text-anchor='middle'><?php echo esc_attr( $t['title'] ); ?></text></svg>" alt="<?php echo esc_attr( $t['title'] ); ?>" class="tour-card__img" />
+						<?php
+						$fb_svg = sprintf(
+							"<svg xmlns='http://www.w3.org/2000/svg' width='400' height='300' viewBox='0 0 400 300'><rect fill='#e4e0da' width='400' height='300'/><text fill='#333' font-family='sans-serif' font-size='16' font-weight='bold' x='50%%' y='50%%' text-anchor='middle'>%s</text></svg>",
+							esc_html( $t['title'] )
+						);
+						?>
+						<img src="<?php echo esc_attr( 'data:image/svg+xml,' . rawurlencode( $fb_svg ) ); ?>" alt="<?php echo esc_attr( $t['title'] ); ?>" class="tour-card__img" />
 						<span class="tour-card__badge lt-badge"><?php echo esc_html( $t['badge'] ); ?></span>
 						<span class="tour-card__duration lt-duration-pill"><?php echo esc_html( $t['days'] . 'D' . $t['nights'] . 'N' ); ?></span>
 					</div>
@@ -256,3 +293,175 @@ function tour_theme_render_featured_tours( $atts = array() ) {
 	return ob_get_clean();
 }
 add_shortcode( 'tour_featured_grid', 'tour_theme_render_featured_tours' );
+
+/**
+ * Render dynamic day-by-day itinerary for single tour.
+ */
+function tour_theme_render_single_itinerary( $tour_id = 0 ) {
+	if ( ! $tour_id ) {
+		$tour_id = get_the_ID();
+	}
+	if ( ! $tour_id ) {
+		return '';
+	}
+
+	$days = get_posts( array(
+		'post_type'      => 'itinerary_day',
+		'post_status'    => 'publish',
+		'posts_per_page' => -1,
+		'meta_key'       => 'tbc_day_number',
+		'orderby'        => 'meta_value_num',
+		'order'          => 'ASC',
+		'meta_query'     => array(
+			array(
+				'key'     => 'tbc_tour_id',
+				'value'   => $tour_id,
+				'compare' => '=',
+			),
+		),
+	) );
+
+	// Fallback to translation group siblings if empty
+	if ( empty( $days ) ) {
+		$group = get_post_meta( $tour_id, 'tbc_translation_group', true );
+		if ( $group ) {
+			$siblings = get_posts( array(
+				'post_type'      => 'tour',
+				'post_status'    => 'publish',
+				'posts_per_page' => -1,
+				'post__not_in'   => array( $tour_id ),
+				'meta_key'       => 'tbc_translation_group',
+				'meta_value'     => $group,
+			) );
+			foreach ( $siblings as $sibling ) {
+				$sibling_days = get_posts( array(
+					'post_type'      => 'itinerary_day',
+					'post_status'    => 'publish',
+					'posts_per_page' => -1,
+					'meta_key'       => 'tbc_day_number',
+					'orderby'        => 'meta_value_num',
+					'order'          => 'ASC',
+					'meta_query'     => array(
+						array(
+							'key'     => 'tbc_tour_id',
+							'value'   => $sibling->ID,
+							'compare' => '=',
+						),
+					),
+				) );
+				if ( ! empty( $sibling_days ) ) {
+					$days = $sibling_days;
+					break;
+				}
+			}
+		}
+	}
+
+	if ( empty( $days ) ) {
+		return '<p class="itinerary-empty">' . esc_html__( 'Itinerary details coming soon.', 'tour-reference-theme' ) . '</p>';
+	}
+
+	$tour_title = get_the_title( $tour_id );
+	$output = '<div class="itinerary-timeline">';
+	foreach ( $days as $day ) {
+		$day_num   = get_post_meta( $day->ID, 'tbc_day_number', true );
+		$day_title = get_the_title( $day->ID );
+		$day_desc  = ! empty( $day->post_content ) ? $day->post_content : ( ! empty( $day->post_excerpt ) ? $day->post_excerpt : sprintf( esc_html__( 'Explore scenic mountain passes, cultural heritage sites, and river valleys along the %s route.', 'tour-reference-theme' ), esc_html( $tour_title ) ) );
+		$included  = get_post_meta( $day->ID, 'tbc_included', true );
+
+		$output .= '<div class="itinerary-day">';
+		$output .= '  <div class="itinerary-day__header">';
+		$output .= '    <span class="itinerary-day__number">' . sprintf( esc_html__( 'Day %s', 'tour-reference-theme' ), esc_html( $day_num ) ) . '</span>';
+		$output .= '    <h3 class="itinerary-day__title">' . esc_html( $day_title ) . '</h3>';
+		$output .= '  </div>';
+		$output .= '  <p class="itinerary-day__desc">' . esc_html( $day_desc ) . '</p>';
+		if ( ! empty( $included ) ) {
+			$output .= '  <p class="itinerary-day__included"><strong>' . esc_html__( 'Included: ', 'tour-reference-theme' ) . '</strong>' . esc_html( $included ) . '</p>';
+		}
+		$output .= '</div>';
+	}
+	$output .= '</div>';
+
+	return $output;
+}
+add_shortcode( 'tour_single_itinerary', 'tour_theme_render_single_itinerary' );
+
+/**
+ * Render dynamic vehicle pricing tiers for single tour sticky sidebar.
+ */
+function tour_theme_render_single_pricing( $tour_id = 0 ) {
+	if ( ! $tour_id ) {
+		$tour_id = get_the_ID();
+	}
+	if ( ! $tour_id ) {
+		return '';
+	}
+
+	$vehicles = get_posts( array(
+		'post_type'      => 'vehicle_option',
+		'post_status'    => 'publish',
+		'posts_per_page' => -1,
+		'meta_key'       => 'tbc_tour_id',
+		'meta_value'     => $tour_id,
+	) );
+	if ( empty( $vehicles ) ) {
+		$group = get_post_meta( $tour_id, 'tbc_translation_group', true );
+		if ( $group ) {
+			$siblings = get_posts( array(
+				'post_type'      => 'tour',
+				'post_status'    => 'publish',
+				'posts_per_page' => -1,
+				'post__not_in'   => array( $tour_id ),
+				'meta_key'       => 'tbc_translation_group',
+				'meta_value'     => $group,
+			) );
+			foreach ( $siblings as $sibling ) {
+				$sibling_vehicles = get_posts( array(
+					'post_type'      => 'vehicle_option',
+					'post_status'    => 'publish',
+					'posts_per_page' => -1,
+					'meta_key'       => 'tbc_tour_id',
+					'meta_value'     => $sibling->ID,
+				) );
+				if ( ! empty( $sibling_vehicles ) ) {
+					$vehicles = $sibling_vehicles;
+					break;
+				}
+			}
+		}
+	}
+
+	if ( empty( $vehicles ) ) {
+		return '<div class="booking-price-tier"><span class="booking-price-label">' . esc_html__( 'Contact for pricing', 'tour-reference-theme' ) . '</span></div>';
+	}
+
+	$price_rows = array();
+	foreach ( $vehicles as $v ) {
+		$vnd = intval( get_post_meta( $v->ID, 'tbc_price_vnd', true ) );
+		if ( $vnd <= 0 ) {
+			continue;
+		}
+		$usd = class_exists( 'Tbc_Currency' ) ? Tbc_Currency::vnd_to_usd( $vnd ) : intval( round( $vnd / 25400 ) );
+		$price_rows[] = array(
+			'label' => get_the_title( $v->ID ),
+			'vnd'   => $vnd,
+			'usd'   => $usd,
+		);
+	}
+	usort( $price_rows, function( $a, $b ) { return $a['vnd'] <=> $b['vnd']; } );
+
+	$output = '';
+	foreach ( $price_rows as $i => $row ) {
+		$highlight = 1 === $i ? ' is-highlighted' : '';
+		$output .= sprintf(
+			'<div class="booking-price-tier%s"><span class="booking-price-label">%s</span><span class="booking-price-value">$%s <small>USD / person</small></span></div>',
+			$highlight,
+			esc_html( $row['label'] ),
+			esc_html( $row['usd'] )
+		);
+	}
+
+	return $output;
+}
+add_shortcode( 'tour_single_pricing', 'tour_theme_render_single_pricing' );
+

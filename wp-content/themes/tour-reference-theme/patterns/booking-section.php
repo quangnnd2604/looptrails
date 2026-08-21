@@ -6,8 +6,8 @@
  * Description: Interactive booking interface with tour selector, vehicle options, dates, live summary, and payment selection.
  */
 ?>
-<!-- wp:group {"align":"full","className":"home-booking-section","style":{"spacing":{"padding":{"top":"80px","bottom":"80px","left":"20px","right":"20px"}}},"backgroundColor":"surface-header-footer","layout":{"type":"constrained","contentSize":"1100px"}} -->
-<div class="wp-block-group alignfull home-booking-section has-surface-header-footer-background-color has-background" style="padding-top:80px;padding-right:20px;padding-bottom:80px;padding-left:20px">
+<!-- wp:group {"align":"full","className":"home-booking-section","style":{"spacing":{"padding":{"top":"80px","bottom":"80px","left":"20px","right":"20px"}}},"layout":{"type":"constrained","contentSize":"1100px"}} -->
+<div class="wp-block-group alignfull home-booking-section" style="padding-top:80px;padding-right:20px;padding-bottom:80px;padding-left:20px">
 	<!-- wp:group {"style":{"spacing":{"blockGap":"10px","margin":{"bottom":"30px"}}},"layout":{"type":"flex","orientation":"vertical","justifyContent":"center"}} -->
 	<div class="wp-block-group" style="margin-bottom:30px">
 		<!-- wp:paragraph {"align":"center","style":{"typography":{"textTransform":"uppercase","letterSpacing":"1.5px","fontSize":"13px","fontWeight":"700"}},"textColor":"primary"} -->
