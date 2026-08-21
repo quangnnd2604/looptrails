@@ -4,6 +4,26 @@
  */
 
 /* ==========================================================================
+   Global Reset & Box Sizing
+   ========================================================================== */
+*, *::before, *::after {
+	box-sizing: border-box;
+}
+
+html, body {
+	margin: 0;
+	padding: 0;
+	overflow-x: hidden;
+	width: 100%;
+	max-width: 100vw;
+}
+
+img, svg {
+	max-width: 100%;
+	height: auto;
+}
+
+/* ==========================================================================
    Header & Navigation
    ========================================================================== */
 .site-header {
@@ -24,30 +44,78 @@
 	fill: #ffffff;
 }
 
-/* Hard-offset button preset */
+/* Hard-offset button preset (Reference: White background, Orange text, hard shadow) */
 .wp-block-button.is-style-book-now .wp-block-button__link {
 	border-radius: 25px;
 	box-shadow: var(--wp--preset--shadow--button-hard-offset, 2px 3px 0px 0px #36343b);
 	font-weight: 700;
 	font-size: 14.5px;
-	padding: 10px 24px;
+	padding: 8px 22px;
 	display: inline-flex;
 	align-items: center;
 	transition: transform 0.15s ease, box-shadow 0.15s ease;
 	text-decoration: none;
-	background-color: #ff6602;
-	color: #ffffff;
+	background-color: #ffffff;
+	color: #ff6602;
+	border: none;
 }
 
 .wp-block-button.is-style-book-now .wp-block-button__link:hover {
 	transform: translate(-1px, -1px);
 	box-shadow: 3px 4px 0px 0px #36343b;
-	color: #ffffff;
+	color: #ff6602;
+	background-color: #ffffff;
 }
 
 .wp-block-button.is-style-book-now .wp-block-button__link:active {
 	transform: translate(1px, 1px);
 	box-shadow: 1px 1px 0px 0px #36343b;
+}
+
+/* Orange filled variant */
+.wp-block-button.is-style-book-now.is-fill-orange .wp-block-button__link,
+.tour-card .wp-block-button.is-style-book-now .wp-block-button__link,
+.hero-home-section .wp-block-button.is-style-book-now .wp-block-button__link,
+.editorial-cta-card .wp-block-button.is-style-book-now .wp-block-button__link,
+.lt-summary-actions .wp-block-button.is-style-book-now .wp-block-button__link {
+	background-color: #ffffff;
+	color: #ff6602;
+}
+
+/* ==========================================================================
+   Social Icons Colors (check-colors.mjs compliance)
+   ========================================================================== */
+.wp-social-link-facebook,
+.wp-social-link-instagram,
+.wp-social-link-whatsapp,
+.wp-social-link-tiktok,
+.wp-social-link-tripadvisor {
+	background-color: transparent !important;
+}
+
+.wp-social-link-facebook path,
+.wp-social-link-facebook svg {
+	fill: #1877f2 !important;
+}
+
+.wp-social-link-instagram path,
+.wp-social-link-instagram svg {
+	fill: #e1306c !important;
+}
+
+.wp-social-link-whatsapp path,
+.wp-social-link-whatsapp svg {
+	fill: #25d366 !important;
+}
+
+.wp-social-link-tiktok path,
+.wp-social-link-tiktok svg {
+	fill: #000000 !important;
+}
+
+.wp-social-link-tripadvisor path,
+.wp-social-link-tripadvisor svg {
+	fill: #34e0a1 !important;
 }
 
 /* ==========================================================================
@@ -57,33 +125,39 @@
 	background: linear-gradient(rgba(18, 18, 22, 0.62), rgba(18, 18, 22, 0.82)), #222228;
 	background-size: cover;
 	background-position: center;
-	min-height: 560px;
+	min-height: 540px;
 	display: flex;
 	align-items: center;
 	justify-content: center;
+	overflow: hidden;
 }
 
 .hero-eyebrow-pill {
 	background: rgba(255, 255, 255, 0.18);
 	color: #ffffff;
-	padding: 6px 16px;
+	padding: 6px 14px;
 	border-radius: 30px;
 	font-family: var(--wp--preset--font-family--heading, Montserrat, sans-serif);
-	font-size: 11.5px;
+	font-size: 11px;
 	font-weight: 700;
-	letter-spacing: 1.2px;
+	letter-spacing: 1px;
 	text-transform: uppercase;
 	backdrop-filter: blur(6px);
+	text-align: center;
+	max-width: 100%;
+	display: inline-block;
 }
 
 .hero-headline {
 	text-shadow: 0 3px 12px rgba(0, 0, 0, 0.5);
 	color: #ffffff !important;
+	word-break: break-word;
 }
 
 .hero-subhead {
 	color: #f0ece1 !important;
 	text-shadow: 0 2px 8px rgba(0, 0, 0, 0.4);
+	word-break: break-word;
 }
 
 /* ==========================================================================
@@ -120,6 +194,8 @@
 	display: flex;
 	flex-direction: column;
 	transition: transform 0.2s ease, box-shadow 0.2s ease;
+	width: 100%;
+	max-width: 100%;
 }
 
 .tour-card:hover {
@@ -175,7 +251,7 @@
 }
 
 .tour-card__body {
-	padding: 22px;
+	padding: 20px;
 	display: flex;
 	flex-direction: column;
 	flex-grow: 1;
@@ -207,6 +283,7 @@
 	font-weight: 700;
 	line-height: 1.35;
 	margin: 0 0 10px;
+	word-break: break-word;
 }
 
 .tour-card__title a {
@@ -306,6 +383,7 @@
 .narrative-stats-grid {
 	display: flex;
 	gap: 16px;
+	flex-wrap: wrap;
 }
 
 .stat-item {
@@ -314,7 +392,7 @@
 	border-radius: 10px;
 	box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
 	border: 1px solid rgba(0, 0, 0, 0.05);
-	min-width: 100px;
+	flex: 1 1 90px;
 }
 
 .stat-number {
@@ -349,8 +427,8 @@
 	display: flex;
 	justify-content: center;
 	align-items: center;
-	gap: 12px;
-	margin-bottom: 36px;
+	gap: 10px;
+	margin-bottom: 32px;
 	flex-wrap: wrap;
 }
 
@@ -358,10 +436,10 @@
 	background: #f0ece1;
 	border: 1px solid rgba(0, 0, 0, 0.08);
 	color: var(--wp--preset--color--primary, #1e1e24);
-	padding: 10px 22px;
+	padding: 8px 18px;
 	border-radius: 30px;
 	font-family: var(--wp--preset--font-family--heading);
-	font-size: 14px;
+	font-size: 13.5px;
 	font-weight: 700;
 	cursor: pointer;
 	transition: all 0.2s ease;
@@ -504,23 +582,33 @@
 	display: flex;
 	justify-content: space-around;
 	align-items: center;
+	flex-wrap: wrap;
+	gap: 16px;
+}
+
+@media (max-width: 600px) {
+	.dark-stats-bar {
+		display: grid;
+		grid-template-columns: 1fr 1fr;
+		gap: 14px;
+	}
 }
 
 .dark-stat-item {
 	text-align: center;
-	padding: 8px 16px;
+	padding: 6px 12px;
 }
 
 .dark-stat-val {
 	font-family: var(--wp--preset--font-family--heading);
-	font-size: 28px;
+	font-size: 26px;
 	font-weight: 800;
 	display: block;
 	color: #ffffff;
 }
 
 .dark-stat-lbl {
-	font-size: 13px;
+	font-size: 12px;
 	font-weight: 600;
 	color: #d0d0d5;
 	text-transform: uppercase;
@@ -536,18 +624,20 @@
 	padding: 36px;
 	box-shadow: 0 10px 35px rgba(0, 0, 0, 0.06);
 	border: 1px solid #e5e5e5;
+	max-width: 100%;
+	overflow: hidden;
 }
 
 @media (max-width: 600px) {
 	.lt-booking-form-container {
-		padding: 20px;
+		padding: 16px;
 	}
 }
 
 .lt-form-grid {
 	display: grid;
 	grid-template-columns: 1fr 1fr;
-	gap: 20px;
+	gap: 18px;
 }
 
 @media (max-width: 768px) {
@@ -572,10 +662,11 @@
 .lt-form-input,
 .lt-form-select {
 	width: 100%;
-	padding: 12px 14px;
+	max-width: 100%;
+	padding: 11px 14px;
 	border: 1px solid #d5d5d5;
 	border-radius: 8px;
-	font-size: 15px;
+	font-size: 14.5px;
 	background: #ffffff;
 	color: #222222;
 	font-family: inherit;
@@ -584,7 +675,7 @@
 .lt-vehicle-options {
 	display: grid;
 	grid-template-columns: repeat(3, minmax(0, 1fr));
-	gap: 14px;
+	gap: 12px;
 }
 
 @media (max-width: 768px) {
@@ -596,7 +687,7 @@
 .lt-vehicle-radio-card {
 	border: 1px solid #e0dcd5;
 	border-radius: 10px;
-	padding: 14px;
+	padding: 12px;
 	display: flex;
 	gap: 10px;
 	cursor: pointer;
@@ -612,16 +703,16 @@
 
 .lt-radio-body strong {
 	display: block;
-	font-size: 14px;
+	font-size: 13.5px;
 	color: var(--wp--preset--color--primary, #1e1e24);
 	margin-bottom: 4px;
 }
 
 .lt-radio-body span {
 	display: block;
-	font-size: 12px;
+	font-size: 11.5px;
 	color: #666666;
-	line-height: 1.4;
+	line-height: 1.35;
 	margin-bottom: 6px;
 }
 
@@ -634,14 +725,14 @@
 .lt-stepper {
 	display: flex;
 	align-items: center;
-	max-width: 160px;
+	max-width: 150px;
 }
 
 .lt-stepper-btn {
 	background: #f0ece1;
 	border: 1px solid #ccc;
-	width: 40px;
-	height: 44px;
+	width: 38px;
+	height: 40px;
 	font-size: 18px;
 	font-weight: 700;
 	cursor: pointer;
@@ -649,29 +740,29 @@
 }
 
 .lt-stepper-input {
-	width: 60px;
-	height: 44px;
+	width: 50px;
+	height: 40px;
 	text-align: center;
 	border: 1px solid #ccc;
 	margin: 0 4px;
-	font-size: 16px;
+	font-size: 15px;
 	font-weight: 700;
 	border-radius: 6px;
 }
 
 .lt-live-summary-card {
-	margin-top: 30px;
+	margin-top: 24px;
 	background: #f7f5f0;
 	border: 1px solid #e0dcd5;
 	border-radius: 12px;
-	padding: 24px;
+	padding: 20px;
 }
 
 .lt-summary-title {
 	font-family: var(--wp--preset--font-family--heading);
-	font-size: 18px;
+	font-size: 17px;
 	font-weight: 800;
-	margin: 0 0 16px;
+	margin: 0 0 14px;
 	border-bottom: 1px solid #e5e0d5;
 	padding-bottom: 10px;
 }
@@ -680,25 +771,25 @@
 	display: flex;
 	justify-content: space-between;
 	align-items: center;
-	margin-bottom: 10px;
-	font-size: 14.5px;
+	margin-bottom: 8px;
+	font-size: 14px;
 }
 
 .lt-total-row {
 	border-top: 1px dashed #ccc;
-	padding-top: 12px;
-	margin-top: 12px;
-	font-size: 17px;
+	padding-top: 10px;
+	margin-top: 10px;
+	font-size: 16px;
 	font-weight: 700;
 }
 
 .lt-deposit-row {
-	font-size: 16px;
+	font-size: 15px;
 	font-weight: 800;
 }
 
 .lt-summary-actions {
-	margin-top: 20px;
+	margin-top: 18px;
 }
 
 /* ==========================================================================
@@ -707,7 +798,7 @@
 .blog-teaser-grid {
 	display: grid;
 	grid-template-columns: repeat(3, minmax(0, 1fr));
-	gap: 24px;
+	gap: 22px;
 }
 
 @media (max-width: 900px) {
@@ -752,7 +843,7 @@
 }
 
 .blog-card__body {
-	padding: 20px;
+	padding: 18px;
 	display: flex;
 	flex-direction: column;
 	flex-grow: 1;
@@ -813,7 +904,7 @@
 
 .review-card {
 	background: #ffffff;
-	padding: 28px;
+	padding: 26px;
 	border-radius: 14px;
 	box-shadow: 0 4px 18px rgba(0, 0, 0, 0.05);
 	border: 1px solid rgba(0, 0, 0, 0.04);
@@ -824,17 +915,17 @@
 
 .review-card__stars {
 	color: #f5a623;
-	font-size: 18px;
-	margin-bottom: 12px;
+	font-size: 17px;
+	margin-bottom: 10px;
 	letter-spacing: 2px;
 }
 
 .review-card__text {
-	font-size: 15px;
-	line-height: 1.65;
+	font-size: 14.5px;
+	line-height: 1.6;
 	color: var(--wp--preset--color--text-dark, #222222);
 	font-style: italic;
-	margin: 0 0 20px;
+	margin: 0 0 18px;
 	flex-grow: 1;
 }
 
@@ -842,7 +933,7 @@
 	display: flex;
 	flex-direction: column;
 	border-top: 1px solid #f0f0f0;
-	padding-top: 14px;
+	padding-top: 12px;
 }
 
 .review-card__name {
@@ -862,14 +953,15 @@
 .editorial-cta-card {
 	background: linear-gradient(135deg, #1e1e24 0%, #36343b 100%);
 	border-radius: 20px;
-	padding: 60px 40px;
+	padding: 50px 30px;
 	box-shadow: 0 12px 35px rgba(0, 0, 0, 0.15);
 	text-align: center;
+	overflow: hidden;
 }
 
 @media (max-width: 600px) {
 	.editorial-cta-card {
-		padding: 40px 20px;
+		padding: 36px 18px;
 	}
 }
 
@@ -896,8 +988,8 @@
 }
 
 .faq-question {
-	padding: 18px 22px;
-	font-size: 16px;
+	padding: 16px 20px;
+	font-size: 15.5px;
 	font-weight: 700;
 	color: var(--wp--preset--color--primary, #1e1e24);
 	cursor: pointer;
@@ -925,12 +1017,12 @@
 }
 
 .faq-answer {
-	padding: 0 22px 20px;
-	font-size: 15px;
-	line-height: 1.65;
+	padding: 0 20px 18px;
+	font-size: 14.5px;
+	line-height: 1.6;
 	color: var(--wp--preset--color--text-body, #555555);
 	border-top: 1px solid #f5f5f5;
-	padding-top: 14px;
+	padding-top: 12px;
 }
 
 .faq-answer p {
