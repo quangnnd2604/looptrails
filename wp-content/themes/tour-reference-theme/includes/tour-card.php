@@ -365,24 +365,27 @@ function tour_theme_render_single_itinerary( $tour_id = 0 ) {
 	$output = '<div class="itinerary-timeline">';
 	foreach ( $days as $day ) {
 		$day_num   = get_post_meta( $day->ID, 'tbc_day_number', true );
-		$day_title = get_the_title( $day->ID );
+		$day_title = trim( get_the_title( $day->ID ) );
 		$day_desc  = ! empty( $day->post_content ) ? $day->post_content : ( ! empty( $day->post_excerpt ) ? $day->post_excerpt : sprintf( esc_html__( 'Explore scenic mountain passes, cultural heritage sites, and river valleys along the %s route.', 'tour-reference-theme' ), esc_html( $tour_title ) ) );
 		$included  = get_post_meta( $day->ID, 'tbc_included', true );
 
 		$output .= '<div class="itinerary-day">';
-		$output .= '  <div class="itinerary-day__header">';
-		$output .= '    <span class="itinerary-day__number">' . sprintf( esc_html__( 'Day %s', 'tour-reference-theme' ), esc_html( $day_num ) ) . '</span>';
-		$output .= '    <h3 class="itinerary-day__title">' . esc_html( $day_title ) . '</h3>';
-		$output .= '  </div>';
-		$output .= '  <p class="itinerary-day__desc">' . esc_html( $day_desc ) . '</p>';
+		$output .= '<div class="itinerary-day__header">';
+		$output .= '<div class="itinerary-day__number">' . sprintf( esc_html__( 'Day %s', 'tour-reference-theme' ), esc_html( $day_num ) ) . '</div>';
+		if ( ! empty( $day_title ) && ! preg_match( '/^(day|ngày)\s*\d+$/iu', $day_title ) ) {
+			$output .= '<h3 class="itinerary-day__title">' . esc_html( $day_title ) . '</h3>';
+		}
+		$output .= '</div>';
+		$output .= '<div class="itinerary-day__desc">' . esc_html( $day_desc ) . '</div>';
 		if ( ! empty( $included ) ) {
-			$output .= '  <p class="itinerary-day__included"><strong>' . esc_html__( 'Included: ', 'tour-reference-theme' ) . '</strong>' . esc_html( $included ) . '</p>';
+			$output .= '<div class="itinerary-day__included"><strong>' . esc_html__( 'Included: ', 'tour-reference-theme' ) . '</strong>' . esc_html( $included ) . '</div>';
 		}
 		$output .= '</div>';
 	}
 	$output .= '</div>';
 
-	return $output;
+	// Strip any wpautop artifacts
+	return str_replace( array( '<p></p>', '<p> </p>' ), '', $output );
 }
 add_shortcode( 'tour_single_itinerary', 'tour_theme_render_single_itinerary' );
 

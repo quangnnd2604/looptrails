@@ -225,3 +225,91 @@ OK (56 tests, 358 assertions)
 TỔNG CỘNG: 98 / 98 tests passed (593 assertions) - 100% OK.
 ```
 
+---
+
+## 6. Vòng 3: Kết quả Khắc phục theo `docs/gemini-fix-worklist-round3-2026-08-21.md`
+
+### 6.1 Bảng tổng kết Vòng 3
+
+| Mục | Nội dung lỗi | File sửa | Kết quả kiểm chứng thực tế | Trạng thái |
+|---|---|---|---|---|
+| **F5** | Trang Thuê xe máy: các thẻ xe hoàn toàn không có CSS, vỡ layout, nút bấm tràn full màn hình. | `assets/css/theme.css` | - Thêm CSS cho `.rental-bikes-grid`, `.bike-card`, `.bike-card__media`, `.bike-card__body`, `.bike-card__type`, `.bike-card__rate`.<br>- Bounding box: `card box: {"x":120,"width":588,"height":444}`, `button box: {"x":145,"width":538,"height":33}` nằm gọn trong card. | ✅ **ĐÃ XONG** |
+| **F6** | Nút "Rent This Bike" không làm gì khi bấm do trang thiếu phần tử `id="book"`. | `templates/page-motorbike-rental.html` | - Thêm pattern `booking-section` vào trước `faq-accordion`.<br>- `curl http://localhost/looptrails/motorbike-rental/ \| grep -c 'id="book"'` = **1** (form đặt hiển thị ngay trên trang). | ✅ **ĐÃ XONG** |
+| **F7** | Trang chi tiết tour: HTML sai cú pháp (thẻ `</p>` thừa) và số ngày bị lặp lại 2 lần do CPT `itinerary_day` thiếu tiêu đề/mô tả thật. | `includes/tour-card.php`<br>`class-demo-importer.php`<br>Database CPT `itinerary_day` | - Sửa renderer tạo HTML chuẩn dạng block, loại bỏ hoàn toàn thẻ `</p>` thừa.<br>- Cập nhật toàn bộ 24 bài `itinerary_day` (12 tour EN + VI) với tiêu đề lộ trình thật và mô tả sinh động riêng biệt từng ngày. | ✅ **ĐÃ XONG** |
+| **F8** | Form đặt tour ở trang chủ bị dàn quá rộng (~1326px trên viewport 1440px). | `assets/css/theme.css` | - Thêm `max-width: 680px; margin: 0 auto;` cho `.lt-booking-form-container`.<br>- Bounding box: `form container box: {"x":380,"width":680,"height":867.5}` (căn giữa hoàn hảo trên 1440px). | ✅ **ĐÃ XONG** |
+
+### 6.2 Output lệnh kiểm chứng Vòng 3
+
+#### 1. F5: Kiểm tra kích thước và bố cục Card xe máy & Nút bấm
+```
+> node tools/local-audit/check-f5.mjs
+card box: {"x":120,"y":432.6875,"width":588,"height":444}
+button box: {"x":145,"y":818.6875,"width":538,"height":33}
+```
+
+#### 2. F6: Kiểm tra phần tử id="book" trên trang Thuê xe máy
+```
+> curl -s http://localhost/looptrails/motorbike-rental/ | grep -c 'id="book"'
+1
+```
+
+#### 3. F7: Kiểm tra HTML cú pháp & Tiêu đề/Mô tả lộ trình thật trên trang chi tiết tour
+```
+> curl -s "http://localhost/looptrails/tours/northern-highlands-loop/" | grep -o 'itinerary-day__title">[^<]*'
+itinerary-day__title">Ha Giang City → Quan Ba Heaven Gate → Yen Minh
+itinerary-day__title">Yen Minh → Tham Ma Pass → Vuong Palace → Dong Van
+
+> node tools/local-audit/check-itinerary-dom.mjs
+itinerary HTML:
+<h2 class="wp-block-heading" style="font-size:26px;font-weight:700;margin-bottom:20px;">Day-by-Day Itinerary</h2>
+<div class="itinerary-timeline">
+  <div class="itinerary-day">
+    <div class="itinerary-day__header">
+      <div class="itinerary-day__number">Day 1</div>
+      <h3 class="itinerary-day__title">Ha Giang City → Quan Ba Heaven Gate → Yen Minh</h3>
+    </div>
+    <div class="itinerary-day__desc">Depart morning from Ha Giang City. Climb up Bac Sum Pass, admire Quan Ba Twin Mountains, and ride through pine forests to Yen Minh town for local homestay check-in and family dinner.</div>
+    <div class="itinerary-day__included"><strong>Included: </strong>Breakfast, guide, fuel</div>
+  </div>
+  <div class="itinerary-day">
+    <div class="itinerary-day__header">
+      <div class="itinerary-day__number">Day 2</div>
+      <h3 class="itinerary-day__title">Yen Minh → Tham Ma Pass → Vuong Palace → Dong Van</h3>
+    </div>
+    <div class="itinerary-day__desc">Conquer the famous 9-turn Tham Ma pass, visit the 100-year-old H’mong King Palace, and explore the Dong Van ancient street at night with local street food.</div>
+    <div class="itinerary-day__included"><strong>Included: </strong>Breakfast, guide, fuel</div>
+  </div>
+</div>
+```
+
+#### 4. F8: Kiểm tra Form đặt tour căn giữa và giới hạn độ rộng
+```
+> node tools/local-audit/check-f8.mjs
+form container box: {"x":380,"y":5497.546875,"width":680,"height":867.546875}
+```
+
+#### 5. Chụp ảnh màn hình kiểm thử thị giác (Visual Captures)
+```
+> node tools/local-audit/capture-round3.mjs
+Captured: home-desktop.png from http://localhost/looptrails/
+Captured: single-tour-desktop.png from http://localhost/looptrails/tours/northern-highlands-loop/
+Captured: motorbike-rental-desktop.png from http://localhost/looptrails/motorbike-rental/
+Round 3 visual captures completed successfully.
+```
+
+#### 6. Toàn bộ PHPUnit Test Suite Vòng 3 (100% PASS)
+```
+[Theme: tour-reference-theme]
+PHPUnit 9.6.36 by Sebastian Bergmann and contributors.
+..........................................                        42 / 42 (100%)
+OK (42 tests, 235 assertions)
+
+[Plugin: tour-booking-core]
+PHPUnit 9.6.36 by Sebastian Bergmann and contributors.
+........................................................          56 / 56 (100%)
+OK (56 tests, 358 assertions)
+
+TỔNG CỘNG: 98 / 98 tests passed (593 assertions) — 100% OK.
+```
+
+

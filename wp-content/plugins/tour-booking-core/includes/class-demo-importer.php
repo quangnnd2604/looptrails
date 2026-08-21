@@ -87,7 +87,7 @@ class Tbc_Demo_Importer {
 
 				// Translatable-only content stays per-language.
 				for ( $day = 1; $day <= 2; $day++ ) {
-					self::create_itinerary_day( $tour_id, $day, $lang );
+					self::create_itinerary_day( $tour_id, $day, $lang, $tour_data );
 					++$counts['itinerary_day'];
 				}
 
@@ -148,12 +148,14 @@ class Tbc_Demo_Importer {
 		return $destination_id;
 	}
 
-	private static function create_itinerary_day( $tour_id, $day, $lang ) {
+	private static function create_itinerary_day( $tour_id, $day, $lang, $tour_data = array() ) {
+		$tour_name = ! empty( $tour_data['title_' . $lang] ) ? $tour_data['title_' . $lang] : ( 'vi' === $lang ? 'Vùng cao' : 'Highlands' );
 		$post_id = wp_insert_post(
 			array(
-				'post_type'   => 'itinerary_day',
-				'post_title'  => sprintf( 'vi' === $lang ? 'Ngày %d' : 'Day %d', $day ),
-				'post_status' => 'publish',
+				'post_type'    => 'itinerary_day',
+				'post_title'   => 1 === $day ? ( 'vi' === $lang ? "Ngày 1: Khởi hành → Đèo núi → {$tour_name}" : "Day 1: City Departure → Mountain Pass → {$tour_name}" ) : ( 'vi' === $lang ? "Ngày 2: Khám phá danh thắng → Bản làng {$tour_name}" : "Day 2: Scenic Exploration → {$tour_name} Cultural Valley" ),
+				'post_content' => 1 === $day ? ( 'vi' === $lang ? "Khởi hành ngày 1: Chinh phục các cung đèo hùng vĩ, ngắm nhìn thung lũng đá và nghỉ đêm tại homestay bản địa." : "Day 1: Ride up mountain passes, explore panoramic vistas, and settle in at an authentic local homestay." ) : ( 'vi' === $lang ? "Khởi hành ngày 2: Trải nghiệm văn hóa bản địa, du thuyền hẻm vực và khám phá phong cảnh hoang sơ." : "Day 2: Experience ethnic minority traditions, deep canyon river boat rides, and untouched nature." ),
+				'post_status'  => 'publish',
 			)
 		);
 
