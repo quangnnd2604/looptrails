@@ -1,0 +1,44 @@
+.tbc-repeater {
+	margin-bottom: 12px;
+	border: 1px solid #ccd0d4;
+	box-shadow: 0 1px 1px rgba(0, 0, 0, 0.04);
+}
+
+.tbc-repeater th {
+	background: #f6f7f7;
+	font-weight: 600;
+	padding: 10px 12px;
+	vertical-align: middle;
+}
+
+.tbc-repeater td {
+	padding: 10px 12px;
+	vertical-align: top;
+}
+
+.tbc-repeater input[type="text"],
+.tbc-repeater input[type="number"],
+.tbc-repeater input[type="date"],
+.tbc-repeater textarea,
+.tbc-repeater select {
+	width: 100%;
+	box-sizing: border-box;
+}
+
+.tbc-repeater tr.is-deleted {
+	background-color: #fcf0f0 !important;
+}
+
+.tbc-repeater .button-link-delete {
+	color: #b32d2e;
+	text-decoration: none;
+	cursor: pointer;
+}
+
+.tbc-repeater .button-link-delete:hover {
+	color: #a00;
+}
+
+.tbc-add-row {
+	margin-top: 8px !important;
+}

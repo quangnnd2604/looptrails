@@ -312,4 +312,115 @@ OK (56 tests, 358 assertions)
 TỔNG CỘNG: 98 / 98 tests passed (593 assertions) — 100% OK.
 ```
 
+---
+
+## 7. Vòng 4 — Admin UX: Gom quản lý dữ liệu con của Tour vào 1 màn hình duy nhất
+
+### 7.1 Mục tiêu & Phạm vi thực hiện
+
+Theo yêu cầu tại `docs/gemini-fix-worklist-round4-admin-ux-2026-08-21.md`, hệ thống quản trị đã được nâng cấp lớp giao diện người dùng (Admin UX) để người quản trị có thể quản lý toàn bộ dữ liệu con của một Tour ngay trên màn hình chỉnh sửa Tour đó:
+- **6 Meta Box tích hợp dạng Repeater table:**
+  1. **Lịch trình theo ngày (`tbc_itinerary_metabox`):** CPT `itinerary_day` (Số ngày, tiêu đề, mô tả, bao gồm, không bao gồm).
+  2. **Phương tiện & Giá (`tbc_vehicles_metabox`):** CPT `vehicle_option` (Tên xe, loại xe, giá VND/người, sức chứa) + Tự động đồng bộ `tbc_price_from_vnd`.
+  3. **Chỗ ở (`tbc_accommodation_metabox`):** CPT `accommodation` (Tên phòng/chỗ ở, mô tả, giá phụ thu VND, checkbox nâng cấp).
+  4. **Đưa đón (`tbc_transfer_metabox`):** CPT `transfer_option` (Tên dịch vụ, chiều di chuyển, giá VND).
+  5. **Dịch vụ thêm (`tbc_addons_metabox`):** CPT `addon` (Tên dịch vụ, mô tả, giá VND).
+  6. **Lịch khởi hành & Chỗ trống (`tbc_availability_metabox`):** CPT `availability_rule` (Ngày khởi hành, trạng thái còn chỗ/sắp hết/hết chỗ/đóng, số lượng chỗ).
+- **Phân quyền & Bảo mật:**
+  - Nonce bảo vệ `tbc_save_tour_editor` qua `wp_verify_nonce()`.
+  - Quyền `current_user_can('edit_post', $post_id)` khi lưu.
+  - Trường giá tiền `tbc_price_vnd` chỉ được ghi khi người dùng có quyền `edit_tbc_prices`.
+- **Ẩn 6 menu con khỏi sidebar admin:** Đã cập nhật `'show_in_menu' => false` trong `class-post-types.php` cho 6 CPT con (`itinerary_day`, `vehicle_option`, `accommodation`, `transfer_option`, `addon`, `availability_rule`).
+- **Files tạo mới & cập nhật:**
+  - `wp-content/plugins/tour-booking-core/includes/class-tour-editor.php` (Mới)
+  - `wp-content/plugins/tour-booking-core/assets/js/admin-tour-editor.js` (Mới)
+  - `wp-content/plugins/tour-booking-core/assets/css/admin-tour-editor.css` (Mới)
+  - `wp-content/plugins/tour-booking-core/tests/test-tour-editor.php` (Mới - 5 unit tests toàn diện)
+  - `wp-content/plugins/tour-booking-core/includes/class-post-types.php` (Cập nhật `show_in_menu => false`)
+  - `wp-content/plugins/tour-booking-core/tour-booking-core.php` (Đăng ký khởi tạo `Tbc_Tour_Editor`)
+
+---
+
+### 7.2 Kết quả 7 bước kiểm chứng thực tế (Mục 3 Work Order)
+
+#### Bước 1 & 2: Xác nhận dữ liệu cũ hiển thị đúng & 6 menu con đã ẩn khỏi sidebar
+```
+=== Step 1: Login to wp-admin ===
+Logged in. Current URL: http://localhost/looptrails/wp-admin/
+
+=== Step 2: Verify Sidebar Menus ===
+Menu "Itinerary Day" in sidebar: NO (PASS)
+Menu "Vehicle Option" in sidebar: NO (PASS)
+Menu "Accommodation" in sidebar: NO (PASS)
+Menu "Transfer Option" in sidebar: NO (PASS)
+Menu "Add-on" in sidebar: NO (PASS)
+Menu "Availability Rule" in sidebar: NO (PASS)
+
+=== Step 3: Open Tour ID 155 ===
+Existing Itinerary rows in DOM: [
+  {
+    "day": "1",
+    "title": "Ha Giang City → Quan Ba Heaven Gate → Yen Minh"
+  },
+  {
+    "day": "2",
+    "title": "Yen Minh → Tham Ma Pass → Vuong Palace → Dong Van"
+  }
+]
+Existing Vehicles rows in DOM: [
+  {
+    "title": "Motorbike",
+    "price": "350000"
+  },
+  {
+    "title": "Jeep",
+    "price": "900000"
+  }
+]
+```
+
+#### Bước 3, 4, 5: Thêm dòng Day 3, Lưu bài Tour, Kiểm tra WP-CLI
+```
+=== Step 4: Add New Day 3 Row via evaluate/click ===
+Saving Tour post (submitting post form)...
+Wait completed.
+
+=== Step 5: Check WP-CLI after adding Day 3 ===
+> C:\xampp\wp-cli.bat post list --post_type=itinerary_day --meta_key=tbc_tour_id --meta_value=155 --fields=ID,post_title
+ID	post_title
+304	Day 3: Dong Van → Meo Vac → Ha Giang Return
+168	Ha Giang City → Quan Ba Heaven Gate → Yen Minh
+169	Yen Minh → Tham Ma Pass → Vuong Palace → Dong Van
+```
+*(Kết quả: Đã tạo bài viết CPT `itinerary_day` mới có ID 304 liên kết chính xác với Tour 155).*
+
+#### Bước 6: Xóa dòng Day 3 vừa thêm và Kiểm tra WP-CLI
+```
+=== Step 6: Delete Day 3 Row ===
+Saving Tour post after deletion...
+
+=== Step 7: Check WP-CLI after deleting Day 3 ===
+> C:\xampp\wp-cli.bat post list --post_type=itinerary_day --meta_key=tbc_tour_id --meta_value=155 --fields=ID,post_title
+ID	post_title
+168	Ha Giang City → Quan Ba Heaven Gate → Yen Minh
+169	Yen Minh → Tham Ma Pass → Vuong Palace → Dong Van
+```
+*(Kết quả: Bài viết CPT 304 đã được xóa triệt để khỏi database, giữ nguyên đúng 2 ngày ban đầu).*
+
+#### Bước 7: Toàn bộ PHPUnit Test Suite Vòng 4 (100% PASS)
+```
+[Theme: tour-reference-theme]
+PHPUnit 9.6.36 by Sebastian Bergmann and contributors.
+..........................................                        42 / 42 (100%)
+OK (42 tests, 235 assertions)
+
+[Plugin: tour-booking-core]
+PHPUnit 9.6.36 by Sebastian Bergmann and contributors.
+.............................................................     61 / 61 (100%)
+OK (61 tests, 387 assertions)
+
+TỔNG CỘNG TOÀN DỰ ÁN: 103 / 103 tests passed (622 assertions) — 100% OK.
+```
+
+
 

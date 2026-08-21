@@ -44,8 +44,10 @@ require_once TBC_PLUGIN_DIR . 'includes/class-search-filter.php';
 require_once TBC_PLUGIN_DIR . 'includes/class-seo.php';
 require_once TBC_PLUGIN_DIR . 'includes/class-mailer.php';
 require_once TBC_PLUGIN_DIR . 'includes/class-booking-handler.php';
+require_once TBC_PLUGIN_DIR . 'includes/class-tour-editor.php';
 
 Tbc_Booking_Handler::init();
+Tbc_Tour_Editor::init();
 Tbc_Seo::init();
 add_action( 'save_post_vehicle_option', array( 'Tbc_Pricing_Engine', 'sync_tour_starting_price' ) );
 
