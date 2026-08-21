@@ -30,10 +30,10 @@ class Test_Tour_Card extends WP_UnitTestCase {
 		$html = tour_theme_render_tour_card( $this->tour_id );
 
 		$this->assertNotEmpty( $html );
-		$this->assertStringContainsString( 'class="tour-card"', $html );
+		$this->assertStringContainsString( 'tour-card', $html );
 		$this->assertStringContainsString( 'Epic Ha Giang 3D2N Loop', $html );
 		$this->assertStringContainsString( 'Best Seller', $html );
-		$this->assertStringContainsString( '3 Days 2 Nights', $html );
+		$this->assertStringContainsString( '3D2N', $html );
 		$this->assertStringContainsString( '4.9', $html );
 		$this->assertStringContainsString( '(88)', $html );
 		$this->assertStringContainsString( 'Book Now', $html );
@@ -44,7 +44,7 @@ class Test_Tour_Card extends WP_UnitTestCase {
 		$html = tour_theme_render_featured_tours( array( 'postsPerPage' => 3 ) );
 
 		$this->assertNotEmpty( $html );
-		$this->assertStringContainsString( 'class="tour-grid"', $html );
+		$this->assertStringContainsString( 'tour-grid', $html );
 		$this->assertStringContainsString( 'Epic Ha Giang 3D2N Loop', $html );
 	}
 
@@ -59,6 +59,6 @@ class Test_Tour_Card extends WP_UnitTestCase {
 		$rendered = do_shortcode( do_blocks( $markup ) );
 		$this->assertNotEmpty( $rendered );
 		$this->assertStringContainsString( 'Popular Loop Tours', $rendered );
-		$this->assertStringContainsString( 'class="tour-grid"', $rendered );
+		$this->assertStringContainsString( 'tour-grid', $rendered );
 	}
 }

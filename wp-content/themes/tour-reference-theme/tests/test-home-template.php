@@ -23,6 +23,8 @@ class Test_Home_Template extends WP_UnitTestCase {
 		$this->assertStringContainsString( 'tour-reference-theme/why-choose-us', $content );
 		$this->assertStringContainsString( 'tour-reference-theme/testimonials', $content );
 		$this->assertStringContainsString( 'tour-reference-theme/editorial-cta', $content );
+		$this->assertStringContainsString( 'tour-reference-theme/booking-section', $content );
+		$this->assertStringContainsString( 'tour-reference-theme/blog-teaser', $content );
 		$this->assertStringContainsString( 'tour-reference-theme/faq-accordion', $content );
 	}
 

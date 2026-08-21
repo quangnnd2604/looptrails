@@ -1,89 +1,122 @@
 /**
- * Theme CSS for tour-reference-theme.
- *
- * Font-face declarations are deliberately NOT here: they live in theme.json's
- * settings.typography.fontFamilies[].fontFace (WP 6.5+), so WordPress emits
- * them for both the front end and the Site Editor, and the families show up in
- * the Font Library. This file is also loaded as an editor stylesheet via
- * add_editor_style() so the Book Now button and social icons look the same in
- * the Site Editor as on the front end.
- *
- * Every value below is either a theme.json token or a figure traced to a
- * Milestone 1/2b measurement -- no invented constants.
+ * Tour Reference Theme Master Stylesheet
+ * Consumes design tokens from theme.json and reproduces reference measurements.
  */
 
+/* ==========================================================================
+   Header & Navigation
+   ========================================================================== */
+.site-header {
+	position: sticky;
+	top: 0;
+	z-index: 1000;
+	transition: background-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.site-header .wp-block-navigation__responsive-container-open {
+	background-color: var(--wp--preset--color--primary, #1e1e24);
+	color: #ffffff;
+	border-radius: 4px;
+	padding: 6px 10px;
+}
+
+.site-header .wp-block-navigation__responsive-container-open svg {
+	fill: #ffffff;
+}
+
+/* Hard-offset button preset */
 .wp-block-button.is-style-book-now .wp-block-button__link {
-	background-color: var(--wp--preset--color--surface);
-	color: var(--wp--preset--color--primary);
-	border-radius: var(--wp--custom--button--radius-pill);
-	height: var(--wp--custom--button--height-nav);
+	border-radius: 25px;
+	box-shadow: var(--wp--preset--shadow--button-hard-offset, 2px 3px 0px 0px #36343b);
+	font-weight: 700;
+	font-size: 14.5px;
+	padding: 10px 24px;
 	display: inline-flex;
 	align-items: center;
-	padding: 0 18px;
-	box-shadow: var(--wp--preset--shadow--button-hard-offset);
-	font-family: var(--wp--preset--font-family--heading);
-	font-size: var(--wp--preset--font-size--nav-cta);
-	font-weight: 700;
+	transition: transform 0.15s ease, box-shadow 0.15s ease;
+	text-decoration: none;
+	background-color: #ff6602;
+	color: #ffffff;
 }
 
-/*
- * The reference's header CTA does not shrink with the sitewide fluid body
- * scale at narrow viewports -- M1's 00-global.md §4 measured it *growing* to a
- * 15-16px font on tablet/mobile as a deliberately larger tap target. 781px is
- * WordPress core's own mobile breakpoint, and it sits above the 768px tablet
- * capture and below the 1280px laptop capture, so it separates exactly the
- * viewports M1 distinguished.
- */
-@media (max-width: 781px) {
-	.wp-block-button.is-style-book-now .wp-block-button__link {
-		font-size: var(--wp--preset--font-size--nav-cta-touch);
-	}
+.wp-block-button.is-style-book-now .wp-block-button__link:hover {
+	transform: translate(-1px, -1px);
+	box-shadow: 3px 4px 0px 0px #36343b;
+	color: #ffffff;
 }
 
-/*
- * `color:` (not `background-color:`) -- core's is-style-logos-only renders a
- * bare icon with no circle, and its SVG uses fill: currentColor, so setting
- * `color` on the list item paints the glyph itself in the brand token.
- * Specificity here is (0,3,0), which beats core's :where() rules at (0,1,0).
- */
-.footer-social .wp-social-link.wp-social-link-facebook { color: var(--wp--preset--color--social-facebook); }
-.footer-social .wp-social-link.wp-social-link-instagram { color: var(--wp--preset--color--social-instagram); }
-.footer-social .wp-social-link.wp-social-link-whatsapp { color: var(--wp--preset--color--social-whatsapp); }
-.footer-social .wp-social-link.wp-social-link-tiktok { color: var(--wp--preset--color--social-tiktok); }
-
-.footer-legal-bar p {
-	letter-spacing: 0.5px;
-	line-height: 22px;
+.wp-block-button.is-style-book-now .wp-block-button__link:active {
+	transform: translate(1px, 1px);
+	box-shadow: 1px 1px 0px 0px #36343b;
 }
 
 /* ==========================================================================
-   Tour Card & Grid Component (Spec §5.3, Measured 336px width, 22px gap, 14px radius)
+   Hero Home Section
+   ========================================================================== */
+.hero-home-section {
+	background: linear-gradient(rgba(18, 18, 22, 0.62), rgba(18, 18, 22, 0.82)), #222228;
+	background-size: cover;
+	background-position: center;
+	min-height: 560px;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+
+.hero-eyebrow-pill {
+	background: rgba(255, 255, 255, 0.18);
+	color: #ffffff;
+	padding: 6px 16px;
+	border-radius: 30px;
+	font-family: var(--wp--preset--font-family--heading, Montserrat, sans-serif);
+	font-size: 11.5px;
+	font-weight: 700;
+	letter-spacing: 1.2px;
+	text-transform: uppercase;
+	backdrop-filter: blur(6px);
+}
+
+.hero-headline {
+	text-shadow: 0 3px 12px rgba(0, 0, 0, 0.5);
+	color: #ffffff !important;
+}
+
+.hero-subhead {
+	color: #f0ece1 !important;
+	text-shadow: 0 2px 8px rgba(0, 0, 0, 0.4);
+}
+
+/* ==========================================================================
+   Featured Tour Cards & Grid (Spec §5.3, desktop.json)
    ========================================================================== */
 .tour-grid {
 	display: grid;
-	grid-template-columns: repeat(3, minmax(0, 1fr));
 	gap: 22px;
-	margin: 24px 0 40px;
+	width: 100%;
+}
+
+.tour-grid.cols-3 {
+	grid-template-columns: repeat(3, minmax(0, 1fr));
 }
 
 @media (max-width: 1024px) {
-	.tour-grid {
+	.tour-grid.cols-3 {
 		grid-template-columns: repeat(2, minmax(0, 1fr));
 	}
 }
 
-@media (max-width: 600px) {
-	.tour-grid {
+@media (max-width: 680px) {
+	.tour-grid.cols-3 {
 		grid-template-columns: 1fr;
 	}
 }
 
 .tour-card {
-	background-color: #ffffff;
+	background-color: var(--wp--preset--color--surface, #ffffff);
 	border-radius: 14px;
 	overflow: hidden;
-	box-shadow: 0 4px 20px rgba(0, 0, 0, 0.06);
-	border: 1px solid rgba(0, 0, 0, 0.06);
+	box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+	border: 1px solid #e8e5e0;
 	display: flex;
 	flex-direction: column;
 	transition: transform 0.2s ease, box-shadow 0.2s ease;
@@ -91,165 +124,180 @@
 
 .tour-card:hover {
 	transform: translateY(-4px);
-	box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+	box-shadow: 0 10px 28px rgba(0, 0, 0, 0.09);
 }
 
 .tour-card__media {
 	position: relative;
 	width: 100%;
 	height: 220px;
-	overflow: hidden;
 	background-color: var(--wp--preset--color--surface-header-footer, #e4e0da);
+	overflow: hidden;
 }
 
-.tour-card__image {
+.tour-card__img {
 	width: 100%;
 	height: 100%;
 	object-fit: cover;
 	display: block;
+	transition: transform 0.3s ease;
+}
+
+.tour-card:hover .tour-card__img {
+	transform: scale(1.03);
 }
 
 .tour-card__badge {
 	position: absolute;
 	top: 12px;
 	left: 12px;
-	background-color: #e05a47;
+	background-color: #ff6602;
+	color: #ffffff;
+	padding: 4px 10px;
+	border-radius: 4px;
+	font-family: var(--wp--preset--font-family--heading, Montserrat, sans-serif);
+	font-size: 11px;
+	font-weight: 700;
+	letter-spacing: 0.5px;
+	text-transform: uppercase;
+}
+
+.tour-card__duration {
+	position: absolute;
+	top: 12px;
+	right: 12px;
+	background-color: rgba(30, 30, 35, 0.85);
 	color: #ffffff;
 	padding: 4px 10px;
 	border-radius: 20px;
 	font-size: 11px;
 	font-weight: 700;
-	text-transform: uppercase;
-	letter-spacing: 0.5px;
-}
-
-.tour-card__duration {
-	position: absolute;
-	bottom: 12px;
-	right: 12px;
-	background-color: rgba(30, 30, 35, 0.85);
-	color: #ffffff;
-	padding: 4px 10px;
-	border-radius: 6px;
-	font-size: 12px;
-	font-weight: 600;
 }
 
 .tour-card__body {
-	padding: 20px;
+	padding: 22px;
 	display: flex;
 	flex-direction: column;
 	flex-grow: 1;
+}
+
+.tour-card__chips {
+	display: flex;
+	gap: 6px;
+	margin-bottom: 12px;
+	flex-wrap: wrap;
+}
+
+.lt-pill {
+	font-family: Montserrat, -apple-system, sans-serif;
+	font-size: 10.5px;
+	font-weight: 700;
+	line-height: 16px;
+	letter-spacing: 0.6px;
+	text-transform: uppercase;
+	background: #f4f0e8;
+	color: #555555;
+	padding: 2px 8px;
+	border-radius: 4px;
+}
+
+.tour-card__title {
+	font-family: var(--wp--preset--font-family--heading, Montserrat, sans-serif);
+	font-size: 18px;
+	font-weight: 700;
+	line-height: 1.35;
+	margin: 0 0 10px;
+}
+
+.tour-card__title a {
+	color: var(--wp--preset--color--primary, #1e1e24);
+	text-decoration: none;
+	transition: color 0.15s ease;
+}
+
+.tour-card__title a:hover {
+	color: #ff6602;
 }
 
 .tour-card__rating {
 	display: flex;
 	align-items: center;
 	gap: 6px;
-	font-size: 13px;
-	margin-bottom: 8px;
+	margin-bottom: 16px;
 }
 
 .tour-card__stars {
 	color: #f5a623;
+	font-size: 14px;
+	letter-spacing: 1px;
 }
 
-.tour-card__score {
-	font-weight: 700;
-	color: var(--wp--preset--color--text-dark, #222222);
+.tour-card__rating-text {
+	font-size: 12.5px;
+	font-weight: 600;
+	color: #666666;
 }
 
-.tour-card__count {
-	color: var(--wp--preset--color--text-body, #666666);
-}
-
-.tour-card__title {
-	font-family: var(--wp--preset--font-family--heading);
-	font-size: 18px;
-	line-height: 1.35;
-	font-weight: 700;
-	margin: 0 0 14px;
-}
-
-.tour-card__title a {
-	color: var(--wp--preset--color--primary, #1e1e24);
-	text-decoration: none;
-}
-
-.tour-card__title a:hover {
-	color: #e05a47;
-}
-
-.tour-card__prices {
-	margin-top: auto;
-	margin-bottom: 16px;
-	background-color: #f9f8f6;
+.lt-price-rows {
+	background: #faf8f5;
 	border-radius: 8px;
-	padding: 10px 14px;
+	padding: 10px 12px;
+	margin-bottom: 18px;
+	display: flex;
+	flex-direction: column;
+	gap: 6px;
 }
 
-.tour-card__price-row {
+.lt-price-row {
 	display: flex;
 	justify-content: space-between;
 	align-items: center;
-	font-size: 13px;
-	padding: 4px 0;
 }
 
-.tour-card__price-row:not(:last-child) {
-	border-bottom: 1px dashed #e4e0da;
+.lt-price-row.is-featured-tier {
+	background: #fff0e8;
+	padding: 4px 8px;
+	border-radius: 6px;
 }
 
-.tour-card__price-label {
-	color: var(--wp--preset--color--text-body, #555555);
+.lt-price-row__label {
+	font-size: 12.5px;
+	font-weight: 500;
+	color: #555555;
 }
 
-.tour-card__price-value {
+.lt-price-row__value {
+	font-size: 13.5px;
 	font-weight: 700;
 	color: var(--wp--preset--color--primary, #1e1e24);
+}
+
+.lt-price-row__usd {
+	font-size: 11px;
+	font-weight: 500;
+	color: #888888;
+	margin-left: 4px;
 }
 
 .tour-card__actions {
+	margin-top: auto;
+	padding-top: 14px;
+	border-top: 1px solid #f0ece1;
 	display: flex;
 	align-items: center;
 	justify-content: space-between;
-	gap: 12px;
 }
 
 .tour-card__details-link {
-	font-size: 14px;
-	font-weight: 600;
+	font-size: 13.5px;
+	font-weight: 700;
 	color: var(--wp--preset--color--primary, #1e1e24);
 	text-decoration: none;
-	display: inline-flex;
-	align-items: center;
+	transition: color 0.15s ease;
 }
 
 .tour-card__details-link:hover {
-	color: #e05a47;
-}
-
-/* ==========================================================================
-   Hero Home Section
-   ========================================================================== */
-.hero-home-section {
-	background: linear-gradient(rgba(20, 20, 25, 0.55), rgba(20, 20, 25, 0.75)), #2c2c34;
-	background-size: cover;
-	background-position: center;
-	min-height: 520px;
-	display: flex;
-	align-items: center;
-	justify-content: center;
-}
-
-.hero-headline {
-	text-shadow: 0 2px 10px rgba(0, 0, 0, 0.4);
-}
-
-.hero-subhead {
-	max-width: 680px;
-	margin-left: auto;
-	margin-right: auto;
+	color: #ff6602;
 }
 
 /* ==========================================================================
@@ -327,6 +375,24 @@
 	box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
 }
 
+.lt-destinations__grid {
+	display: grid;
+	grid-template-columns: repeat(4, minmax(0, 1fr));
+	gap: 20px;
+}
+
+@media (max-width: 1024px) {
+	.lt-destinations__grid {
+		grid-template-columns: repeat(2, minmax(0, 1fr));
+	}
+}
+
+@media (max-width: 600px) {
+	.lt-destinations__grid {
+		grid-template-columns: 1fr;
+	}
+}
+
 .destination-card {
 	background: #ffffff;
 	border-radius: 12px;
@@ -387,6 +453,24 @@
 /* ==========================================================================
    Why Choose Us & Dark Stats Bar
    ========================================================================== */
+.features-grid {
+	display: grid;
+	grid-template-columns: repeat(3, minmax(0, 1fr));
+	gap: 22px;
+}
+
+@media (max-width: 900px) {
+	.features-grid {
+		grid-template-columns: repeat(2, minmax(0, 1fr));
+	}
+}
+
+@media (max-width: 600px) {
+	.features-grid {
+		grid-template-columns: 1fr;
+	}
+}
+
 .feature-card {
 	background: #ffffff;
 	padding: 24px;
@@ -444,8 +528,289 @@
 }
 
 /* ==========================================================================
+   Interactive Home Booking Form (Spec §8)
+   ========================================================================== */
+.lt-booking-form-container {
+	background: #ffffff;
+	border-radius: 16px;
+	padding: 36px;
+	box-shadow: 0 10px 35px rgba(0, 0, 0, 0.06);
+	border: 1px solid #e5e5e5;
+}
+
+@media (max-width: 600px) {
+	.lt-booking-form-container {
+		padding: 20px;
+	}
+}
+
+.lt-form-grid {
+	display: grid;
+	grid-template-columns: 1fr 1fr;
+	gap: 20px;
+}
+
+@media (max-width: 768px) {
+	.lt-form-grid {
+		grid-template-columns: 1fr;
+	}
+}
+
+.lt-form-group.full-width {
+	grid-column: 1 / -1;
+}
+
+.lt-form-label {
+	display: block;
+	font-family: var(--wp--preset--font-family--heading);
+	font-weight: 700;
+	font-size: 14px;
+	margin-bottom: 8px;
+	color: var(--wp--preset--color--primary, #1e1e24);
+}
+
+.lt-form-input,
+.lt-form-select {
+	width: 100%;
+	padding: 12px 14px;
+	border: 1px solid #d5d5d5;
+	border-radius: 8px;
+	font-size: 15px;
+	background: #ffffff;
+	color: #222222;
+	font-family: inherit;
+}
+
+.lt-vehicle-options {
+	display: grid;
+	grid-template-columns: repeat(3, minmax(0, 1fr));
+	gap: 14px;
+}
+
+@media (max-width: 768px) {
+	.lt-vehicle-options {
+		grid-template-columns: 1fr;
+	}
+}
+
+.lt-vehicle-radio-card {
+	border: 1px solid #e0dcd5;
+	border-radius: 10px;
+	padding: 14px;
+	display: flex;
+	gap: 10px;
+	cursor: pointer;
+	transition: all 0.2s ease;
+	background: #fdfbf7;
+}
+
+.lt-vehicle-radio-card:hover,
+.lt-vehicle-radio-card.is-selected {
+	border-color: #ff6602;
+	background: #fff6f2;
+}
+
+.lt-radio-body strong {
+	display: block;
+	font-size: 14px;
+	color: var(--wp--preset--color--primary, #1e1e24);
+	margin-bottom: 4px;
+}
+
+.lt-radio-body span {
+	display: block;
+	font-size: 12px;
+	color: #666666;
+	line-height: 1.4;
+	margin-bottom: 6px;
+}
+
+.lt-card-price {
+	font-size: 13px;
+	font-weight: 700;
+	color: #e05a47;
+}
+
+.lt-stepper {
+	display: flex;
+	align-items: center;
+	max-width: 160px;
+}
+
+.lt-stepper-btn {
+	background: #f0ece1;
+	border: 1px solid #ccc;
+	width: 40px;
+	height: 44px;
+	font-size: 18px;
+	font-weight: 700;
+	cursor: pointer;
+	border-radius: 6px;
+}
+
+.lt-stepper-input {
+	width: 60px;
+	height: 44px;
+	text-align: center;
+	border: 1px solid #ccc;
+	margin: 0 4px;
+	font-size: 16px;
+	font-weight: 700;
+	border-radius: 6px;
+}
+
+.lt-live-summary-card {
+	margin-top: 30px;
+	background: #f7f5f0;
+	border: 1px solid #e0dcd5;
+	border-radius: 12px;
+	padding: 24px;
+}
+
+.lt-summary-title {
+	font-family: var(--wp--preset--font-family--heading);
+	font-size: 18px;
+	font-weight: 800;
+	margin: 0 0 16px;
+	border-bottom: 1px solid #e5e0d5;
+	padding-bottom: 10px;
+}
+
+.lt-summary-row {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	margin-bottom: 10px;
+	font-size: 14.5px;
+}
+
+.lt-total-row {
+	border-top: 1px dashed #ccc;
+	padding-top: 12px;
+	margin-top: 12px;
+	font-size: 17px;
+	font-weight: 700;
+}
+
+.lt-deposit-row {
+	font-size: 16px;
+	font-weight: 800;
+}
+
+.lt-summary-actions {
+	margin-top: 20px;
+}
+
+/* ==========================================================================
+   Blog Teaser Grid
+   ========================================================================== */
+.blog-teaser-grid {
+	display: grid;
+	grid-template-columns: repeat(3, minmax(0, 1fr));
+	gap: 24px;
+}
+
+@media (max-width: 900px) {
+	.blog-teaser-grid {
+		grid-template-columns: 1fr;
+	}
+}
+
+.blog-card {
+	background: #ffffff;
+	border-radius: 12px;
+	overflow: hidden;
+	box-shadow: 0 4px 16px rgba(0, 0, 0, 0.04);
+	border: 1px solid #eeeeee;
+	display: flex;
+	flex-direction: column;
+}
+
+.blog-card__media {
+	position: relative;
+	height: 190px;
+	background: #e4e0da;
+}
+
+.blog-card__media img {
+	width: 100%;
+	height: 100%;
+	object-fit: cover;
+	display: block;
+}
+
+.blog-card__badge {
+	position: absolute;
+	top: 10px;
+	left: 10px;
+	background: #ff6602;
+	color: #ffffff;
+	padding: 3px 8px;
+	border-radius: 4px;
+	font-size: 11px;
+	font-weight: 700;
+}
+
+.blog-card__body {
+	padding: 20px;
+	display: flex;
+	flex-direction: column;
+	flex-grow: 1;
+}
+
+.blog-card__meta {
+	font-size: 12px;
+	color: #888888;
+	margin-bottom: 8px;
+}
+
+.blog-card__title {
+	font-family: var(--wp--preset--font-family--heading);
+	font-size: 16.5px;
+	font-weight: 700;
+	line-height: 1.35;
+	margin: 0 0 10px;
+}
+
+.blog-card__title a {
+	color: var(--wp--preset--color--primary, #1e1e24);
+	text-decoration: none;
+}
+
+.blog-card__title a:hover {
+	color: #ff6602;
+}
+
+.blog-card__excerpt {
+	font-size: 13.5px;
+	line-height: 1.55;
+	color: #666666;
+	margin: 0 0 16px;
+	flex-grow: 1;
+}
+
+.blog-card__link {
+	font-size: 13px;
+	font-weight: 700;
+	color: #ff6602;
+	text-decoration: none;
+}
+
+/* ==========================================================================
    Testimonials / Reviews
    ========================================================================== */
+.reviews-grid {
+	display: grid;
+	grid-template-columns: repeat(3, minmax(0, 1fr));
+	gap: 22px;
+}
+
+@media (max-width: 900px) {
+	.reviews-grid {
+		grid-template-columns: 1fr;
+	}
+}
+
 .review-card {
 	background: #ffffff;
 	padding: 28px;
@@ -551,7 +916,7 @@
 	content: '+';
 	font-size: 20px;
 	font-weight: 400;
-	color: #e05a47;
+	color: #ff6602;
 	transition: transform 0.2s ease;
 }
 
@@ -571,291 +936,3 @@
 .faq-answer p {
 	margin: 0;
 }
-
-/* ==========================================================================
-   Tour Detail Template Styling (Spec §5.4, 02-tour-detail.md)
-   ========================================================================== */
-.tour-detail-hero {
-	border-bottom: 1px solid rgba(0, 0, 0, 0.08);
-}
-
-.tour-detail-badge {
-	background: rgba(255, 255, 255, 0.15);
-	color: #ffffff;
-	padding: 6px 14px;
-	border-radius: 20px;
-	font-size: 13px;
-	font-weight: 600;
-	backdrop-filter: blur(4px);
-}
-
-.itinerary-timeline {
-	border-left: 2px solid var(--wp--preset--color--primary, #1e1e24);
-	margin-left: 12px;
-	padding-left: 24px;
-	display: flex;
-	flex-direction: column;
-	gap: 28px;
-}
-
-.itinerary-day {
-	position: relative;
-}
-
-.itinerary-day::before {
-	content: '';
-	position: absolute;
-	left: -31px;
-	top: 4px;
-	width: 12px;
-	height: 12px;
-	border-radius: 50%;
-	background: #e05a47;
-	border: 2px solid #ffffff;
-}
-
-.itinerary-day__header {
-	display: flex;
-	align-items: baseline;
-	gap: 10px;
-	margin-bottom: 8px;
-	flex-wrap: wrap;
-}
-
-.itinerary-day__number {
-	font-family: var(--wp--preset--font-family--heading);
-	font-weight: 800;
-	font-size: 14px;
-	color: #e05a47;
-	text-transform: uppercase;
-}
-
-.itinerary-day__title {
-	font-family: var(--wp--preset--font-family--heading);
-	font-size: 18px;
-	font-weight: 700;
-	margin: 0;
-	color: var(--wp--preset--color--primary, #1e1e24);
-}
-
-.itinerary-day__desc {
-	font-size: 15px;
-	line-height: 1.65;
-	color: var(--wp--preset--color--text-body, #555555);
-	margin: 0;
-}
-
-.inclusions-grid {
-	display: grid;
-	grid-template-columns: 1fr 1fr;
-	gap: 20px;
-	background: #fdfbf7;
-	padding: 24px;
-	border-radius: 12px;
-	border: 1px solid #eee8dc;
-}
-
-@media (max-width: 768px) {
-	.inclusions-grid {
-		grid-template-columns: 1fr;
-	}
-}
-
-.inclusions-title {
-	font-size: 16px;
-	font-weight: 700;
-	margin: 0 0 12px;
-	color: #10b981;
-}
-
-.inclusions-col:last-child .inclusions-title {
-	color: #ef4444;
-}
-
-.inclusions-list {
-	list-style: none;
-	padding: 0;
-	margin: 0;
-	display: flex;
-	flex-direction: column;
-	gap: 8px;
-	font-size: 14px;
-	line-height: 1.5;
-	color: #444444;
-}
-
-.tour-booking-sidebar-card {
-	background: #ffffff;
-	border: 1px solid #e0dcd5;
-	border-radius: 16px;
-	padding: 28px;
-	box-shadow: 0 8px 30px rgba(0, 0, 0, 0.08);
-	position: sticky;
-	top: 100px;
-}
-
-.booking-card-title {
-	font-family: var(--wp--preset--font-family--heading);
-	font-size: 20px;
-	font-weight: 800;
-	margin: 0 0 18px;
-	color: var(--wp--preset--color--primary, #1e1e24);
-	border-bottom: 1px solid #f0ece1;
-	padding-bottom: 12px;
-}
-
-.booking-price-tier {
-	padding: 12px 14px;
-	border: 1px solid #e5e5e5;
-	border-radius: 10px;
-	margin-bottom: 10px;
-	display: flex;
-	justify-content: space-between;
-	align-items: center;
-	font-size: 13px;
-}
-
-.booking-price-tier.is-highlighted {
-	border-color: #ff6602;
-	background: #fff8f5;
-}
-
-.booking-price-label {
-	font-weight: 600;
-	color: #333333;
-}
-
-.booking-price-value {
-	font-weight: 800;
-	font-size: 16px;
-	color: var(--wp--preset--color--primary, #1e1e24);
-}
-
-.booking-price-value small {
-	font-size: 11px;
-	font-weight: 400;
-	color: #777777;
-}
-
-.booking-guarantee-note {
-	font-size: 12px;
-	color: #666666;
-	text-align: center;
-	margin: 12px 0 0;
-}
-
-/* ==========================================================================
-   Motorbike Rental Fleet Grid (03-secondary-pages.md § Motorbike Rental)
-   ========================================================================== */
-.rental-bikes-grid {
-	display: grid;
-	grid-template-columns: repeat(4, minmax(0, 1fr));
-	gap: 20px;
-}
-
-@media (max-width: 1024px) {
-	.rental-bikes-grid {
-		grid-template-columns: repeat(2, minmax(0, 1fr));
-	}
-}
-
-@media (max-width: 600px) {
-	.rental-bikes-grid {
-		grid-template-columns: 1fr;
-	}
-}
-
-.bike-card {
-	background: #ffffff;
-	border: 1px solid #e5e7eb;
-	border-radius: 12px;
-	overflow: hidden;
-	box-shadow: 0 4px 15px rgba(0, 0, 0, 0.04);
-	display: flex;
-	flex-direction: column;
-	transition: transform 0.2s ease, border-color 0.2s ease;
-}
-
-.bike-card:hover {
-	transform: translateY(-3px);
-	border-color: #ff6602;
-}
-
-.bike-card.is-popular {
-	border: 2px solid #ff6602;
-	box-shadow: 0 0 0 3px rgba(255, 102, 2, 0.12);
-}
-
-.bike-card__media {
-	position: relative;
-	height: 180px;
-	background: #f4f2ee;
-}
-
-.bike-card__media img {
-	width: 100%;
-	height: 100%;
-	object-fit: cover;
-	display: block;
-}
-
-.bike-card__type {
-	position: absolute;
-	top: 10px;
-	left: 10px;
-	background: rgba(30, 30, 35, 0.85);
-	color: #ffffff;
-	padding: 3px 8px;
-	border-radius: 4px;
-	font-size: 11px;
-	font-weight: 700;
-}
-
-.bike-card__body {
-	padding: 20px;
-	display: flex;
-	flex-direction: column;
-	flex-grow: 1;
-}
-
-.bike-card__title {
-	font-family: var(--wp--preset--font-family--heading);
-	font-size: 17px;
-	font-weight: 700;
-	margin: 0 0 8px;
-	color: var(--wp--preset--color--primary, #1e1e24);
-}
-
-.bike-card__spec {
-	font-size: 13px;
-	line-height: 1.5;
-	color: var(--wp--preset--color--text-body, #666666);
-	margin: 0 0 16px;
-	flex-grow: 1;
-}
-
-.bike-card__rate {
-	border-top: 1px solid #f0f0f0;
-	padding-top: 12px;
-	display: flex;
-	justify-content: space-between;
-	align-items: baseline;
-}
-
-.bike-rate-val {
-	font-size: 20px;
-	font-weight: 800;
-	color: #e05a47;
-}
-
-.bike-rate-val small {
-	font-size: 12px;
-	font-weight: 400;
-	color: #666666;
-}
-
-
-
-
-
-

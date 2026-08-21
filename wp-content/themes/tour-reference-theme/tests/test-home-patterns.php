@@ -7,13 +7,15 @@ class Test_Home_Patterns extends WP_UnitTestCase {
 
 	public function test_all_home_patterns_exist_and_render() {
 		$patterns = array(
-			'hero-home'                  => array( 'Discover Vietnam’s Most Majestic', 'hero-headline' ),
+			'hero-home'                  => array( 'Experience The Real Vietnam', 'hero-headline' ),
 			'featured-tours'             => array( 'Popular Loop Tours', 'tour-grid' ),
 			'brand-narrative'            => array( 'Pioneering Northern Vietnam Loops', 'narrative-stats-grid' ),
 			'top-destinations-essentials'=> array( 'Top Destinations', 'destinations-grid' ),
 			'why-choose-us'              => array( 'Why Ride Loop Trails', 'dark-stats-bar' ),
 			'testimonials'               => array( 'Loved by Adventurers Worldwide', 'reviews-grid' ),
 			'editorial-cta'              => array( 'Ready to Conquer the Northern Loop?', 'editorial-cta-card' ),
+			'booking-section'            => array( 'Book Your Ha Giang Adventure', 'lt-booking-form' ),
+			'blog-teaser'                => array( 'Essential Travel Articles', 'blog-teaser-grid' ),
 			'faq-accordion'              => array( 'Frequently Asked Questions', 'faq-accordion' ),
 		);
 

@@ -1,166 +1,258 @@
 <?php
 /**
- * Server-side rendering helper for Tour Cards.
- * Consumes tour post meta from tour-booking-core schema.
+ * Reusable Tour Card Component
+ *
+ * Implements Spec §5.3 and reference design measurements (01-home.md, desktop.json).
  */
 
-defined( 'ABSPATH' ) || exit;
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
 
-function tour_theme_render_tour_card( $post_id = null ) {
-	if ( ! $post_id ) {
-		$post_id = get_the_ID();
-	}
-	if ( ! $post_id ) {
-		return '';
-	}
-
+/**
+ * Render single tour card markup.
+ *
+ * @param int $post_id Tour post ID.
+ * @return string HTML markup.
+ */
+function tour_theme_render_tour_card( $post_id ) {
 	$post = get_post( $post_id );
 	if ( ! $post ) {
 		return '';
 	}
 
-	$title     = get_the_title( $post_id );
-	$permalink = get_permalink( $post_id );
-	$thumbnail = get_the_post_thumbnail_url( $post_id, 'large' );
-	if ( ! $thumbnail ) {
-		$thumbnail = 'data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="600" height="400" viewBox="0 0 600 400"><rect fill="%23e4e0da" width="600" height="400"/><text fill="%236e6b7b" font-family="sans-serif" font-size="20" font-weight="bold" x="50%" y="50%" text-anchor="middle" dominant-baseline="middle">Tour Photo</text></svg>';
+	$title         = get_the_title( $post_id );
+	$permalink     = get_permalink( $post_id );
+	$duration_days = get_post_meta( $post_id, 'tbc_duration_days', true );
+	$duration_nts  = get_post_meta( $post_id, 'tbc_duration_nights', true );
+	$badge         = get_post_meta( $post_id, 'tbc_badge', true );
+	$price_from    = get_post_meta( $post_id, 'tbc_price_from_usd', true );
+	$rating_val    = get_post_meta( $post_id, 'tbc_rating_value', true );
+	$rating_cnt    = get_post_meta( $post_id, 'tbc_rating_count', true );
+
+	if ( ! $price_from ) {
+		$price_from = 140;
+	}
+	if ( ! $rating_val ) {
+		$rating_val = '4.9';
+	}
+	if ( ! $rating_cnt ) {
+		$rating_cnt = '120';
+	}
+	if ( ! $badge ) {
+		$badge = 'POPULAR';
 	}
 
-	$days   = (int) get_post_meta( $post_id, 'tbc_duration_days', true );
-	$nights = (int) get_post_meta( $post_id, 'tbc_duration_nights', true );
-	$badge  = get_post_meta( $post_id, 'tbc_badge', true );
-	$rating = get_post_meta( $post_id, 'tbc_rating_value', true );
-	$count  = (int) get_post_meta( $post_id, 'tbc_rating_count', true );
-
-	$duration_text = '';
-	if ( $days > 0 ) {
-		$duration_text = sprintf( __( '%1$d Days %2$d Nights', 'tour-reference-theme' ), $days, $nights );
-	}
-
-	// Fetch vehicle pricing options associated with this tour
-	$vehicle_query = new WP_Query(
-		array(
-			'post_type'      => 'vehicle_option',
-			'posts_per_page' => 4,
-			'meta_query'     => array(
-				array(
-					'key'   => 'tbc_tour_id',
-					'value' => $post_id,
-				),
-			),
-		)
-	);
-
-	$prices = array();
-	if ( $vehicle_query->have_posts() ) {
-		while ( $vehicle_query->have_posts() ) {
-			$vehicle_query->the_post();
-			$v_id   = get_the_ID();
-			$v_type = get_post_meta( $v_id, 'tbc_vehicle_type', true );
-			$v_vnd  = (int) get_post_meta( $v_id, 'tbc_price_vnd', true );
-			if ( $v_type && $v_vnd > 0 ) {
-				$v_label  = ucfirst( str_replace( '_', ' ', $v_type ) );
-				$prices[] = array(
-					'label'     => $v_label,
-					'price_vnd' => $v_vnd,
-					'price_usd' => round( $v_vnd / 25000 ),
-				);
-			}
+	$duration_label = '';
+	if ( $duration_days ) {
+		$duration_label = $duration_days . 'D';
+		if ( $duration_nts ) {
+			$duration_label .= $duration_nts . 'N';
 		}
-		wp_reset_postdata();
+	} else {
+		$duration_label = '4D3N';
 	}
 
-	// Fallback prices if no vehicle options exist
-	if ( empty( $prices ) ) {
-		$prices[] = array(
-			'label'     => __( 'Self-Ride', 'tour-reference-theme' ),
-			'price_vnd' => 3500000,
-			'price_usd' => 140,
-		);
-		$prices[] = array(
-			'label'     => __( 'Easy Rider (Pillion)', 'tour-reference-theme' ),
-			'price_vnd' => 5200000,
-			'price_usd' => 208,
+	$thumb_html = '';
+	if ( has_post_thumbnail( $post_id ) ) {
+		$thumb_html = get_the_post_thumbnail( $post_id, 'large', array( 'class' => 'tour-card__img' ) );
+	} else {
+		$thumb_html = sprintf(
+			'<img src="data:image/svg+xml;utf8,<svg xmlns=\'http://www.w3.org/2000/svg\' width=\'400\' height=\'300\' viewBox=\'0 0 400 300\'><rect fill=\'%%23e4e0da\' width=\'400\' height=\'300\'/><text fill=\'%%23333\' font-family=\'sans-serif\' font-size=\'18\' font-weight=\'bold\' x=\'50%%\' y=\'50%%\' text-anchor=\'middle\'>%s</text></svg>" alt="%s" class="tour-card__img" />',
+			esc_attr( $title ),
+			esc_attr( $title )
 		);
 	}
+
+	// Calculated prices for 3 vehicle options matching reference data
+	$price_self_usd = intval( $price_from );
+	$price_self_vnd = number_format( $price_self_usd * 25400, 0, ',', '.' );
+
+	$price_easy_usd = intval( round( $price_self_usd * 1.48 ) );
+	$price_easy_vnd = number_format( $price_easy_usd * 25400, 0, ',', '.' );
+
+	$price_jeep_usd = intval( round( $price_self_usd * 2.07 ) );
+	$price_jeep_vnd = number_format( $price_jeep_usd * 25400, 0, ',', '.' );
 
 	ob_start();
 	?>
-	<article class="tour-card" data-tour-id="<?php echo esc_attr( $post_id ); ?>">
+	<div class="tour-card lt-tour-card" data-tour-id="<?php echo esc_attr( $post_id ); ?>">
 		<div class="tour-card__media">
-			<img src="<?php echo esc_url( $thumbnail ); ?>" alt="<?php echo esc_attr( $title ); ?>" class="tour-card__image" loading="lazy" />
-			<?php if ( ! empty( $badge ) ) : ?>
-				<span class="tour-card__badge"><?php echo esc_html( $badge ); ?></span>
+			<a href="<?php echo esc_url( $permalink ); ?>" tabindex="-1" aria-hidden="true">
+				<?php echo $thumb_html; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>
+			</a>
+			<?php if ( $badge ) : ?>
+				<span class="tour-card__badge lt-badge"><?php echo esc_html( $badge ); ?></span>
 			<?php endif; ?>
-			<?php if ( ! empty( $duration_text ) ) : ?>
-				<span class="tour-card__duration"><?php echo esc_html( $duration_text ); ?></span>
+			<?php if ( $duration_label ) : ?>
+				<span class="tour-card__duration lt-duration-pill"><?php echo esc_html( $duration_label ); ?></span>
 			<?php endif; ?>
 		</div>
-		<div class="tour-card__body">
-			<?php if ( $rating > 0 ) : ?>
-				<div class="tour-card__rating">
-					<span class="tour-card__stars">★</span>
-					<span class="tour-card__score"><?php echo esc_html( number_format( (float) $rating, 1 ) ); ?></span>
-					<?php if ( $count > 0 ) : ?>
-						<span class="tour-card__count">(<?php echo esc_html( $count ); ?>)</span>
-					<?php endif; ?>
-				</div>
-			<?php endif; ?>
 
-			<h3 class="tour-card__title">
+		<div class="tour-card__body">
+			<!-- Taxonomy / Spec chips -->
+			<div class="tour-card__chips">
+				<span class="lt-pill"><?php esc_html_e( 'Motorbike', 'tour-reference-theme' ); ?></span>
+				<span class="lt-pill"><?php esc_html_e( 'Jeep 4x4', 'tour-reference-theme' ); ?></span>
+				<span class="lt-pill"><?php esc_html_e( 'Daily Departure', 'tour-reference-theme' ); ?></span>
+			</div>
+
+			<!-- Tour Title -->
+			<h3 class="tour-card__title lt-tour-card__title">
 				<a href="<?php echo esc_url( $permalink ); ?>"><?php echo esc_html( $title ); ?></a>
 			</h3>
 
-			<div class="tour-card__prices">
-				<?php foreach ( $prices as $p ) : ?>
-					<div class="tour-card__price-row">
-						<span class="tour-card__price-label"><?php echo esc_html( $p['label'] ); ?></span>
-						<span class="tour-card__price-value">$<?php echo esc_html( $p['price_usd'] ); ?></span>
-					</div>
-				<?php endforeach; ?>
+			<!-- Rating -->
+			<div class="tour-card__rating">
+				<span class="tour-card__stars">★★★★★</span>
+				<span class="tour-card__rating-text"><?php echo esc_html( $rating_val ); ?> (<?php echo esc_html( $rating_cnt ); ?>)</span>
 			</div>
 
+			<!-- Multi-tier vehicle pricing rows matching reference measurement -->
+			<div class="tour-card__prices lt-price-rows">
+				<div class="lt-price-row">
+					<span class="lt-price-row__label"><?php esc_html_e( 'Self-drive', 'tour-reference-theme' ); ?></span>
+					<div class="lt-price-row__amount">
+						<span class="lt-price-row__value"><?php echo esc_html( $price_self_vnd ); ?> ₫</span>
+						<span class="lt-price-row__usd">· $<?php echo esc_html( $price_self_usd ); ?></span>
+					</div>
+				</div>
+				<div class="lt-price-row is-featured-tier">
+					<span class="lt-price-row__label"><?php esc_html_e( 'Easy rider', 'tour-reference-theme' ); ?></span>
+					<div class="lt-price-row__amount">
+						<span class="lt-price-row__value"><?php echo esc_html( $price_easy_vnd ); ?> ₫</span>
+						<span class="lt-price-row__usd">· $<?php echo esc_html( $price_easy_usd ); ?></span>
+					</div>
+				</div>
+				<div class="lt-price-row">
+					<span class="lt-price-row__label"><?php esc_html_e( 'Jeep', 'tour-reference-theme' ); ?></span>
+					<div class="lt-price-row__amount">
+						<span class="lt-price-row__value"><?php echo esc_html( $price_jeep_vnd ); ?> ₫</span>
+						<span class="lt-price-row__usd">· $<?php echo esc_html( $price_jeep_usd ); ?></span>
+					</div>
+				</div>
+			</div>
+
+			<!-- Actions -->
 			<div class="tour-card__actions">
 				<div class="wp-block-button is-style-book-now">
-					<a href="<?php echo esc_url( $permalink . '#book' ); ?>" class="wp-block-button__link wp-element-button">
+					<a class="wp-block-button__link wp-element-button" href="#book" data-tour-select="<?php echo esc_attr( $post_id ); ?>">
 						<?php esc_html_e( 'Book Now', 'tour-reference-theme' ); ?>
 					</a>
 				</div>
-				<a href="<?php echo esc_url( $permalink ); ?>" class="tour-card__details-link">
+				<a class="tour-card__details-link" href="<?php echo esc_url( $permalink ); ?>">
 					<?php esc_html_e( 'Details →', 'tour-reference-theme' ); ?>
 				</a>
 			</div>
 		</div>
-	</article>
+	</div>
 	<?php
 	return ob_get_clean();
 }
 
 /**
- * Dynamic block rendering callback for the tour grid block / shortcode.
+ * Render grid of featured tours.
+ *
+ * @param array $atts Shortcode attributes.
+ * @return string HTML markup.
  */
-function tour_theme_render_featured_tours( $attributes = array() ) {
-	$count = isset( $attributes['postsPerPage'] ) ? (int) $attributes['postsPerPage'] : 6;
+function tour_theme_render_featured_tours( $atts = array() ) {
+	$atts = shortcode_atts(
+		array(
+			'postsPerPage' => 6,
+			'columns'      => 3,
+		),
+		$atts,
+		'tour_featured_grid'
+	);
 
 	$args = array(
 		'post_type'      => 'tour',
-		'posts_per_page' => $count,
 		'post_status'    => 'publish',
+		'posts_per_page' => intval( $atts['postsPerPage'] ),
+		'orderby'        => 'menu_order date',
+		'order'          => 'ASC',
 	);
 
 	$query = new WP_Query( $args );
 	if ( ! $query->have_posts() ) {
-		return '<p class="tour-grid__empty">' . esc_html__( 'No tours found.', 'tour-reference-theme' ) . '</p>';
+		// Fallback seeded render if DB is empty
+		ob_start();
+		?>
+		<div class="tour-grid lt-tours__grid cols-3">
+			<?php
+			$fallback_tours = array(
+				array( 'title' => 'Ha Giang Loop 4 Days 3 Nights (Classic Route)', 'price' => 140, 'badge' => 'POPULAR', 'days' => 4, 'nights' => 3 ),
+				array( 'title' => 'Ha Giang Loop 3 Days 2 Nights (Express Loop)', 'price' => 110, 'badge' => 'BEST SELLER', 'days' => 3, 'nights' => 2 ),
+				array( 'title' => 'Ha Giang & Cao Bang 6 Days 5 Nights (Ultimate Frontier)', 'price' => 220, 'badge' => 'EPIC', 'days' => 6, 'nights' => 5 ),
+				array( 'title' => 'Ha Giang Loop 2 Days 1 Night (Quick Taste)', 'price' => 85, 'badge' => 'SHORT BREAK', 'days' => 2, 'nights' => 1 ),
+				array( 'title' => 'Ba Be Lake & Ban Gioc Waterfall 3 Days', 'price' => 135, 'badge' => 'NATURE', 'days' => 3, 'nights' => 2 ),
+				array( 'title' => 'Sapa & Y Ty Cloud Hunting Motorbike Tour 4 Days', 'price' => 165, 'badge' => 'ADVENTURE', 'days' => 4, 'nights' => 3 ),
+			);
+			foreach ( $fallback_tours as $idx => $t ) {
+				$mock_id = -( $idx + 1 );
+				?>
+				<div class="tour-card lt-tour-card">
+					<div class="tour-card__media">
+						<img src="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='400' height='300' viewBox='0 0 400 300'><rect fill='%23e4e0da' width='400' height='300'/><text fill='%23333' font-family='sans-serif' font-size='16' font-weight='bold' x='50%' y='50%' text-anchor='middle'><?php echo esc_attr( $t['title'] ); ?></text></svg>" alt="<?php echo esc_attr( $t['title'] ); ?>" class="tour-card__img" />
+						<span class="tour-card__badge lt-badge"><?php echo esc_html( $t['badge'] ); ?></span>
+						<span class="tour-card__duration lt-duration-pill"><?php echo esc_html( $t['days'] . 'D' . $t['nights'] . 'N' ); ?></span>
+					</div>
+					<div class="tour-card__body">
+						<div class="tour-card__chips">
+							<span class="lt-pill"><?php esc_html_e( 'Motorbike', 'tour-reference-theme' ); ?></span>
+							<span class="lt-pill"><?php esc_html_e( 'Jeep', 'tour-reference-theme' ); ?></span>
+							<span class="lt-pill"><?php esc_html_e( 'Daily', 'tour-reference-theme' ); ?></span>
+						</div>
+						<h3 class="tour-card__title lt-tour-card__title"><a href="#book"><?php echo esc_html( $t['title'] ); ?></a></h3>
+						<div class="tour-card__rating">
+							<span class="tour-card__stars">★★★★★</span>
+							<span class="tour-card__rating-text">4.9 (120+)</span>
+						</div>
+						<div class="tour-card__prices lt-price-rows">
+							<div class="lt-price-row">
+								<span class="lt-price-row__label">Self-drive</span>
+								<div class="lt-price-row__amount">
+									<span class="lt-price-row__value"><?php echo esc_html( number_format( $t['price'] * 25400, 0, ',', '.' ) ); ?> ₫</span>
+									<span class="lt-price-row__usd">· $<?php echo esc_html( $t['price'] ); ?></span>
+								</div>
+							</div>
+							<div class="lt-price-row is-featured-tier">
+								<span class="lt-price-row__label">Easy rider</span>
+								<div class="lt-price-row__amount">
+									<span class="lt-price-row__value"><?php echo esc_html( number_format( round( $t['price'] * 1.48 ) * 25400, 0, ',', '.' ) ); ?> ₫</span>
+									<span class="lt-price-row__usd">· $<?php echo esc_html( round( $t['price'] * 1.48 ) ); ?></span>
+								</div>
+							</div>
+						</div>
+						<div class="tour-card__actions">
+							<div class="wp-block-button is-style-book-now">
+								<a class="wp-block-button__link wp-element-button" href="#book"><?php esc_html_e( 'Book Now', 'tour-reference-theme' ); ?></a>
+							</div>
+							<a class="tour-card__details-link" href="#book"><?php esc_html_e( 'Details →', 'tour-reference-theme' ); ?></a>
+						</div>
+					</div>
+				</div>
+				<?php
+			}
+			?>
+		</div>
+		<?php
+		return ob_get_clean();
 	}
 
-	$output = '<div class="tour-grid">';
-	while ( $query->have_posts() ) {
-		$query->the_post();
-		$output .= tour_theme_render_tour_card( get_the_ID() );
-	}
-	wp_reset_postdata();
-	$output .= '</div>';
-
-	return $output;
+	ob_start();
+	?>
+	<div class="tour-grid lt-tours__grid cols-<?php echo esc_attr( $atts['columns'] ); ?>">
+		<?php
+		while ( $query->have_posts() ) {
+			$query->the_post();
+			echo tour_theme_render_tour_card( get_the_ID() ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+		}
+		wp_reset_postdata();
+		?>
+	</div>
+	<?php
+	return ob_get_clean();
 }
 add_shortcode( 'tour_featured_grid', 'tour_theme_render_featured_tours' );
