@@ -14,6 +14,14 @@ class Tbc_Tour_Editor {
 		add_action( 'add_meta_boxes', array( __CLASS__, 'register_meta_boxes' ) );
 		add_action( 'save_post_tour', array( __CLASS__, 'save' ), 10, 2 );
 		add_action( 'admin_enqueue_scripts', array( __CLASS__, 'enqueue_assets' ) );
+		add_filter( 'use_block_editor_for_post_type', array( __CLASS__, 'disable_block_editor_for_tour' ), 10, 2 );
+	}
+
+	public static function disable_block_editor_for_tour( $use_block_editor, $post_type ) {
+		if ( 'tour' === $post_type ) {
+			return false;
+		}
+		return $use_block_editor;
 	}
 
 	public static function enqueue_assets( $hook ) {

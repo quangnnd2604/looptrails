@@ -316,4 +316,10 @@ class Test_Tour_Editor extends WP_UnitTestCase {
 		) );
 		$this->assertEmpty( $days );
 	}
+
+	public function test_disable_block_editor_for_tour() {
+		$this->assertFalse( apply_filters( 'use_block_editor_for_post_type', true, 'tour' ) );
+		$this->assertTrue( apply_filters( 'use_block_editor_for_post_type', true, 'page' ) );
+		$this->assertTrue( apply_filters( 'use_block_editor_for_post_type', true, 'post' ) );
+	}
 }

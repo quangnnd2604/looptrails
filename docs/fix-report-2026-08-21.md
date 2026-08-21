@@ -422,5 +422,80 @@ OK (61 tests, 387 assertions)
 TỔNG CỘNG TOÀN DỰ ÁN: 103 / 103 tests passed (622 assertions) — 100% OK.
 ```
 
+---
+
+## 8. Vòng 5: Chuyển post type Tour sang Classic Editor để 6 Meta Box hiển thị trực quan
+
+### 8.1 Chẩn đoán & Biện pháp xử lý
+
+- **Vấn đề phát hiện:** Khi CPT `tour` sử dụng trình soạn thảo khối (Block Editor / Gutenberg), toàn bộ meta box (`tbc_itinerary_metabox`, `tbc_vehicles_metabox`, v.v.) bị WordPress tự động gom vào khung "Hộp Meta" ở cuối trang và đóng lại dưới dạng accordion thu gọn, khiến người dùng mở trang tạo tour mới cảm giác như không có ô nhập liệu.
+- **Biện pháp xử lý:** Bổ sung hook filter `use_block_editor_for_post_type` trong [`Tbc_Tour_Editor`](file:///c:/xampp/htdocs/looptrails/wp-content/plugins/tour-booking-core/includes/class-tour-editor.php) để trả về `false` riêng cho post type `tour`:
+  ```php
+  add_filter( 'use_block_editor_for_post_type', array( __CLASS__, 'disable_block_editor_for_tour' ), 10, 2 );
+
+  public static function disable_block_editor_for_tour( $use_block_editor, $post_type ) {
+      if ( 'tour' === $post_type ) {
+          return false;
+      }
+      return $use_block_editor;
+  }
+  ```
+- **Phạm vi an toàn:**
+  - Chỉ áp dụng riêng cho post type `tour`. Các post type khác (`page`, `post`, v.v.) vẫn sử dụng Block Editor đầy đủ.
+  - Không làm thay đổi bất kỳ cấu trúc dữ liệu, frontend template (`single-tour.html`), hay pricing logic nào.
+
+---
+
+### 8.2 Kết quả 4 bước kiểm chứng thực tế (Mục 3 Work Order)
+
+#### Bước 1: Mở trang tạo tour mới `wp-admin/post-new.php?post_type=tour`
+```
+> node tools/local-audit/test-round5.mjs
+Tour Editor: Classic Title input (#title)=true, Classic Editor Container (#postdivrich)=true, Gutenberg Block Editor=false
+  Metabox #tbc_itinerary_metabox: exists=true, visible=true
+  Metabox #tbc_vehicles_metabox: exists=true, visible=true
+  Metabox #tbc_accommodation_metabox: exists=true, visible=true
+  Metabox #tbc_transfer_metabox: exists=true, visible=true
+  Metabox #tbc_addons_metabox: exists=true, visible=true
+  Metabox #tbc_availability_metabox: exists=true, visible=true
+Saved screenshot: tour-new-classic-editor.png
+```
+*(Kết quả: Giao diện Classic Editor hiện ngay với đầy đủ 6 meta box dạng bảng repeater mở sẵn, không bị giấu trong accordion).*
+
+#### Bước 2: Mở sửa tour có sẵn `wp-admin/post.php?post=155&action=edit`
+```
+Itinerary rows loaded in tour 155: 2
+  Row 1: Day 1 - Ha Giang City → Quan Ba Heaven Gate → Yen Minh
+  Row 2: Day 2 - Yen Minh → Tham Ma Pass → Vuong Palace → Dong Van
+Vehicles rows loaded in tour 155: 2
+  Vehicle 1: Motorbike - 350000 VND
+  Vehicle 2: Jeep - 900000 VND
+Saved screenshot: tour-edit-155-classic.png
+```
+*(Kết quả: Toàn bộ dữ liệu thực tế của tour 155 tải lên đầy đủ, hiển thị ngay lập tức).*
+
+#### Bước 3: Toàn bộ PHPUnit Test Suite Vòng 5 (100% PASS)
+```
+[Theme: tour-reference-theme]
+PHPUnit 9.6.36 by Sebastian Bergmann and contributors.
+..........................................                        42 / 42 (100%)
+OK (42 tests, 235 assertions)
+
+[Plugin: tour-booking-core]
+PHPUnit 9.6.36 by Sebastian Bergmann and contributors.
+..............................................................    62 / 62 (100%)
+OK (62 tests, 390 assertions)
+
+TỔNG CỘNG TOÀN DỰ ÁN: 104 / 104 tests passed (625 assertions) — 100% OK.
+```
+
+#### Bước 4: Kiểm tra trang khác `wp-admin/post-new.php?post_type=page`
+```
+Page Editor: Gutenberg Block Editor active = true
+Saved screenshot: page-new-block-editor.png
+```
+*(Kết quả: Trang `page` vẫn sử dụng Gutenberg Block Editor bình thường, không bị ảnh hưởng).*
+
+
 
 
