@@ -2,9 +2,15 @@
 	"name": "local-audit",
 	"private": true,
 	"type": "module",
+	"comment": "Every script cds to the repo root first: the .mjs files resolve docs/reference-screenshots/... relative to process.cwd(), while node resolves node_modules from the script's own directory. `npm run audit` is the correct full order -- measure-reference is deliberately NOT part of it (it hits the live reference site; re-run it only when the reference itself may have changed).",
 	"scripts": {
-		"capture": "node capture-local.mjs",
-		"diff": "node diff.mjs"
+		"measure-reference": "cd ../.. && node tools/local-audit/measure-reference.mjs",
+		"capture": "cd ../.. && node tools/local-audit/capture-local.mjs",
+		"crop": "cd ../.. && node tools/local-audit/crop-reference.mjs",
+		"diff:header": "cd ../.. && node tools/local-audit/diff.mjs header",
+		"diff:footer": "cd ../.. && node tools/local-audit/diff.mjs footer",
+		"check": "cd ../.. && node tools/local-audit/check-colors.mjs && node tools/local-audit/check-metrics.mjs && node tools/local-audit/check-section-position.mjs && node tools/local-audit/check-overflow.mjs",
+		"audit": "npm run capture && npm run crop && npm run diff:header && npm run diff:footer && npm run check"
 	},
 	"dependencies": {
 		"playwright": "^1.62.1",

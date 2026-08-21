@@ -51,24 +51,47 @@ const rendered = await page.evaluate( () => {
 console.log( 'Rendered (raw computed style):' );
 console.log( JSON.stringify( rendered, null, 2 ) );
 
+// Expectation note (final-review I10). The reference footer renders its social
+// icons in WordPress core's native `is-style-logos-only` shape: a bare,
+// network-coloured glyph on the cream footer surface, with NO circular
+// background behind it (see docs/reference-audit/00-global.md and the
+// desktop-footer-ref.png crop). An earlier "make every icon its own colour"
+// fix set `background-color` per network, which both invented a circle the
+// reference does not have and left core's own hardcoded glyph fill sitting on
+// top of it. The fix swapped that to `color`, which core's SVG rules inherit
+// via `currentColor`. The expectations below encode that corrected intent:
+//   - circle background: must be fully transparent (no circle at all)
+//   - icon glyph fill:   must equal the measured network token
+const TRANSPARENT = 'transparent (no circle -- reference renders bare icons)';
+
 console.log( '\nChannel-diff vs. reference (max abs diff across R/G/B, tolerance <=5):' );
 for ( const [ label, refKey ] of [
 	[ 'header/footer surface', 'header/footer surface' ],
 	[ 'Book Now text (primary)', 'Book Now text (primary)' ],
 	[ 'Book Now background', 'Book Now background' ],
-	[ 'social-facebook (circle bg)', 'social-facebook' ],
+	[ 'social-facebook (circle bg)', TRANSPARENT ],
 	[ 'social-facebook (icon fill)', 'social-facebook' ],
-	[ 'social-instagram (circle bg)', 'social-instagram' ],
+	[ 'social-instagram (circle bg)', TRANSPARENT ],
 	[ 'social-instagram (icon fill)', 'social-instagram' ],
-	[ 'social-whatsapp (circle bg)', 'social-whatsapp' ],
+	[ 'social-whatsapp (circle bg)', TRANSPARENT ],
 	[ 'social-whatsapp (icon fill)', 'social-whatsapp' ],
-	[ 'social-tiktok (circle bg)', 'social-tiktok' ],
+	[ 'social-tiktok (circle bg)', TRANSPARENT ],
 	[ 'social-tiktok (icon fill)', 'social-tiktok' ],
 ] ) {
-	const renderedRgb = parseRgb( rendered[ label ] );
+	const raw = rendered[ label ];
+
+	if ( refKey === TRANSPARENT ) {
+		// `rgba(0, 0, 0, 0)` is how getComputedStyle reports "no background".
+		const alpha = raw && raw.startsWith( 'rgba(' ) ? parseFloat( raw.split( ',' )[ 3 ] ) : 1;
+		const pass = alpha === 0;
+		console.log( `${label}: rendered ${raw} vs reference ${TRANSPARENT} -> ${pass ? 'PASS' : 'FAIL'}` );
+		continue;
+	}
+
+	const renderedRgb = parseRgb( raw );
 	const refRgb = REFERENCE[ refKey ].rgb;
 	if ( !renderedRgb ) {
-		console.log( `${label}: COULD NOT PARSE (${rendered[ label ]})` );
+		console.log( `${label}: COULD NOT PARSE (${raw})` );
 		continue;
 	}
 	const diff = maxChannelDiff( renderedRgb, refRgb );
