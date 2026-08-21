@@ -15,7 +15,7 @@
 		<!-- /wp:paragraph -->
 
 		<!-- wp:heading {"textAlign":"center","level":2,"style":{"typography":{"fontSize":"34px","fontWeight":"800","lineHeight":"1.2"}}} -->
-		<h2 class="wp-block-heading has-text-align-center" style="font-size:34px;font-weight:800;line-height:1.2"><?php esc_html_e( 'Why Ride Loop Trails', 'tour-reference-theme' ); ?></h2>
+		<h2 class="wp-block-heading has-text-align-center" style="font-size:34px;font-weight:800;line-height:1.2"><?php esc_html_e( 'Why Ride With Us', 'tour-reference-theme' ); ?></h2>
 		<!-- /wp:heading -->
 	</div>
 	<!-- /wp:group -->

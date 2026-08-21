@@ -56,6 +56,7 @@ function tour_theme_enqueue_assets() {
 	// Handle is deliberately not "…-fonts": this stylesheet now carries the
 	// Book Now button, social icon and legal-bar rules, not @font-face.
 	wp_enqueue_style( 'tour-theme-styles', TOUR_THEME_URI . '/assets/css/theme.css', array(), '0.1.0' );
+	wp_enqueue_script( 'tour-theme-tabs', TOUR_THEME_URI . '/assets/js/tabs.js', array(), '0.1.0', true );
 }
 
 add_action( 'init', 'tour_theme_register_block_styles' );

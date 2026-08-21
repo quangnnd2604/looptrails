@@ -41,6 +41,6 @@ class Test_Dynamic_And_Seo extends WP_UnitTestCase {
 
 		$this->assertStringContainsString( 'application/ld+json', $output );
 		$this->assertStringContainsString( 'TravelAgency', $output );
-		$this->assertStringContainsString( 'Loop Trails Vietnam', $output );
+		$this->assertStringContainsString( 'PostalAddress', $output );
 	}
 }

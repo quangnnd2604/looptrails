@@ -26,13 +26,9 @@ function tour_theme_render_tour_card( $post_id ) {
 	$duration_days = get_post_meta( $post_id, 'tbc_duration_days', true );
 	$duration_nts  = get_post_meta( $post_id, 'tbc_duration_nights', true );
 	$badge         = get_post_meta( $post_id, 'tbc_badge', true );
-	$price_from    = get_post_meta( $post_id, 'tbc_price_from_usd', true );
 	$rating_val    = get_post_meta( $post_id, 'tbc_rating_value', true );
 	$rating_cnt    = get_post_meta( $post_id, 'tbc_rating_count', true );
 
-	if ( ! $price_from ) {
-		$price_from = 140;
-	}
 	if ( ! $rating_val ) {
 		$rating_val = '4.9';
 	}
@@ -64,15 +60,27 @@ function tour_theme_render_tour_card( $post_id ) {
 		);
 	}
 
-	// Calculated prices for 3 vehicle options matching reference data
-	$price_self_usd = intval( $price_from );
-	$price_self_vnd = number_format( $price_self_usd * 25400, 0, ',', '.' );
-
-	$price_easy_usd = intval( round( $price_self_usd * 1.48 ) );
-	$price_easy_vnd = number_format( $price_easy_usd * 25400, 0, ',', '.' );
-
-	$price_jeep_usd = intval( round( $price_self_usd * 2.07 ) );
-	$price_jeep_vnd = number_format( $price_jeep_usd * 25400, 0, ',', '.' );
+	// Read real vehicle_option children
+	$vehicles = get_posts( array(
+		'post_type'      => 'vehicle_option',
+		'post_status'    => 'publish',
+		'posts_per_page' => -1,
+		'meta_key'       => 'tbc_tour_id',
+		'meta_value'     => $post_id,
+	) );
+	$price_rows = array();
+	foreach ( $vehicles as $v ) {
+		$vnd = intval( get_post_meta( $v->ID, 'tbc_price_vnd', true ) );
+		if ( $vnd <= 0 ) {
+			continue;
+		}
+		$price_rows[] = array(
+			'label' => get_the_title( $v->ID ),
+			'vnd'   => $vnd,
+			'usd'   => class_exists( 'Tbc_Currency' ) ? Tbc_Currency::vnd_to_usd( $vnd ) : intval( round( $vnd / 25400 ) ),
+		);
+	}
+	usort( $price_rows, function( $a, $b ) { return $a['vnd'] <=> $b['vnd']; } );
 
 	ob_start();
 	?>
@@ -108,29 +116,21 @@ function tour_theme_render_tour_card( $post_id ) {
 				<span class="tour-card__rating-text"><?php echo esc_html( $rating_val ); ?> (<?php echo esc_html( $rating_cnt ); ?>)</span>
 			</div>
 
-			<!-- Multi-tier vehicle pricing rows matching reference measurement -->
+			<!-- Multi-tier vehicle pricing rows from real vehicle_options -->
 			<div class="tour-card__prices lt-price-rows">
-				<div class="lt-price-row">
-					<span class="lt-price-row__label"><?php esc_html_e( 'Self-drive', 'tour-reference-theme' ); ?></span>
-					<div class="lt-price-row__amount">
-						<span class="lt-price-row__value"><?php echo esc_html( $price_self_vnd ); ?> ₫</span>
-						<span class="lt-price-row__usd">· $<?php echo esc_html( $price_self_usd ); ?></span>
-					</div>
-				</div>
-				<div class="lt-price-row is-featured-tier">
-					<span class="lt-price-row__label"><?php esc_html_e( 'Easy rider', 'tour-reference-theme' ); ?></span>
-					<div class="lt-price-row__amount">
-						<span class="lt-price-row__value"><?php echo esc_html( $price_easy_vnd ); ?> ₫</span>
-						<span class="lt-price-row__usd">· $<?php echo esc_html( $price_easy_usd ); ?></span>
-					</div>
-				</div>
-				<div class="lt-price-row">
-					<span class="lt-price-row__label"><?php esc_html_e( 'Jeep', 'tour-reference-theme' ); ?></span>
-					<div class="lt-price-row__amount">
-						<span class="lt-price-row__value"><?php echo esc_html( $price_jeep_vnd ); ?> ₫</span>
-						<span class="lt-price-row__usd">· $<?php echo esc_html( $price_jeep_usd ); ?></span>
-					</div>
-				</div>
+				<?php if ( empty( $price_rows ) ) : ?>
+					<div class="lt-price-row"><span class="lt-price-row__label"><?php esc_html_e( 'Contact for pricing', 'tour-reference-theme' ); ?></span></div>
+				<?php else : ?>
+					<?php foreach ( $price_rows as $i => $row ) : ?>
+						<div class="lt-price-row<?php echo 1 === $i ? ' is-featured-tier' : ''; ?>">
+							<span class="lt-price-row__label"><?php echo esc_html( $row['label'] ); ?></span>
+							<div class="lt-price-row__amount">
+								<span class="lt-price-row__value"><?php echo esc_html( number_format( $row['vnd'], 0, ',', '.' ) ); ?> ₫</span>
+								<span class="lt-price-row__usd">· $<?php echo esc_html( $row['usd'] ); ?></span>
+							</div>
+						</div>
+					<?php endforeach; ?>
+				<?php endif; ?>
 			</div>
 
 			<!-- Actions -->

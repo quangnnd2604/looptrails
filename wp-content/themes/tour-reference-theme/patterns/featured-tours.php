@@ -20,8 +20,6 @@
 	</div>
 	<!-- /wp:group -->
 
-	<!-- wp:shortcode -->
-	[tour_featured_grid]
-	<!-- /wp:shortcode -->
+	<?php echo tour_theme_render_featured_tours(); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>
 </div>
 <!-- /wp:group -->

@@ -11,7 +11,7 @@ class Test_Home_Patterns extends WP_UnitTestCase {
 			'featured-tours'             => array( 'Popular Loop Tours', 'tour-grid' ),
 			'brand-narrative'            => array( 'Pioneering Northern Vietnam Loops', 'narrative-stats-grid' ),
 			'top-destinations-essentials'=> array( 'Top Destinations', 'destinations-grid' ),
-			'why-choose-us'              => array( 'Why Ride Loop Trails', 'dark-stats-bar' ),
+			'why-choose-us'              => array( 'Why Ride With Us', 'dark-stats-bar' ),
 			'testimonials'               => array( 'Loved by Adventurers Worldwide', 'reviews-grid' ),
 			'editorial-cta'              => array( 'Ready to Conquer the Northern Loop?', 'editorial-cta-card' ),
 			'booking-section'            => array( 'Book Your Ha Giang Adventure', 'lt-booking-form' ),

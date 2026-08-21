@@ -15,6 +15,13 @@ class Tbc_Pricing_Engine {
 	const DEFAULT_DEPOSIT_PERCENT = 20;
 	const DEFAULT_USD_VND_RATE = 25400;
 
+	const RENTAL_BIKES = array(
+		'wave_alpha' => array( 'label' => 'Honda Wave Alpha 110cc', 'rate_usd' => 10.0 ),
+		'blade_fi'   => array( 'label' => 'Honda Blade FI 110cc', 'rate_usd' => 12.0 ),
+		'xr150l'     => array( 'label' => 'Honda XR 150L', 'rate_usd' => 22.0 ),
+		'cb500x'     => array( 'label' => 'Adventure Honda CB500X', 'rate_usd' => 48.0 ),
+	);
+
 	/**
 	 * Calculate full itemized price quote.
 	 *
@@ -28,73 +35,98 @@ class Tbc_Pricing_Engine {
 		$transfer_in  = isset( $args['transfer_in'] ) ? absint( $args['transfer_in'] ) : 0;
 		$transfer_out = isset( $args['transfer_out'] ) ? absint( $args['transfer_out'] ) : 0;
 		$rental_days  = isset( $args['rental_days'] ) ? absint( $args['rental_days'] ) : 0;
-		$rental_rate  = isset( $args['rental_rate'] ) ? floatval( $args['rental_rate'] ) : 0.0;
+		$rental_bike  = isset( $args['rental_bike'] ) ? sanitize_key( $args['rental_bike'] ) : '';
 		$voucher_code = isset( $args['voucher_code'] ) ? sanitize_text_field( $args['voucher_code'] ) : '';
 
-		// 1. Base Tour Price
-		$base_price_usd = 140.0; // standard default
+		// --- Validate tour_id refers to a real, published tour ---
 		if ( $tour_id ) {
-			$meta_price = floatval( get_post_meta( $tour_id, 'tbc_price_from_usd', true ) );
-			if ( $meta_price > 0 ) {
-				$base_price_usd = $meta_price;
+			if ( 'tour' !== get_post_type( $tour_id ) || 'publish' !== get_post_status( $tour_id ) ) {
+				return array( 'error' => 'invalid_tour_id' );
 			}
 		}
 
-		// 2. Vehicle Tier Adjustment
-		$vehicle_surcharge_usd = 0.0;
-		$vehicle_name = 'Standard Self-Ride';
+		// --- Validate vehicle_id belongs to this tour ---
+		$tour_unit_price = 0.0;
+		$vehicle_name    = '';
 		if ( $vehicle_id ) {
-			$v_usd = floatval( get_post_meta( $vehicle_id, 'tbc_price_usd', true ) );
-			if ( $v_usd > 0 ) {
-				$vehicle_surcharge_usd = $v_usd - $base_price_usd;
-				$vehicle_name = get_the_title( $vehicle_id );
+			if ( 'vehicle_option' !== get_post_type( $vehicle_id ) ) {
+				return array( 'error' => 'invalid_vehicle_id' );
+			}
+			$linked_tour = absint( get_post_meta( $vehicle_id, 'tbc_tour_id', true ) );
+			if ( $tour_id && $linked_tour !== $tour_id ) {
+				return array( 'error' => 'vehicle_does_not_belong_to_tour' );
+			}
+			$price_vnd = intval( get_post_meta( $vehicle_id, 'tbc_price_vnd', true ) );
+			if ( $price_vnd <= 0 ) {
+				return array( 'error' => 'vehicle_has_no_price' );
+			}
+			$tour_unit_price = Tbc_Currency::vnd_to_usd( $price_vnd );
+			$vehicle_name    = get_the_title( $vehicle_id );
+		} elseif ( $tour_id ) {
+			// No specific vehicle chosen — use the cheapest published vehicle_option for this tour.
+			$cheapest = self::get_cheapest_vehicle_for_tour( $tour_id );
+			if ( ! $cheapest ) {
+				return array( 'error' => 'no_pricing_available_for_tour' );
+			}
+			$tour_unit_price = Tbc_Currency::vnd_to_usd( $cheapest['price_vnd'] );
+			$vehicle_name    = $cheapest['label'];
+		} else {
+			return array( 'error' => 'tour_id_required' );
+		}
+
+		$tour_subtotal = $tour_unit_price * $party_size;
+
+		// --- Transfers: real price looked up server-side, tbc_price_vnd is the real field ---
+		$transfer_subtotal = 0.0;
+		foreach ( array( $transfer_in, $transfer_out ) as $transfer_post_id ) {
+			if ( ! $transfer_post_id ) {
+				continue;
+			}
+			if ( 'transfer_option' !== get_post_type( $transfer_post_id ) ) {
+				return array( 'error' => 'invalid_transfer_id' );
+			}
+			$t_price_vnd = intval( get_post_meta( $transfer_post_id, 'tbc_price_vnd', true ) );
+			if ( $t_price_vnd > 0 ) {
+				$transfer_subtotal += Tbc_Currency::vnd_to_usd( $t_price_vnd ) * $party_size;
 			}
 		}
 
-		$tour_unit_price = max( $base_price_usd, $base_price_usd + $vehicle_surcharge_usd );
-		$tour_subtotal   = $tour_unit_price * $party_size;
-
-		// 3. Transfers
-		$transfer_subtotal = 0.0;
-		if ( $transfer_in ) {
-			$t_in_price = floatval( get_post_meta( $transfer_in, 'tbc_price_usd', true ) );
-			$transfer_subtotal += ( $t_in_price > 0 ? $t_in_price : 15.0 ) * $party_size;
-		}
-		if ( $transfer_out ) {
-			$t_out_price = floatval( get_post_meta( $transfer_out, 'tbc_price_usd', true ) );
-			$transfer_subtotal += ( $t_out_price > 0 ? $t_out_price : 15.0 ) * $party_size;
+		// --- Motorbike rental add-on: rate comes from a fixed server-side catalog, never from the client ---
+		$rental_subtotal = 0.0;
+		if ( $rental_days > 0 && isset( self::RENTAL_BIKES[ $rental_bike ] ) ) {
+			$rental_subtotal = $rental_days * self::RENTAL_BIKES[ $rental_bike ]['rate_usd'];
 		}
 
-		// 4. Motorbike Rental Addon
-		$rental_subtotal = $rental_days * $rental_rate;
-
-		// Subtotal before discount
 		$subtotal_usd = $tour_subtotal + $transfer_subtotal + $rental_subtotal;
 
-		// 5. Voucher / Discount
-		$discount_usd = 0.0;
-		$discount_applied = false;
+		// --- Voucher / Discount ---
+		$discount_usd      = 0.0;
+		$discount_applied  = false;
+		$voucher_post_id   = 0;
 		if ( ! empty( $voucher_code ) ) {
 			$voucher_data = self::validate_voucher( $voucher_code, $tour_id, $subtotal_usd );
 			if ( $voucher_data['valid'] ) {
-				$discount_usd = $voucher_data['discount_amount'];
+				$discount_usd     = $voucher_data['discount_amount'];
 				$discount_applied = true;
+				$voucher_post_id  = isset( $voucher_data['voucher_id'] ) ? $voucher_data['voucher_id'] : 0;
 			}
 		}
 
 		$total_usd = max( 0.0, $subtotal_usd - $discount_usd );
 
-		// 6. Deposit
-		$deposit_percent = self::DEFAULT_DEPOSIT_PERCENT;
+		// A tour_subtotal > 0 must never result in total_usd of 0 unless the discount legitimately covers it.
+		if ( $tour_subtotal > 0 && $total_usd <= 0 && ! $discount_applied ) {
+			return array( 'error' => 'price_calculation_error' );
+		}
+
+		$deposit_percent = self::get_deposit_percent();
 		$deposit_usd     = round( ( $total_usd * $deposit_percent ) / 100, 2 );
 		$balance_due_usd = max( 0.0, $total_usd - $deposit_usd );
 
-		// 7. VND Currency Conversion
-		$rate_vnd   = self::get_exchange_rate();
-		$total_vnd  = intval( round( $total_usd * $rate_vnd ) );
+		$rate_vnd    = self::get_exchange_rate();
+		$total_vnd   = intval( round( $total_usd * $rate_vnd ) );
 		$deposit_vnd = intval( round( $deposit_usd * $rate_vnd ) );
 
-		// 8. Sign quote for anti-tampering
 		$quote_payload = array(
 			'tour_id'           => $tour_id,
 			'party_size'        => $party_size,
@@ -106,6 +138,7 @@ class Tbc_Pricing_Engine {
 			'subtotal_usd'      => $subtotal_usd,
 			'discount_usd'      => $discount_usd,
 			'discount_applied'  => $discount_applied,
+			'voucher_id'        => $voucher_post_id,
 			'total_usd'         => $total_usd,
 			'total_vnd'         => $total_vnd,
 			'deposit_percent'   => $deposit_percent,
@@ -122,12 +155,103 @@ class Tbc_Pricing_Engine {
 	}
 
 	/**
-	 * Validate a voucher against rules.
+	 * Find the cheapest published vehicle_option linked to a tour.
+	 */
+	public static function get_cheapest_vehicle_for_tour( $tour_id ) {
+		$vehicles = get_posts(
+			array(
+				'post_type'      => 'vehicle_option',
+				'post_status'    => 'publish',
+				'posts_per_page' => -1,
+				'meta_key'       => 'tbc_tour_id',
+				'meta_value'     => $tour_id,
+				'orderby'        => 'meta_value_num',
+				'meta_query'     => array(
+					array(
+						'key'     => 'tbc_price_vnd',
+						'value'   => 0,
+						'compare' => '>',
+						'type'    => 'NUMERIC',
+					),
+				),
+			)
+		);
+		if ( empty( $vehicles ) ) {
+			return null;
+		}
+		$cheapest = null;
+		foreach ( $vehicles as $v ) {
+			$price = intval( get_post_meta( $v->ID, 'tbc_price_vnd', true ) );
+			if ( null === $cheapest || $price < $cheapest['price_vnd'] ) {
+				$cheapest = array(
+					'id'        => $v->ID,
+					'price_vnd' => $price,
+					'label'     => get_the_title( $v->ID ),
+				);
+			}
+		}
+		return $cheapest;
+	}
+
+	/**
+	 * Validate a voucher against database CPT rules or standard fallback.
 	 */
 	public static function validate_voucher( $code, $tour_id, $subtotal ) {
 		$code = strtoupper( trim( $code ) );
 
-		// Standard seeded vouchers
+		// 1. Search database Voucher CPT
+		$voucher_posts = get_posts(
+			array(
+				'post_type'      => 'voucher',
+				'post_status'    => 'publish',
+				'posts_per_page' => 1,
+				'meta_key'       => 'tbc_code',
+				'meta_value'     => $code,
+			)
+		);
+
+		if ( ! empty( $voucher_posts ) ) {
+			$v_post     = $voucher_posts[0];
+			$v_type     = get_post_meta( $v_post->ID, 'tbc_voucher_type', true );
+			$v_amount   = floatval( get_post_meta( $v_post->ID, 'tbc_amount', true ) );
+			$valid_from = get_post_meta( $v_post->ID, 'tbc_valid_from', true );
+			$valid_to   = get_post_meta( $v_post->ID, 'tbc_valid_to', true );
+			$limit      = intval( get_post_meta( $v_post->ID, 'tbc_usage_limit', true ) );
+			$used       = intval( get_post_meta( $v_post->ID, 'tbc_used_count', true ) );
+			$min_vnd    = intval( get_post_meta( $v_post->ID, 'tbc_min_spend_vnd', true ) );
+
+			$now = current_time( 'Y-m-d' );
+			if ( $valid_from && $now < $valid_from ) {
+				return array( 'valid' => false, 'message' => 'Voucher is not yet active.', 'discount_amount' => 0.0, 'code' => $code );
+			}
+			if ( $valid_to && $now > $valid_to ) {
+				return array( 'valid' => false, 'message' => 'Voucher has expired.', 'discount_amount' => 0.0, 'code' => $code );
+			}
+			if ( $limit > 0 && $used >= $limit ) {
+				return array( 'valid' => false, 'message' => 'Voucher usage limit reached.', 'discount_amount' => 0.0, 'code' => $code );
+			}
+			if ( $min_vnd > 0 && ( $subtotal * self::get_exchange_rate() ) < $min_vnd ) {
+				return array( 'valid' => false, 'message' => 'Minimum spend requirement not met.', 'discount_amount' => 0.0, 'code' => $code );
+			}
+
+			$discount = 0.0;
+			if ( 'percentage' === $v_type || empty( $v_type ) ) {
+				$pct      = $v_amount > 0 ? ( $v_amount / 100 ) : 0.10;
+				$discount = round( $subtotal * $pct, 2 );
+			} else {
+				$discount = min( $subtotal, $v_amount );
+			}
+
+			return array(
+				'valid'           => true,
+				'voucher_id'      => $v_post->ID,
+				'discount_amount' => $discount,
+				'code'            => $code,
+				'message'         => 'Voucher discount applied!',
+			);
+		}
+
+		// 2. Standard fallback vouchers
 		if ( 'WELCOME10' === $code || 'LOOP10' === $code ) {
 			$discount = round( $subtotal * 0.10, 2 );
 			return array(
@@ -157,10 +281,19 @@ class Tbc_Pricing_Engine {
 	}
 
 	/**
-	 * Current USD to VND exchange rate.
+	 * Configured USD to VND exchange rate.
 	 */
 	public static function get_exchange_rate() {
-		return apply_filters( 'tbc_usd_vnd_exchange_rate', self::DEFAULT_USD_VND_RATE );
+		$rate = get_option( 'tbc_exchange_rate', self::DEFAULT_USD_VND_RATE );
+		return apply_filters( 'tbc_usd_vnd_exchange_rate', absint( $rate ) );
+	}
+
+	/**
+	 * Configured deposit percent.
+	 */
+	public static function get_deposit_percent() {
+		$pct = get_option( 'tbc_deposit_percent', self::DEFAULT_DEPOSIT_PERCENT );
+		return min( 100, max( 1, absint( $pct ) ) );
 	}
 
 	/**
@@ -188,5 +321,20 @@ class Tbc_Pricing_Engine {
 		}
 		$expected = self::sign_quote( $data );
 		return hash_equals( $expected, $data['signature'] );
+	}
+
+	/**
+	 * Recompute and cache the tour's "starting from" price whenever one of
+	 * its vehicle_option children is saved. Hooked to save_post_vehicle_option.
+	 */
+	public static function sync_tour_starting_price( $vehicle_post_id ) {
+		$tour_id = absint( get_post_meta( $vehicle_post_id, 'tbc_tour_id', true ) );
+		if ( ! $tour_id ) {
+			return;
+		}
+		$cheapest = self::get_cheapest_vehicle_for_tour( $tour_id );
+		if ( $cheapest ) {
+			update_post_meta( $tour_id, 'tbc_price_from_vnd', $cheapest['price_vnd'] );
+		}
 	}
 }

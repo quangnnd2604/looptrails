@@ -17,6 +17,7 @@ class Tbc_Meta_Fields {
 				'tbc_badge'             => array( 'type' => 'string', 'is_price' => false ),
 				'tbc_rating_value'      => array( 'type' => 'number', 'is_price' => false ),
 				'tbc_rating_count'      => array( 'type' => 'integer', 'is_price' => false ),
+				'tbc_price_from_vnd'    => array( 'type' => 'integer', 'is_price' => true ),
 				'tbc_destination_id'    => array( 'type' => 'integer', 'is_price' => false ),
 				'tbc_lang'              => array( 'type' => 'string', 'is_price' => false ),
 				'tbc_translation_group' => array( 'type' => 'string', 'is_price' => false ),

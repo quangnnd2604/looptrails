@@ -45,7 +45,7 @@
 		<!-- Review 3 -->
 		<div class="review-card">
 			<div class="review-card__stars">★★★★★</div>
-			<p class="review-card__text"><?php esc_html_e( '“Best motorbike loop in Southeast Asia. The views along Ma Pi Leng Pass are surreal. 10/10 recommend Loop Trails!”', 'tour-reference-theme' ); ?></p>
+			<p class="review-card__text"><?php esc_html_e( '“Best motorbike loop in Southeast Asia. The views along Ma Pi Leng Pass are surreal. 10/10 recommend this tour team!”', 'tour-reference-theme' ); ?></p>
 			<div class="review-card__author">
 				<span class="review-card__name">Marcus K.</span>
 				<span class="review-card__origin">Australia</span>

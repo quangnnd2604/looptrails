@@ -5,15 +5,42 @@
 
 class Test_Booking_Engine extends WP_UnitTestCase {
 
+	private $tour_id;
+	private $vehicle_id;
+
+	public function set_up() {
+		parent::set_up();
+
+		$this->tour_id = wp_insert_post(
+			array(
+				'post_title'  => 'Test Ha Giang Loop Tour',
+				'post_type'   => 'tour',
+				'post_status' => 'publish',
+			)
+		);
+
+		$this->vehicle_id = wp_insert_post(
+			array(
+				'post_title'  => 'Motorbike Self-Ride',
+				'post_type'   => 'vehicle_option',
+				'post_status' => 'publish',
+			)
+		);
+		update_post_meta( $this->vehicle_id, 'tbc_tour_id', $this->tour_id );
+		update_post_meta( $this->vehicle_id, 'tbc_price_vnd', 3556000 ); // $140 USD
+		update_post_meta( $this->tour_id, 'tbc_price_from_vnd', 3556000 );
+	}
+
 	public function test_pricing_engine_calculates_base_and_party_size() {
 		$args = array(
-			'tour_id'    => 0,
+			'tour_id'    => $this->tour_id,
 			'party_size' => 3,
 		);
 
 		$quote = Tbc_Pricing_Engine::calculate_quote( $args );
 
-		$this->assertNotEmpty( $quote );
+		$this->assertIsArray( $quote );
+		$this->assertFalse( isset( $quote['error'] ) );
 		$this->assertEquals( 3, $quote['party_size'] );
 		$this->assertEquals( 420.0, $quote['tour_subtotal'] ); // 140 * 3
 		$this->assertEquals( 420.0, $quote['total_usd'] );
@@ -25,13 +52,14 @@ class Test_Booking_Engine extends WP_UnitTestCase {
 
 	public function test_voucher_discount_application() {
 		$args = array(
-			'tour_id'      => 0,
+			'tour_id'      => $this->tour_id,
 			'party_size'   => 2,
 			'voucher_code' => 'WELCOME10',
 		);
 
 		$quote = Tbc_Pricing_Engine::calculate_quote( $args );
 
+		$this->assertIsArray( $quote );
 		$this->assertTrue( $quote['discount_applied'] );
 		$this->assertEquals( 28.0, $quote['discount_usd'] ); // 10% of 280
 		$this->assertEquals( 252.0, $quote['total_usd'] ); // 280 - 28
@@ -39,10 +67,16 @@ class Test_Booking_Engine extends WP_UnitTestCase {
 
 	public function test_booking_handler_rest_route_quote() {
 		$request = new WP_REST_Request( 'POST', '/tour-booking/v1/quote' );
-		$request->set_body_params( array( 'party_size' => 2 ) );
+		$request->set_body_params(
+			array(
+				'tour_id'    => $this->tour_id,
+				'party_size' => 2,
+			)
+		);
 
 		$response = Tbc_Booking_Handler::handle_quote( $request );
-		$data     = $response->get_data();
+		$this->assertNotWPError( $response );
+		$data = $response->get_data();
 
 		$this->assertTrue( $data['success'] );
 		$this->assertEquals( 280.0, $data['quote']['subtotal_usd'] );
@@ -67,6 +101,7 @@ class Test_Booking_Engine extends WP_UnitTestCase {
 		$request = new WP_REST_Request( 'POST', '/tour-booking/v1/book' );
 		$request->set_body_params(
 			array(
+				'tour_id'        => $this->tour_id,
 				'customer_name'  => 'John Rider',
 				'customer_email' => 'john.rider@example.com',
 				'customer_phone' => '+84987654321',
@@ -87,6 +122,6 @@ class Test_Booking_Engine extends WP_UnitTestCase {
 		$saved_email = get_post_meta( $data['booking_id'], 'tbc_customer_email', true );
 		$this->assertEquals( 'john.rider@example.com', $saved_email );
 		$saved_status = get_post_meta( $data['booking_id'], 'tbc_booking_status', true );
-		$this->assertEquals( 'confirmed', $saved_status );
+		$this->assertEquals( 'pending_payment', $saved_status );
 	}
 }

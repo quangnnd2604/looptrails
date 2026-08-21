@@ -16,14 +16,14 @@
 ## Tasks
 
 ### Task 1: Complete Test Suite Verification
-- [x] Run `tour-booking-core` PHPUnit suite: 56/56 tests passing (354 assertions).
-- [x] Run `tour-reference-theme` PHPUnit suite: 42/42 tests passing (225 assertions).
-- [x] Total: 98/98 tests passing (579 assertions, 0 errors).
+- [ ] Run `tour-booking-core` PHPUnit suite (target 100% pass rate).
+- [ ] Run `tour-reference-theme` PHPUnit suite (target 100% pass rate).
+- [ ] Total PHPUnit assertions pass with 0 errors.
 
 ### Task 2: Handover Documentation & Acceptance Reports
-- [x] Write final delivery report in Vietnamese: `docs/visual-acceptance-report-final.md`.
-- [x] Complete walkthrough artifact: `walkthrough.md`.
+- [ ] Write fix wave report in Vietnamese: `docs/fix-report-2026-08-21.md`.
+- [ ] Update acceptance reports reflecting true implementation status.
 
 ### Task 3: Final Git Packaging & Synchronization
-- [x] Stage and commit all code, templates, tests, and documentation.
-- [x] Push to remote repository `origin/master` (`https://github.com/quangnnd2604/looptrails.git`).
+- [ ] Stage and commit all code, templates, tests, and documentation.
+- [ ] Push to remote repository `origin/master`.

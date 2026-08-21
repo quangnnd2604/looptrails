@@ -18,13 +18,13 @@
 ## Tasks
 
 ### Task 1: Multi-Viewport Automated Capture
-- [x] Capture all 5 viewports (1440px, 1280px, 768px, 390px, 360px) in `docs/reference-screenshots/local-m5/`.
-- [x] Record geometry regions for Header, Main, and Footer.
+- [ ] Capture all 5 viewports (1440px, 1280px, 768px, 390px, 360px) in `docs/reference-screenshots/local-m5/`.
+- [ ] Record geometry regions for Header, Main, and Footer.
 
 ### Task 2: Visual Acceptance & Geometry Alignment
-- [x] Verify typography and button geometry metrics across all breakpoints (`check-metrics.mjs`).
-- [x] Verify palette hex values and computed RGB colors (`check-colors.mjs`).
-- [x] Verify zero horizontal overflow at 360px width (`check-overflow.mjs`).
+- [ ] Verify typography and button geometry metrics across all breakpoints (`check-metrics.mjs`).
+- [ ] Verify palette hex values and computed RGB colors (`check-colors.mjs`).
+- [ ] Verify zero horizontal overflow at 360px width (`check-overflow.mjs`).
 
 ### Task 3: Visual Acceptance Documentation
-- [x] Produce detailed Visual Acceptance Reports (`docs/visual-acceptance-report-m4.md`, `m5.md`, `m6.md`, `final.md`).
+- [ ] Produce detailed Visual Acceptance Reports comparing rendered layout against reference screenshots.

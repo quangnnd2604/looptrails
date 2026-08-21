@@ -47,6 +47,7 @@ require_once TBC_PLUGIN_DIR . 'includes/class-booking-handler.php';
 
 Tbc_Booking_Handler::init();
 Tbc_Seo::init();
+add_action( 'save_post_vehicle_option', array( 'Tbc_Pricing_Engine', 'sync_tour_starting_price' ) );
 
 if ( defined( 'WP_CLI' ) && WP_CLI ) {
 	WP_CLI::add_command( 'tbc demo import', array( 'Tbc_Demo_Importer', 'cli_import' ) );

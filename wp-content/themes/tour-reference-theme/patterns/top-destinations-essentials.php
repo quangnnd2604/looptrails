@@ -28,8 +28,8 @@
 		<button type="button" class="tab-btn" data-tab="accommodation"><?php esc_html_e( 'Accommodation', 'tour-reference-theme' ); ?></button>
 	</div>
 
-	<!-- 8-Card Destination Grid (4 cols x 2 rows) matching reference measurements -->
-	<div class="destinations-grid lt-destinations__grid">
+	<!-- Panel 1: Destinations (8-Card Destination Grid: 4 cols x 2 rows) -->
+	<div class="destinations-tab-panel destinations-grid lt-destinations__grid is-active" data-panel="destinations">
 		<!-- Destination Card 1 -->
 		<div class="destination-card lt-grid__item">
 			<div class="destination-card__media">
@@ -123,6 +123,60 @@
 			<div class="destination-card__body">
 				<h3 class="destination-card__title"><?php esc_html_e( 'Quản Bạ Fairy Mountains', 'tour-reference-theme' ); ?></h3>
 				<p class="destination-card__desc"><?php esc_html_e( 'Two perfectly symmetrical limestone cones rising majestically above the Tam Son valley.', 'tour-reference-theme' ); ?></p>
+			</div>
+		</div>
+	</div>
+
+	<!-- Panel 2: Itinerary & Route -->
+	<div class="destinations-tab-panel destinations-grid lt-destinations__grid" data-panel="itinerary" style="display:none;">
+		<div class="destination-card lt-grid__item">
+			<div class="destination-card__body">
+				<span class="destination-card__tag">3-Day Classic</span>
+				<h3 class="destination-card__title">Ha Giang – Dong Van – Du Gia Loop</h3>
+				<p class="destination-card__desc">350 km through Bac Sum, Quan Ba, Tham Ma, Ma Pi Leng, and back via Du Gia valley.</p>
+			</div>
+		</div>
+		<div class="destination-card lt-grid__item">
+			<div class="destination-card__body">
+				<span class="destination-card__tag">4-Day Extended</span>
+				<h3 class="destination-card__title">Ha Giang – Lung Cu – Cao Bang Connection</h3>
+				<p class="destination-card__desc">Includes frontier border marker, Ban Gioc waterfall transit, and Pac Bo cave history.</p>
+			</div>
+		</div>
+	</div>
+
+	<!-- Panel 3: Transport Options -->
+	<div class="destinations-tab-panel destinations-grid lt-destinations__grid" data-panel="transport" style="display:none;">
+		<div class="destination-card lt-grid__item">
+			<div class="destination-card__body">
+				<span class="destination-card__tag">Self-Drive</span>
+				<h3 class="destination-card__title">Honda Semi-Auto &amp; Manual Fleet</h3>
+				<p class="destination-card__desc">Honda Wave 110cc, Blade 110cc, or XR150L with helmets and repair toolkits.</p>
+			</div>
+		</div>
+		<div class="destination-card lt-grid__item">
+			<div class="destination-card__body">
+				<span class="destination-card__tag">Easy Rider</span>
+				<h3 class="destination-card__title">Local Experienced Motorbike Guides</h3>
+				<p class="destination-card__desc">Sit back and enjoy the views with our English-speaking mountain navigation experts.</p>
+			</div>
+		</div>
+	</div>
+
+	<!-- Panel 4: Accommodation -->
+	<div class="destinations-tab-panel destinations-grid lt-destinations__grid" data-panel="accommodation" style="display:none;">
+		<div class="destination-card lt-grid__item">
+			<div class="destination-card__body">
+				<span class="destination-card__tag">Authentic</span>
+				<h3 class="destination-card__title">Ethnic Homestays &amp; Family Dinners</h3>
+				<p class="destination-card__desc">Stay in traditional stilt houses in Yen Minh and Du Gia with hot showers and warm hospitality.</p>
+			</div>
+		</div>
+		<div class="destination-card lt-grid__item">
+			<div class="destination-card__body">
+				<span class="destination-card__tag">Eco-Lodge</span>
+				<h3 class="destination-card__title">Mountain View Lodges &amp; Boutique Hotels</h3>
+				<p class="destination-card__desc">Upgraded private rooms overlooking karst valleys in Dong Van and Meo Vac.</p>
 			</div>
 		</div>
 	</div>

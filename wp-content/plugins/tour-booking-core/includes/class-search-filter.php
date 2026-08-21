@@ -38,11 +38,12 @@ class Tbc_Search_Filter {
 		}
 
 		if ( ! empty( $args['max_price_usd'] ) ) {
+			$max_vnd = Tbc_Currency::usd_to_vnd( floatval( $args['max_price_usd'] ) );
 			$meta_query[] = array(
-				'key'     => 'tbc_price_from_usd',
-				'value'   => floatval( $args['max_price_usd'] ),
+				'key'     => 'tbc_price_from_vnd',
+				'value'   => $max_vnd,
 				'compare' => '<=',
-				'type'    => 'DECIMAL(10,2)',
+				'type'    => 'NUMERIC',
 			);
 		}
 
