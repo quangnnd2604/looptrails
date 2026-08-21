@@ -6,7 +6,7 @@
 
 **Architecture:** A full Site-Editing (FSE) block theme — no `header.php`/`footer.php`, no page-builder. `theme.json` is the single source of truth for color/typography/spacing/radius/shadow tokens; `parts/header.html` and `parts/footer.html` are block markup consuming those tokens; `functions.php` only registers theme supports, self-hosted fonts, and enqueues one small progressive-enhancement script for sticky-header/drawer behavior — no business logic (that stays in `tour-booking-core`, per spec §2.1). Two things the earlier reference audit (Milestone 2b) could not observe from static screenshots — the header's interactive nav structure and sticky behavior, and the footer's internal DOM structure — are resolved by Task 1's live interaction audit before any markup is written, so no task after Task 1 has to guess or invent what the reference site actually does.
 
-**Tech Stack:** WordPress 7.0.4 block theme (theme.json schema v3), PHP 8.2, self-hosted Google Fonts via `@fontsource` npm packages, PHPUnit + `wp-phpunit` (same pattern as `tour-booking-core`'s harness, applied to a theme via `switch_theme()`), Playwright for both the live-interaction audit and local visual-regression tooling, `pixelmatch` for image diffing (not yet installed anywhere in the project — Task 5 adds it).
+**Tech Stack:** WordPress 7.0.4 block theme (theme.json schema v3), PHP 8.2, self-hosted Google Fonts via `@fontsource` npm packages, PHPUnit + `wp-phpunit` (same pattern as `tour-booking-core`'s harness, applied to a theme via `switch_theme()`), Playwright for both the live-interaction audit and local visual-regression tooling, `pixelmatch` for image diffing (not yet installed anywhere in the project — Task 6 adds it).
 
 **Spec:** `docs/AI_AGENT_WORDPRESS_TOUR_WEBSITE_SPEC.md` (v2.0) — this plan implements §13 milestone 4 ("Theme shell: header, navigation, footer and global responsive tokens"), drawing on §2.1 (theme architecture), §3 (reference-first protocol — already executed for static measurements in M1/M2b; Task 1 extends it for interaction states), §4 (visual acceptance rule), §5.1 (header/navigation requirements), §5.5 (footer requirements), and the accessibility/font/performance items in §11 relevant to a shell. Full page templates, Home/Tour Detail content, and business-data-driven nav (Tours dropdown from real tours) are out of scope — those are milestones 5/6 and depend on `tour-booking-core` content that doesn't exist yet.
 
@@ -986,7 +986,7 @@ C:/xampp/wp-cli.bat theme activate tour-reference-theme --path=c:/xampp/htdocs/l
 ```
 Expected: no fatal errors, no PHP warnings. If any appear, fix them before proceeding — do not run the visual audit against a broken activation.
 
-- [ ] **Step 2: Write `tools/local-audit/package.json`**
+- [ ] **Step 2: Write `tools/local-audit/package.json` and install**
 
 ```json
 {
@@ -1007,7 +1007,7 @@ Expected: no fatal errors, no PHP warnings. If any appear, fix them before proce
 
 Run: `npm --prefix tools/local-audit install`
 
-- [ ] **Step 2: Write `tools/local-audit/capture-local.mjs`**
+- [ ] **Step 3: Write `tools/local-audit/capture-local.mjs` and run it**
 
 ```javascript
 import { chromium } from 'playwright';
@@ -1044,7 +1044,7 @@ console.log( 'Local capture complete:', OUT_DIR );
 
 Run: `node tools/local-audit/capture-local.mjs`
 
-- [ ] **Step 3: Write `tools/local-audit/diff.mjs`**
+- [ ] **Step 4: Write `tools/local-audit/diff.mjs` and run it for both regions**
 
 ```javascript
 import { PNG } from 'pngjs';
@@ -1052,7 +1052,7 @@ import pixelmatch from 'pixelmatch';
 import { readFileSync, writeFileSync } from 'node:fs';
 
 const VIEWPORTS = [ 'desktop', 'laptop', 'tablet', 'mobile', 'narrow-mobile' ];
-const REGION = 'header'; // run again with REGION=footer for the footer comparison
+const REGION = process.env.REGION ?? 'header'; // set REGION=footer for the footer comparison
 
 const results = [];
 for ( const viewport of VIEWPORTS ) {
@@ -1081,13 +1081,13 @@ Run for both regions, capturing output:
 REGION=header node tools/local-audit/diff.mjs > /tmp/diff-header.json
 REGION=footer node tools/local-audit/diff.mjs > /tmp/diff-footer.json
 ```
-(On Windows Git Bash, `REGION=header node ...` inline env-var syntax works as shown; if it doesn't in your shell, edit the `REGION` constant directly in `diff.mjs` between runs instead.)
+(On Windows Git Bash, `REGION=header node ...` inline env-var syntax works as shown since the script reads `process.env.REGION`; if it doesn't propagate correctly in your shell, edit the `REGION` fallback directly in `diff.mjs` between runs instead.)
 
-Note: the `home/{viewport}.png` reference screenshots are full-page, while the local captures are cropped to header/footer regions — `pixelmatch` requires equal dimensions, so this diff script's naive `Math.min` crop is a rough approximation. If the reported percentages look meaningless (e.g., near 100% because you're diffing a cropped 200px-tall header image against a multi-thousand-pixel full page image), fix this before trusting the output: either crop the reference image to the same header/footer regions first (using a quick Playwright/sharp crop step, or by regenerating reference crops from the already-existing full-page reference PNGs), or capture the local screenshots as full-page and compare those instead. Get real, meaningful numbers before writing the report in Step 4 — do not report a diff percentage you know is comparing mismatched image regions.
+Note: the `home/{viewport}.png` reference screenshots are full-page, while the local captures are cropped to header/footer regions — `pixelmatch` requires equal dimensions, so this diff script's naive `Math.min` crop is a rough approximation. If the reported percentages look meaningless (e.g., near 100% because you're diffing a cropped 200px-tall header image against a multi-thousand-pixel full page image), fix this before trusting the output: either crop the reference image to the same header/footer regions first (using a quick Playwright/sharp crop step, or by regenerating reference crops from the already-existing full-page reference PNGs), or capture the local screenshots as full-page and compare those instead. Get real, meaningful numbers before writing the report in Step 5 — do not report a diff percentage you know is comparing mismatched image regions.
 
-- [ ] **Step 4: Write `docs/visual-acceptance-report-m4.md`**
+- [ ] **Step 5: Write `docs/visual-acceptance-report-m4.md`**
 
-Using the diff script's actual output (after fixing any region-mismatch issue from Step 3) plus manual visual comparison of the screenshot pairs, write a report following spec §4's rule literally:
+Using the diff script's actual output (after fixing any region-mismatch issue from Step 4) plus manual visual comparison of the screenshot pairs, write a report following spec §4's rule literally:
 
 ```markdown
 # Milestone 4 Visual Acceptance Report
@@ -1113,7 +1113,7 @@ Captured [DATE]. Reference: `docs/reference-screenshots/home/*.png` (Milestone 1
 [Anything that misses the <8% overall pixel-diff target or a specific metric tolerance, with a stated reason — e.g., "logo is a placeholder mark, not the reference's logo, masked per spec §4" — and which milestone (if any) is expected to close the gap.]
 ```
 
-- [ ] **Step 5: Commit**
+- [ ] **Step 6: Commit**
 
 ```bash
 git add tools/local-audit docs/visual-acceptance-report-m4.md docs/reference-screenshots/local-m4
@@ -1124,8 +1124,8 @@ git commit -m "test: add local visual-regression tooling and Milestone 4 accepta
 
 ## Milestone completion checklist
 
-- [x] All 6 tasks' PHPUnit tests pass in a single `vendor/bin/phpunit` run (from `wp-content/themes/tour-reference-theme/`).
-- [x] `wp-cli.bat theme activate tour-reference-theme` succeeds with no fatal errors or PHP warnings against the real `looptrails` database.
-- [x] `docs/visual-acceptance-report-m4.md` exists with real, non-fabricated numbers (not "looks close") — if any metric misses spec §4's tolerance, it is listed with a reason, not silently omitted.
-- [x] Report to the user: files changed, tests run/passed, the visual acceptance report's headline numbers, and any known deviations — explicitly including any place Task 1's live-audit findings caused the implementation to diverge from this plan's best-evidence defaults (sticky behavior, footer structure), per spec §15's zero-undisclosed-deviation rule.
+- [ ] All 6 tasks' PHPUnit tests pass in a single `vendor/bin/phpunit` run (from `wp-content/themes/tour-reference-theme/`).
+- [ ] `wp-cli.bat theme activate tour-reference-theme` succeeds with no fatal errors or PHP warnings against the real `looptrails` database.
+- [ ] `docs/visual-acceptance-report-m4.md` exists with real, non-fabricated numbers (not "looks close") — if any metric misses spec §4's tolerance, it is listed with a reason, not silently omitted.
+- [ ] Report to the user: files changed, tests run/passed, the visual acceptance report's headline numbers, and any known deviations — explicitly including any place Task 1's live-audit findings caused the implementation to diverge from this plan's best-evidence defaults (sticky behavior, footer structure), per spec §15's zero-undisclosed-deviation rule.
 - [ ] Wait for the user's explicit pass before starting Milestone 5 (Home and reusable visual components).
