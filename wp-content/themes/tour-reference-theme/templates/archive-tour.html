@@ -1,0 +1,33 @@
+<!-- wp:template-part {"slug":"header","tagName":"header","area":"header"} /-->
+
+<!-- wp:group {"tagName":"main","style":{"spacing":{"padding":{"top":"0","bottom":"60px","left":"0","right":"0"},"margin":{"top":"0","bottom":"0"}}},"layout":{"type":"default"}} -->
+<main class="wp-block-group" style="margin-top:0;margin-bottom:0;padding-top:0;padding-right:0;padding-bottom:60px;padding-left:0">
+	<!-- Archive Hero Banner -->
+	<!-- wp:group {"align":"full","className":"archive-hero-banner","style":{"spacing":{"padding":{"top":"100px","bottom":"60px","left":"20px","right":"20px"}}},"backgroundColor":"primary","textColor":"surface","layout":{"type":"constrained","contentSize":"1200px"}} -->
+	<div class="wp-block-group alignfull archive-hero-banner has-surface-color has-primary-background-color has-text-color has-background" style="padding-top:100px;padding-right:20px;padding-bottom:60px;padding-left:20px">
+		<!-- wp:heading {"level":1,"textAlign":"center","style":{"typography":{"fontSize":"clamp(32px, 4.5vw, 54px)","fontWeight":"800","lineHeight":"1.15"}}} -->
+		<h1 class="wp-block-heading has-text-align-center" style="font-size:clamp(32px, 4.5vw, 54px);font-weight:800;line-height:1.15"><?php esc_html_e( 'Northern Vietnam Loop Tours', 'tour-reference-theme' ); ?></h1>
+		<!-- /wp:heading -->
+
+		<!-- wp:paragraph {"align":"center","style":{"typography":{"fontSize":"18px","lineHeight":"1.6"},"spacing":{"margin":{"top":"12px"}}}} -->
+		<p class="has-text-align-center" style="font-size:18px;line-height:1.6;margin-top:12px;max-width:700px;margin-left:auto;margin-right:auto;"><?php esc_html_e( 'Choose your adventure from our signature 2 to 6-day motorbike and 4x4 itineraries across Ha Giang and Cao Bang.', 'tour-reference-theme' ); ?></p>
+		<!-- /wp:paragraph -->
+	</div>
+	<!-- /wp:group -->
+
+	<!-- Tour Packages Grid Container -->
+	<!-- wp:group {"style":{"spacing":{"padding":{"top":"50px","bottom":"50px","left":"20px","right":"20px"}}},"layout":{"type":"constrained","contentSize":"1200px"}} -->
+	<div class="wp-block-group" style="padding-top:50px;padding-right:20px;padding-bottom:50px;padding-left:20px">
+		<!-- wp:shortcode -->
+		[tour_featured_grid postsPerPage="12"]
+		<!-- /wp:shortcode -->
+	</div>
+	<!-- /wp:group -->
+
+	<!-- wp:pattern {"slug":"tour-reference-theme/why-choose-us"} /-->
+
+	<!-- wp:pattern {"slug":"tour-reference-theme/editorial-cta"} /-->
+</main>
+<!-- /wp:group -->
+
+<!-- wp:template-part {"slug":"footer","tagName":"footer","area":"footer"} /-->

@@ -1,0 +1,91 @@
+<!-- wp:template-part {"slug":"header","tagName":"header","area":"header"} /-->
+
+<!-- wp:group {"tagName":"main","style":{"spacing":{"padding":{"top":"0","bottom":"60px","left":"0","right":"0"},"margin":{"top":"0","bottom":"0"}}},"layout":{"type":"default"}} -->
+<main class="wp-block-group" style="margin-top:0;margin-bottom:0;padding-top:0;padding-right:0;padding-bottom:60px;padding-left:0">
+	<!-- Contact Hero -->
+	<!-- wp:group {"align":"full","className":"contact-hero-banner","style":{"spacing":{"padding":{"top":"100px","bottom":"60px","left":"20px","right":"20px"}}},"backgroundColor":"primary","textColor":"surface","layout":{"type":"constrained","contentSize":"1200px"}} -->
+	<div class="wp-block-group alignfull contact-hero-banner has-surface-color has-primary-background-color has-text-color has-background" style="padding-top:100px;padding-right:20px;padding-bottom:60px;padding-left:20px">
+		<!-- wp:heading {"level":1,"textAlign":"center","style":{"typography":{"fontSize":"clamp(32px, 4.5vw, 54px)","fontWeight":"800","lineHeight":"1.15"}}} -->
+		<h1 class="wp-block-heading has-text-align-center" style="font-size:clamp(32px, 4.5vw, 54px);font-weight:800;line-height:1.15"><?php esc_html_e( 'Contact Our Team', 'tour-reference-theme' ); ?></h1>
+		<!-- /wp:heading -->
+
+		<!-- wp:paragraph {"align":"center","style":{"typography":{"fontSize":"18px","lineHeight":"1.6"},"spacing":{"margin":{"top":"12px"}}}} -->
+		<p class="has-text-align-center" style="font-size:18px;line-height:1.6;margin-top:12px;max-width:700px;margin-left:auto;margin-right:auto;"><?php esc_html_e( 'Have questions about routes, weather, or custom private tours? We reply promptly on WhatsApp and email.', 'tour-reference-theme' ); ?></p>
+		<!-- /wp:paragraph -->
+	</div>
+	<!-- /wp:group -->
+
+	<!-- Contact Layout (Info Card + Form) -->
+	<!-- wp:group {"style":{"spacing":{"padding":{"top":"60px","bottom":"60px","left":"20px","right":"20px"}}},"layout":{"type":"constrained","contentSize":"1100px"}} -->
+	<div class="wp-block-group" style="padding-top:60px;padding-right:20px;padding-bottom:60px;padding-left:20px">
+		<!-- wp:columns {"style":{"spacing":{"blockGap":{"top":"40px","left":"50px"}}}} -->
+		<div class="wp-block-columns">
+			<!-- Left Column: Info Box -->
+			<!-- wp:column {"width":"42%"} -->
+			<div class="wp-block-column" style="flex-basis:42%">
+				<div class="contact-info-panel" style="background:#fdfbf7;border:1px solid #eee8dc;border-radius:14px;padding:32px;">
+					<h3 style="font-family:var(--wp--preset--font-family--heading);font-size:22px;font-weight:800;margin-top:0;margin-bottom:20px;"><?php esc_html_e( 'Ha Giang Basecamp', 'tour-reference-theme' ); ?></h3>
+
+					<div class="contact-info-item" style="margin-bottom:18px;">
+						<strong>📍 <?php esc_html_e( 'Location', 'tour-reference-theme' ); ?>:</strong>
+						<p style="margin:4px 0 0;font-size:15px;color:#555;"><?php esc_html_e( 'Nguyen Trai Street, Ha Giang City, Vietnam', 'tour-reference-theme' ); ?></p>
+					</div>
+
+					<div class="contact-info-item" style="margin-bottom:18px;">
+						<strong>💬 WhatsApp / Hotline:</strong>
+						<p style="margin:4px 0 0;font-size:15px;color:#555;">+84 987 654 321</p>
+					</div>
+
+					<div class="contact-info-item" style="margin-bottom:18px;">
+						<strong>✉️ Email:</strong>
+						<p style="margin:4px 0 0;font-size:15px;color:#555;">booking@looptrails.com</p>
+					</div>
+
+					<div class="contact-info-item">
+						<strong>⏰ <?php esc_html_e( 'Opening Hours', 'tour-reference-theme' ); ?>:</strong>
+						<p style="margin:4px 0 0;font-size:15px;color:#555;"><?php esc_html_e( '07:00 – 22:00 (Daily)', 'tour-reference-theme' ); ?></p>
+					</div>
+				</div>
+			</div>
+			<!-- /wp:column -->
+
+			<!-- Right Column: Form -->
+			<!-- wp:column {"width":"58%"} -->
+			<div class="wp-block-column" style="flex-basis:58%">
+				<form class="contact-form" style="background:#ffffff;border:1px solid #e5e5e5;border-radius:14px;padding:32px;box-shadow:0 4px 15px rgba(0,0,0,0.03);">
+					<h3 style="font-family:var(--wp--preset--font-family--heading);font-size:22px;font-weight:800;margin-top:0;margin-bottom:20px;"><?php esc_html_e( 'Send a Message', 'tour-reference-theme' ); ?></h3>
+
+					<div style="margin-bottom:16px;">
+						<label style="display:block;font-weight:700;font-size:14px;margin-bottom:6px;"><?php esc_html_e( 'Your Name', 'tour-reference-theme' ); ?> *</label>
+						<input type="text" required style="width:100%;padding:10px 14px;border:1px solid #ccc;border-radius:8px;font-size:15px;" placeholder="<?php esc_attr_e( 'Full Name', 'tour-reference-theme' ); ?>" />
+					</div>
+
+					<div style="margin-bottom:16px;">
+						<label style="display:block;font-weight:700;font-size:14px;margin-bottom:6px;"><?php esc_html_e( 'Email Address', 'tour-reference-theme' ); ?> *</label>
+						<input type="email" required style="width:100%;padding:10px 14px;border:1px solid #ccc;border-radius:8px;font-size:15px;" placeholder="name@email.com" />
+					</div>
+
+					<div style="margin-bottom:16px;">
+						<label style="display:block;font-weight:700;font-size:14px;margin-bottom:6px;"><?php esc_html_e( 'WhatsApp / Phone Number', 'tour-reference-theme' ); ?></label>
+						<input type="tel" style="width:100%;padding:10px 14px;border:1px solid #ccc;border-radius:8px;font-size:15px;" placeholder="+Country code ..." />
+					</div>
+
+					<div style="margin-bottom:20px;">
+						<label style="display:block;font-weight:700;font-size:14px;margin-bottom:6px;"><?php esc_html_e( 'Message or Tour Inquiry', 'tour-reference-theme' ); ?> *</label>
+						<textarea required rows="4" style="width:100%;padding:10px 14px;border:1px solid #ccc;border-radius:8px;font-size:15px;" placeholder="<?php esc_attr_e( 'Tell us about your travel dates and group size...', 'tour-reference-theme' ); ?>"></textarea>
+					</div>
+
+					<div class="wp-block-button is-style-book-now">
+						<button type="button" class="wp-block-button__link wp-element-button" style="width:100%;justify-content:center;cursor:pointer;border:none;"><?php esc_html_e( 'Submit Message', 'tour-reference-theme' ); ?></button>
+					</div>
+				</form>
+			</div>
+			<!-- /wp:column -->
+		</div>
+		<!-- /wp:columns -->
+	</div>
+	<!-- /wp:group -->
+</main>
+<!-- /wp:group -->
+
+<!-- wp:template-part {"slug":"footer","tagName":"footer","area":"footer"} /-->

@@ -1,0 +1,31 @@
+<!-- wp:template-part {"slug":"header","tagName":"header","area":"header"} /-->
+
+<!-- wp:group {"tagName":"main","style":{"spacing":{"padding":{"top":"100px","bottom":"120px","left":"20px","right":"20px"}}},"layout":{"type":"constrained","contentSize":"700px"}} -->
+<main class="wp-block-group" style="padding-top:100px;padding-right:20px;padding-bottom:120px;padding-left:20px;text-align:center">
+	<!-- wp:heading {"level":1,"style":{"typography":{"fontSize":"clamp(48px, 8vw, 84px)","fontWeight":"900","lineHeight":"1"}},"textColor":"primary"} -->
+	<h1 class="wp-block-heading has-primary-color has-text-color" style="font-size:clamp(48px, 8vw, 84px);font-weight:900;line-height:1">404</h1>
+	<!-- /wp:heading -->
+
+	<!-- wp:heading {"level":2,"style":{"typography":{"fontSize":"26px","fontWeight":"700"},"spacing":{"margin":{"top":"16px","bottom":"16px"}}}} -->
+	<h2 class="wp-block-heading" style="font-size:26px;font-weight:700;margin-top:16px;margin-bottom:16px;"><?php esc_html_e( 'Off The Beaten Track', 'tour-reference-theme' ); ?></h2>
+	<!-- /wp:heading -->
+
+	<!-- wp:paragraph {"style":{"typography":{"fontSize":"16px","lineHeight":"1.6"},"spacing":{"margin":{"bottom":"32px"}}}} -->
+	<p style="font-size:16px;line-height:1.6;margin-bottom:32px;color:#666;"><?php esc_html_e( 'The trail or page you are looking for has been moved, renamed, or does not exist. Let’s get you back on the main road.', 'tour-reference-theme' ); ?></p>
+	<!-- /wp:paragraph -->
+
+	<!-- wp:search {"label":"Search","showLabel":false,"placeholder":"Search tours, guides...","buttonText":"Search","buttonPosition":"button-inside","style":{"spacing":{"margin":{"bottom":"32px"}}}} /-->
+
+	<!-- wp:buttons {"layout":{"type":"flex","justifyContent":"center"}} -->
+	<div class="wp-block-buttons">
+		<!-- wp:button {"className":"is-style-book-now"} -->
+		<div class="wp-block-button is-style-book-now">
+			<a class="wp-block-button__link wp-element-button" href="<?php echo esc_url( home_url( '/' ) ); ?>"><?php esc_html_e( 'Return To Homepage', 'tour-reference-theme' ); ?></a>
+		</div>
+		<!-- /wp:button -->
+	</div>
+	<!-- /wp:buttons -->
+</main>
+<!-- /wp:group -->
+
+<!-- wp:template-part {"slug":"footer","tagName":"footer","area":"footer"} /-->

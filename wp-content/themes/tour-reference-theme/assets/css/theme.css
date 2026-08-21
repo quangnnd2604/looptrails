@@ -572,6 +572,290 @@
 	margin: 0;
 }
 
+/* ==========================================================================
+   Tour Detail Template Styling (Spec §5.4, 02-tour-detail.md)
+   ========================================================================== */
+.tour-detail-hero {
+	border-bottom: 1px solid rgba(0, 0, 0, 0.08);
+}
+
+.tour-detail-badge {
+	background: rgba(255, 255, 255, 0.15);
+	color: #ffffff;
+	padding: 6px 14px;
+	border-radius: 20px;
+	font-size: 13px;
+	font-weight: 600;
+	backdrop-filter: blur(4px);
+}
+
+.itinerary-timeline {
+	border-left: 2px solid var(--wp--preset--color--primary, #1e1e24);
+	margin-left: 12px;
+	padding-left: 24px;
+	display: flex;
+	flex-direction: column;
+	gap: 28px;
+}
+
+.itinerary-day {
+	position: relative;
+}
+
+.itinerary-day::before {
+	content: '';
+	position: absolute;
+	left: -31px;
+	top: 4px;
+	width: 12px;
+	height: 12px;
+	border-radius: 50%;
+	background: #e05a47;
+	border: 2px solid #ffffff;
+}
+
+.itinerary-day__header {
+	display: flex;
+	align-items: baseline;
+	gap: 10px;
+	margin-bottom: 8px;
+	flex-wrap: wrap;
+}
+
+.itinerary-day__number {
+	font-family: var(--wp--preset--font-family--heading);
+	font-weight: 800;
+	font-size: 14px;
+	color: #e05a47;
+	text-transform: uppercase;
+}
+
+.itinerary-day__title {
+	font-family: var(--wp--preset--font-family--heading);
+	font-size: 18px;
+	font-weight: 700;
+	margin: 0;
+	color: var(--wp--preset--color--primary, #1e1e24);
+}
+
+.itinerary-day__desc {
+	font-size: 15px;
+	line-height: 1.65;
+	color: var(--wp--preset--color--text-body, #555555);
+	margin: 0;
+}
+
+.inclusions-grid {
+	display: grid;
+	grid-template-columns: 1fr 1fr;
+	gap: 20px;
+	background: #fdfbf7;
+	padding: 24px;
+	border-radius: 12px;
+	border: 1px solid #eee8dc;
+}
+
+@media (max-width: 768px) {
+	.inclusions-grid {
+		grid-template-columns: 1fr;
+	}
+}
+
+.inclusions-title {
+	font-size: 16px;
+	font-weight: 700;
+	margin: 0 0 12px;
+	color: #10b981;
+}
+
+.inclusions-col:last-child .inclusions-title {
+	color: #ef4444;
+}
+
+.inclusions-list {
+	list-style: none;
+	padding: 0;
+	margin: 0;
+	display: flex;
+	flex-direction: column;
+	gap: 8px;
+	font-size: 14px;
+	line-height: 1.5;
+	color: #444444;
+}
+
+.tour-booking-sidebar-card {
+	background: #ffffff;
+	border: 1px solid #e0dcd5;
+	border-radius: 16px;
+	padding: 28px;
+	box-shadow: 0 8px 30px rgba(0, 0, 0, 0.08);
+	position: sticky;
+	top: 100px;
+}
+
+.booking-card-title {
+	font-family: var(--wp--preset--font-family--heading);
+	font-size: 20px;
+	font-weight: 800;
+	margin: 0 0 18px;
+	color: var(--wp--preset--color--primary, #1e1e24);
+	border-bottom: 1px solid #f0ece1;
+	padding-bottom: 12px;
+}
+
+.booking-price-tier {
+	padding: 12px 14px;
+	border: 1px solid #e5e5e5;
+	border-radius: 10px;
+	margin-bottom: 10px;
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	font-size: 13px;
+}
+
+.booking-price-tier.is-highlighted {
+	border-color: #ff6602;
+	background: #fff8f5;
+}
+
+.booking-price-label {
+	font-weight: 600;
+	color: #333333;
+}
+
+.booking-price-value {
+	font-weight: 800;
+	font-size: 16px;
+	color: var(--wp--preset--color--primary, #1e1e24);
+}
+
+.booking-price-value small {
+	font-size: 11px;
+	font-weight: 400;
+	color: #777777;
+}
+
+.booking-guarantee-note {
+	font-size: 12px;
+	color: #666666;
+	text-align: center;
+	margin: 12px 0 0;
+}
+
+/* ==========================================================================
+   Motorbike Rental Fleet Grid (03-secondary-pages.md § Motorbike Rental)
+   ========================================================================== */
+.rental-bikes-grid {
+	display: grid;
+	grid-template-columns: repeat(4, minmax(0, 1fr));
+	gap: 20px;
+}
+
+@media (max-width: 1024px) {
+	.rental-bikes-grid {
+		grid-template-columns: repeat(2, minmax(0, 1fr));
+	}
+}
+
+@media (max-width: 600px) {
+	.rental-bikes-grid {
+		grid-template-columns: 1fr;
+	}
+}
+
+.bike-card {
+	background: #ffffff;
+	border: 1px solid #e5e7eb;
+	border-radius: 12px;
+	overflow: hidden;
+	box-shadow: 0 4px 15px rgba(0, 0, 0, 0.04);
+	display: flex;
+	flex-direction: column;
+	transition: transform 0.2s ease, border-color 0.2s ease;
+}
+
+.bike-card:hover {
+	transform: translateY(-3px);
+	border-color: #ff6602;
+}
+
+.bike-card.is-popular {
+	border: 2px solid #ff6602;
+	box-shadow: 0 0 0 3px rgba(255, 102, 2, 0.12);
+}
+
+.bike-card__media {
+	position: relative;
+	height: 180px;
+	background: #f4f2ee;
+}
+
+.bike-card__media img {
+	width: 100%;
+	height: 100%;
+	object-fit: cover;
+	display: block;
+}
+
+.bike-card__type {
+	position: absolute;
+	top: 10px;
+	left: 10px;
+	background: rgba(30, 30, 35, 0.85);
+	color: #ffffff;
+	padding: 3px 8px;
+	border-radius: 4px;
+	font-size: 11px;
+	font-weight: 700;
+}
+
+.bike-card__body {
+	padding: 20px;
+	display: flex;
+	flex-direction: column;
+	flex-grow: 1;
+}
+
+.bike-card__title {
+	font-family: var(--wp--preset--font-family--heading);
+	font-size: 17px;
+	font-weight: 700;
+	margin: 0 0 8px;
+	color: var(--wp--preset--color--primary, #1e1e24);
+}
+
+.bike-card__spec {
+	font-size: 13px;
+	line-height: 1.5;
+	color: var(--wp--preset--color--text-body, #666666);
+	margin: 0 0 16px;
+	flex-grow: 1;
+}
+
+.bike-card__rate {
+	border-top: 1px solid #f0f0f0;
+	padding-top: 12px;
+	display: flex;
+	justify-content: space-between;
+	align-items: baseline;
+}
+
+.bike-rate-val {
+	font-size: 20px;
+	font-weight: 800;
+	color: #e05a47;
+}
+
+.bike-rate-val small {
+	font-size: 12px;
+	font-weight: 400;
+	color: #666666;
+}
+
+
+
 
 
 

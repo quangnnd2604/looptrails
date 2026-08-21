@@ -1,0 +1,36 @@
+<!-- wp:template-part {"slug":"header","tagName":"header","area":"header"} /-->
+
+<!-- wp:group {"tagName":"main","style":{"spacing":{"padding":{"top":"60px","bottom":"80px","left":"20px","right":"20px"}}},"layout":{"type":"constrained","contentSize":"1000px"}} -->
+<main class="wp-block-group" style="padding-top:60px;padding-right:20px;padding-bottom:80px;padding-left:20px">
+	<!-- wp:query-title {"type":"search","style":{"typography":{"fontSize":"clamp(28px, 4vw, 44px)","fontWeight":"800"},"spacing":{"margin":{"bottom":"24px"}}}} /-->
+
+	<!-- wp:search {"label":"Search","showLabel":false,"placeholder":"Search tours, articles, guides...","buttonText":"Search","buttonPosition":"button-inside","style":{"spacing":{"margin":{"bottom":"40px"}}}} /-->
+
+	<!-- wp:query {"queryId":2,"query":{"perPage":6,"pages":0,"offset":0,"postType":"post","order":"desc","orderBy":"date","author":"","search":"","exclude":[],"sticky":"","inherit":true},"layout":{"type":"constrained"}} -->
+	<div class="wp-block-query">
+		<!-- wp:post-template {"layout":{"type":"default"}} -->
+		<!-- wp:group {"style":{"spacing":{"padding":{"top":"20px","bottom":"20px"}},"border":{"bottom":{"color":"#eeeeee","width":"1px"}}},"layout":{"type":"default"}} -->
+		<div class="wp-block-group" style="border-bottom-color:#eeeeee;border-bottom-width:1px;padding-top:20px;padding-bottom:20px">
+			<!-- wp:post-title {"isLink":true,"style":{"typography":{"fontSize":"20px","fontWeight":"700"}}} /-->
+			<!-- wp:post-excerpt {"moreText":"Read More →","excerptLength":25} /-->
+		</div>
+		<!-- /wp:group -->
+		<!-- /wp:post-template -->
+
+		<!-- wp:query-pagination {"layout":{"type":"flex","justifyContent":"center"}} -->
+		<!-- wp:query-pagination-previous /-->
+		<!-- wp:query-pagination-numbers /-->
+		<!-- wp:query-pagination-next /-->
+		<!-- /wp:query-pagination -->
+
+		<!-- wp:query-no-results -->
+		<!-- wp:paragraph -->
+		<p><?php esc_html_e( 'Sorry, no results matched your search query. Please try different keywords.', 'tour-reference-theme' ); ?></p>
+		<!-- /wp:paragraph -->
+		<!-- /wp:query-no-results -->
+	</div>
+	<!-- /wp:query -->
+</main>
+<!-- /wp:group -->
+
+<!-- wp:template-part {"slug":"footer","tagName":"footer","area":"footer"} /-->
