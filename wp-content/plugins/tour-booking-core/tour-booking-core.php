@@ -38,7 +38,18 @@ require_once TBC_PLUGIN_DIR . 'includes/class-admin-page.php';
 
 Tbc_Admin_Page::register();
 
+require_once TBC_PLUGIN_DIR . 'includes/class-pricing-engine.php';
+require_once TBC_PLUGIN_DIR . 'includes/class-currency.php';
+require_once TBC_PLUGIN_DIR . 'includes/class-search-filter.php';
+require_once TBC_PLUGIN_DIR . 'includes/class-seo.php';
+require_once TBC_PLUGIN_DIR . 'includes/class-mailer.php';
+require_once TBC_PLUGIN_DIR . 'includes/class-booking-handler.php';
+
+Tbc_Booking_Handler::init();
+Tbc_Seo::init();
+
 if ( defined( 'WP_CLI' ) && WP_CLI ) {
 	WP_CLI::add_command( 'tbc demo import', array( 'Tbc_Demo_Importer', 'cli_import' ) );
 	WP_CLI::add_command( 'tbc demo remove', array( 'Tbc_Demo_Remover', 'cli_remove' ) );
 }
+
