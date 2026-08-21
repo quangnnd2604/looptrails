@@ -135,7 +135,15 @@ class Tbc_Booking_Handler {
 
 		// 4. Generate unique Booking Reference
 		$booking_ref = sprintf( 'LT-%s-%04d', gmdate( 'Ymd' ), wp_rand( 1000, 9999 ) );
-		$tour_title  = $tour_id ? get_the_title( $tour_id ) : 'Custom Northern Loop Tour';
+		if ( $tour_id ) {
+			$tour_title = get_the_title( $tour_id );
+		} elseif ( ! empty( $params['rental_bike'] ) && isset( Tbc_Pricing_Engine::RENTAL_BIKES[ $params['rental_bike'] ] ) ) {
+			$bike_info  = Tbc_Pricing_Engine::RENTAL_BIKES[ $params['rental_bike'] ];
+			$bike_label = isset( $bike_info['label'] ) ? $bike_info['label'] : ( isset( $bike_info['name'] ) ? $bike_info['name'] : $params['rental_bike'] );
+			$tour_title = sprintf( 'Motorbike Rental (%s)', $bike_label );
+		} else {
+			$tour_title = 'Custom Northern Loop Tour';
+		}
 
 		// 5. Create Booking post in WP database
 		$booking_id = wp_insert_post(

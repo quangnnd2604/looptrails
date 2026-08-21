@@ -3,8 +3,8 @@
 <!-- wp:group {"tagName":"main","style":{"spacing":{"padding":{"top":"0","bottom":"60px","left":"0","right":"0"},"margin":{"top":"0","bottom":"0"}}},"layout":{"type":"default"}} -->
 <main class="wp-block-group" style="margin-top:0;margin-bottom:0;padding-top:0;padding-right:0;padding-bottom:60px;padding-left:0">
 	<!-- Tour Detail Hero Banner -->
-	<!-- wp:group {"align":"full","className":"tour-detail-hero","style":{"spacing":{"padding":{"top":"100px","bottom":"60px","left":"20px","right":"20px"}}},"backgroundColor":"primary","textColor":"surface","layout":{"type":"constrained","contentSize":"1200px"}} -->
-	<div class="wp-block-group alignfull tour-detail-hero has-surface-color has-primary-background-color has-text-color has-background" style="padding-top:100px;padding-right:20px;padding-bottom:60px;padding-left:20px">
+	<!-- wp:group {"align":"full","className":"tour-detail-hero","style":{"spacing":{"padding":{"top":"100px","bottom":"60px","left":"20px","right":"20px"}}},"textColor":"surface","layout":{"type":"constrained","contentSize":"1200px"}} -->
+	<div class="wp-block-group alignfull tour-detail-hero has-surface-color has-text-color" style="padding-top:100px;padding-right:20px;padding-bottom:60px;padding-left:20px">
 		<!-- wp:post-title {"level":1,"style":{"typography":{"fontSize":"clamp(28px, 4vw, 48px)","fontWeight":"800","lineHeight":"1.15"}}} /-->
 
 		<!-- wp:group {"style":{"spacing":{"blockGap":"16px","margin":{"top":"16px"}}},"layout":{"type":"flex","flexWrap":"wrap","alignItems":"center"}} -->
@@ -17,6 +17,18 @@
 	</div>
 	<!-- /wp:group -->
 
+	<!-- Sticky Secondary Sub-Nav -->
+	<!-- wp:html -->
+	<nav class="tour-subnav" id="tour-subnav">
+		<div class="tour-subnav__inner">
+			<a href="#overview">Overview</a>
+			<a href="#itinerary">Itinerary</a>
+			<a href="#included">What’s Included</a>
+			<a href="#faq">FAQs</a>
+		</div>
+	</nav>
+	<!-- /wp:html -->
+
 	<!-- Main Content & Booking Sidebar Container -->
 	<!-- wp:group {"style":{"spacing":{"padding":{"top":"40px","bottom":"40px","left":"20px","right":"20px"}}},"layout":{"type":"constrained","contentSize":"1200px"}} -->
 	<div class="wp-block-group" style="padding-top:40px;padding-right:20px;padding-bottom:40px;padding-left:20px">
@@ -28,7 +40,7 @@
 				<!-- wp:post-featured-image {"aspectRatio":"16/9","style":{"border":{"radius":"14px"}}} /-->
 
 				<!-- wp:group {"style":{"spacing":{"margin":{"top":"30px","bottom":"30px"}}},"layout":{"type":"default"}} -->
-				<div class="wp-block-group" style="margin-top:30px;margin-bottom:30px">
+				<div class="wp-block-group" id="overview" style="margin-top:30px;margin-bottom:30px">
 					<!-- wp:heading {"level":2,"style":{"typography":{"fontSize":"26px","fontWeight":"700"}}} -->
 					<h2 class="wp-block-heading" style="font-size:26px;font-weight:700">Tour Overview</h2>
 					<!-- /wp:heading -->
@@ -38,7 +50,7 @@
 				<!-- /wp:group -->
 
 				<!-- Dynamic Itinerary Section -->
-				<div class="tour-itinerary-section">
+				<div class="tour-itinerary-section" id="itinerary">
 					<h2 class="wp-block-heading" style="font-size:26px;font-weight:700;margin-bottom:20px;">Day-by-Day Itinerary</h2>
 
 					<!-- wp:shortcode -->
@@ -47,7 +59,7 @@
 				</div>
 
 				<!-- Included / Excluded Box -->
-				<div class="tour-inclusions-box" style="margin-top:40px;">
+				<div class="tour-inclusions-box" id="included" style="margin-top:40px;">
 					<h2 class="wp-block-heading" style="font-size:24px;font-weight:700;margin-bottom:16px;">What’s Included &amp; Excluded</h2>
 					<div class="inclusions-grid">
 						<div class="inclusions-col">
@@ -70,6 +82,11 @@
 						</div>
 					</div>
 				</div>
+
+				<!-- FAQ Section -->
+				<div class="tour-faq-section" id="faq" style="margin-top:40px;">
+					<!-- wp:pattern {"slug":"tour-reference-theme/faq-accordion"} /-->
+				</div>
 			</div>
 			<!-- /wp:column -->
 
@@ -82,19 +99,6 @@
 					<!-- wp:shortcode -->
 					[tour_single_pricing]
 					<!-- /wp:shortcode -->
-
-					<div class="booking-card-cta" style="margin-top:24px;">
-						<!-- wp:buttons {"layout":{"type":"flex","justifyContent":"center"}} -->
-						<div class="wp-block-buttons">
-							<!-- wp:button {"className":"is-style-book-now"} -->
-							<div class="wp-block-button is-style-book-now" style="width:100%">
-								<a class="wp-block-button__link wp-element-button" style="width:100%;justify-content:center" href="#book">Instant Booking</a>
-							</div>
-							<!-- /wp:button -->
-						</div>
-						<!-- /wp:buttons -->
-						<p class="booking-guarantee-note">🔒 Free cancellation up to 48h before departure</p>
-					</div>
 				</div>
 			</div>
 			<!-- /wp:column -->

@@ -363,6 +363,13 @@ function tour_theme_render_single_itinerary( $tour_id = 0 ) {
 
 	$tour_title = get_the_title( $tour_id );
 	$output = '<div class="itinerary-timeline">';
+	$colors = array(
+		1 => array( '#1b3b22', '#2d5a37', '#407a4e' ),
+		2 => array( '#1e3048', '#2b476b', '#3d6190' ),
+		3 => array( '#4a2c16', '#6b4223', '#8f5b33' ),
+		4 => array( '#382245', '#523466', '#714b8a' ),
+	);
+
 	foreach ( $days as $day ) {
 		$day_num   = get_post_meta( $day->ID, 'tbc_day_number', true );
 		$day_title = trim( get_the_title( $day->ID ) );
@@ -377,6 +384,22 @@ function tour_theme_render_single_itinerary( $tour_id = 0 ) {
 		}
 		$output .= '</div>';
 		$output .= '<div class="itinerary-day__desc">' . esc_html( $day_desc ) . '</div>';
+
+		// 3 Placeholder images per day (encoded with rawurlencode)
+		$output .= '<div class="itinerary-day__photos">';
+		$day_idx = ( (int) $day_num ) % 4;
+		if ( 0 === $day_idx ) {
+			$day_idx = 4;
+		}
+		$bg_palette = isset( $colors[ $day_idx ] ) ? $colors[ $day_idx ] : $colors[1];
+		for ( $p = 1; $p <= 3; $p++ ) {
+			$bg = $bg_palette[ $p - 1 ];
+			$svg = '<svg xmlns="http://www.w3.org/2000/svg" width="213" height="160" viewBox="0 0 213 160"><rect width="213" height="160" fill="' . $bg . '"/><text x="50%" y="45%" dominant-baseline="middle" text-anchor="middle" fill="#ffffff" font-family="Montserrat, sans-serif" font-size="13" font-weight="bold">Day ' . esc_attr( $day_num ) . ' Highlight ' . $p . '</text><text x="50%" y="62%" dominant-baseline="middle" text-anchor="middle" fill="#dddddd" font-family="Montserrat, sans-serif" font-size="10">Scenic Mountain Route</text></svg>';
+			$src = 'data:image/svg+xml;charset=utf-8,' . rawurlencode( $svg );
+			$output .= '<img class="itinerary-photo" src="' . esc_url( $src ) . '" alt="' . esc_attr( sprintf( 'Day %s Photo %d', $day_num, $p ) ) . '" width="213" height="160" />';
+		}
+		$output .= '</div>';
+
 		if ( ! empty( $included ) ) {
 			$output .= '<div class="itinerary-day__included"><strong>' . esc_html__( 'Included: ', 'tour-reference-theme' ) . '</strong>' . esc_html( $included ) . '</div>';
 		}
@@ -446,6 +469,7 @@ function tour_theme_render_single_pricing( $tour_id = 0 ) {
 		}
 		$usd = class_exists( 'Tbc_Currency' ) ? Tbc_Currency::vnd_to_usd( $vnd ) : intval( round( $vnd / 25400 ) );
 		$price_rows[] = array(
+			'id'    => $v->ID,
 			'label' => get_the_title( $v->ID ),
 			'vnd'   => $vnd,
 			'usd'   => $usd,
@@ -453,16 +477,90 @@ function tour_theme_render_single_pricing( $tour_id = 0 ) {
 	}
 	usort( $price_rows, function( $a, $b ) { return $a['vnd'] <=> $b['vnd']; } );
 
-	$output = '';
+	$output = '<div class="ltw-pricing-tiers-wrapper">';
+	$output .= '<div class="ltw-option-title">' . esc_html__( 'Select Option & Price', 'tour-reference-theme' ) . '</div>';
+	$output .= '<div class="ltw-pricing-tiers">';
 	foreach ( $price_rows as $i => $row ) {
-		$highlight = 1 === $i ? ' is-highlighted' : '';
+		$is_selected = 0 === $i;
 		$output .= sprintf(
-			'<div class="booking-price-tier%s"><span class="booking-price-label">%s</span><span class="booking-price-value">$%s <small>USD / person</small></span></div>',
-			$highlight,
+			'<label class="booking-price-tier%s" data-index="%d">
+				<input type="radio" name="tour_vehicle_choice" value="%d" %s class="ltw-tier-radio">
+				<div class="booking-price-tier__content">
+					<span class="booking-price-label">%s</span>
+					<span class="booking-price-value">$%s <small>USD / person</small></span>
+				</div>
+			</label>',
+			$is_selected ? ' is-selected' : '',
+			$i,
+			esc_attr( $row['id'] ),
+			$is_selected ? 'checked' : '',
 			esc_html( $row['label'] ),
 			esc_html( $row['usd'] )
 		);
 	}
+	$output .= '</div>';
+
+	// Stepper
+	$output .= '
+	<div class="ltw-people-picker">
+		<span class="ltw-people-label">' . esc_html__( 'Travelers (Max 8)', 'tour-reference-theme' ) . '</span>
+		<div class="ltw-stepper">
+			<button type="button" class="ltw-people-btn ltw-dec" aria-label="Decrease travelers">−</button>
+			<span class="ltw-people-count" id="ltw-travelers-display">1</span>
+			<button type="button" class="ltw-people-btn ltw-inc" aria-label="Increase travelers">+</button>
+			<input type="hidden" name="party_size" id="ltw-party-size-input" value="1">
+		</div>
+	</div>';
+
+	// CTA Button & Notes
+	$output .= '
+	<div class="booking-card-cta">
+		<a href="#book" class="ltw-cta-button">' . esc_html__( 'Instant Booking', 'tour-reference-theme' ) . '</a>
+		<p class="booking-guarantee-note">🔒 ' . esc_html__( 'Free cancellation · Instant confirmation · No hidden fees', 'tour-reference-theme' ) . '</p>
+	</div>';
+
+	// Interactive JS
+	$output .= '
+	<script>
+	(function(){
+		document.addEventListener("DOMContentLoaded", function(){
+			const labels = document.querySelectorAll(".booking-price-tier");
+			labels.forEach(function(lbl){
+				lbl.addEventListener("click", function(){
+					labels.forEach(function(l){ l.classList.remove("is-selected"); });
+					lbl.classList.add("is-selected");
+					const radio = lbl.querySelector("input[type=radio]");
+					if (radio) radio.checked = true;
+				});
+			});
+
+			const decBtn = document.querySelector(".ltw-dec");
+			const incBtn = document.querySelector(".ltw-inc");
+			const display = document.getElementById("ltw-travelers-display");
+			const hiddenInput = document.getElementById("ltw-party-size-input");
+			if (decBtn && incBtn && display && hiddenInput) {
+				let count = 1;
+				decBtn.addEventListener("click", function(e){
+					e.preventDefault();
+					if (count > 1) {
+						count--;
+						display.textContent = count;
+						hiddenInput.value = count;
+					}
+				});
+				incBtn.addEventListener("click", function(e){
+					e.preventDefault();
+					if (count < 8) {
+						count++;
+						display.textContent = count;
+						hiddenInput.value = count;
+					}
+				});
+			}
+		});
+	})();
+	</script>';
+	$output .= '</div>';
 
 	return $output;
 }

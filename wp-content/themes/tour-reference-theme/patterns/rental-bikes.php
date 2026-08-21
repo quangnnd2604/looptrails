@@ -27,7 +27,7 @@ $bike_svg_4 = "<svg xmlns='http://www.w3.org/2000/svg' width='400' height='280' 
 					<span class="bike-rate-val">$10 <small>/ day</small></span>
 				</div>
 				<div class="wp-block-button is-style-book-now" style="margin-top:14px;">
-					<a class="wp-block-button__link wp-element-button" style="width:100%;justify-content:center" href="#book"><?php esc_html_e( 'Rent This Bike', 'tour-reference-theme' ); ?></a>
+					<a class="wp-block-button__link wp-element-button" style="width:100%;justify-content:center" href="#rental-book" data-bike="wave_alpha"><?php esc_html_e( 'Rent This Bike', 'tour-reference-theme' ); ?></a>
 				</div>
 			</div>
 		</div>
@@ -45,7 +45,7 @@ $bike_svg_4 = "<svg xmlns='http://www.w3.org/2000/svg' width='400' height='280' 
 					<span class="bike-rate-val">$12 <small>/ day</small></span>
 				</div>
 				<div class="wp-block-button is-style-book-now" style="margin-top:14px;">
-					<a class="wp-block-button__link wp-element-button" style="width:100%;justify-content:center" href="#book"><?php esc_html_e( 'Rent This Bike', 'tour-reference-theme' ); ?></a>
+					<a class="wp-block-button__link wp-element-button" style="width:100%;justify-content:center" href="#rental-book" data-bike="blade_fi"><?php esc_html_e( 'Rent This Bike', 'tour-reference-theme' ); ?></a>
 				</div>
 			</div>
 		</div>
@@ -63,7 +63,7 @@ $bike_svg_4 = "<svg xmlns='http://www.w3.org/2000/svg' width='400' height='280' 
 					<span class="bike-rate-val">$22 <small>/ day</small></span>
 				</div>
 				<div class="wp-block-button is-style-book-now" style="margin-top:14px;">
-					<a class="wp-block-button__link wp-element-button" style="width:100%;justify-content:center" href="#book"><?php esc_html_e( 'Rent This Bike', 'tour-reference-theme' ); ?></a>
+					<a class="wp-block-button__link wp-element-button" style="width:100%;justify-content:center" href="#rental-book" data-bike="xr150l"><?php esc_html_e( 'Rent This Bike', 'tour-reference-theme' ); ?></a>
 				</div>
 			</div>
 		</div>
@@ -81,7 +81,7 @@ $bike_svg_4 = "<svg xmlns='http://www.w3.org/2000/svg' width='400' height='280' 
 					<span class="bike-rate-val">$48 <small>/ day</small></span>
 				</div>
 				<div class="wp-block-button is-style-book-now" style="margin-top:14px;">
-					<a class="wp-block-button__link wp-element-button" style="width:100%;justify-content:center" href="#book"><?php esc_html_e( 'Rent This Bike', 'tour-reference-theme' ); ?></a>
+					<a class="wp-block-button__link wp-element-button" style="width:100%;justify-content:center" href="#rental-book" data-bike="cb500x"><?php esc_html_e( 'Rent This Bike', 'tour-reference-theme' ); ?></a>
 				</div>
 			</div>
 		</div>

@@ -193,5 +193,10 @@
 	"templateParts": [
 		{ "name": "header", "title": "Header", "area": "header" },
 		{ "name": "footer", "title": "Footer", "area": "footer" }
+	],
+	"customTemplates": [
+		{ "name": "page-motorbike-rental", "title": "Motorbike Rental", "postTypes": [ "page" ] },
+		{ "name": "page-about", "title": "About", "postTypes": [ "page" ] },
+		{ "name": "page-contact", "title": "Contact", "postTypes": [ "page" ] }
 	]
 }

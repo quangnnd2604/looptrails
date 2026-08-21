@@ -70,6 +70,10 @@ class Tbc_Pricing_Engine {
 			}
 			$tour_unit_price = Tbc_Currency::vnd_to_usd( $cheapest['price_vnd'] );
 			$vehicle_name    = $cheapest['label'];
+		} elseif ( $rental_days > 0 && isset( self::RENTAL_BIKES[ $rental_bike ] ) ) {
+			// Pure motorbike rental (no tour required)
+			$tour_unit_price = 0.0;
+			$vehicle_name    = isset( self::RENTAL_BIKES[ $rental_bike ]['label'] ) ? self::RENTAL_BIKES[ $rental_bike ]['label'] : $rental_bike;
 		} else {
 			return array( 'error' => 'tour_id_required' );
 		}
@@ -114,8 +118,8 @@ class Tbc_Pricing_Engine {
 
 		$total_usd = max( 0.0, $subtotal_usd - $discount_usd );
 
-		// A tour_subtotal > 0 must never result in total_usd of 0 unless the discount legitimately covers it.
-		if ( $tour_subtotal > 0 && $total_usd <= 0 && ! $discount_applied ) {
+		// A subtotal > 0 must never result in total_usd of 0 unless the discount legitimately covers it.
+		if ( ( $tour_subtotal > 0 || $rental_subtotal > 0 ) && $total_usd <= 0 && ! $discount_applied ) {
 			return array( 'error' => 'price_calculation_error' );
 		}
 

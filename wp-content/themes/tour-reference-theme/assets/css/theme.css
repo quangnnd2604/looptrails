@@ -1205,4 +1205,249 @@ img, svg {
 	display: inline-block;
 }
 
+/* ==========================================================================
+   Single Tour Enhancements (Spec Round 6 Part A)
+   ========================================================================== */
+.tour-detail-hero {
+	background: linear-gradient(rgba(18, 18, 22, 0.60), rgba(18, 18, 22, 0.82)), url('../images/hero-mountain.svg') center center / cover no-repeat, #222228 !important;
+	color: #ffffff !important;
+	position: relative;
+}
+
+.tour-detail-hero h1,
+.tour-detail-hero .wp-block-post-title {
+	color: #ffffff !important;
+	font-family: var(--wp--preset--font-family--heading, Montserrat, sans-serif);
+	font-weight: 800;
+	text-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
+}
+
+.tour-subnav {
+	position: sticky;
+	top: 0;
+	z-index: 100;
+	background: #ffffff;
+	border-bottom: 1px solid #eae6df;
+	box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+}
+
+.tour-subnav__inner {
+	max-width: 1200px;
+	margin: 0 auto;
+	padding: 0 20px;
+	display: flex;
+	gap: 32px;
+	overflow-x: auto;
+}
+
+.tour-subnav__inner a {
+	display: inline-block;
+	padding: 16px 0;
+	font-family: var(--wp--preset--font-family--heading, Montserrat, sans-serif);
+	font-size: 15px;
+	font-weight: 600;
+	color: #36343b;
+	text-decoration: none;
+	border-bottom: 2px solid transparent;
+	transition: color 0.2s, border-color 0.2s;
+	white-space: nowrap;
+}
+
+.tour-subnav__inner a:hover,
+.tour-subnav__inner a:focus {
+	color: var(--wp--preset--color--primary, #ff6602);
+	border-bottom-color: var(--wp--preset--color--primary, #ff6602);
+}
+
+.itinerary-day__photos {
+	display: grid;
+	grid-template-columns: repeat(3, 1fr);
+	gap: 12px;
+	margin: 16px 0 12px;
+}
+
+.itinerary-photo {
+	width: 100%;
+	height: 120px;
+	object-fit: cover;
+	border-radius: 10px;
+	box-shadow: 0 2px 6px rgba(0, 0, 0, 0.06);
+	display: block;
+}
+
+@media (max-width: 600px) {
+	.itinerary-day__photos {
+		grid-template-columns: 1fr 1fr;
+	}
+	.itinerary-photo:last-child {
+		display: none;
+	}
+}
+
+.tour-booking-sidebar-card {
+	background: #ffffff;
+	border-radius: 16px;
+	padding: 28px 24px;
+	border: 1px solid #eae6df;
+	box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+	position: sticky;
+	top: 80px;
+}
+
+.ltw-option-title {
+	font-size: 13.5px;
+	font-weight: 700;
+	color: #1f2937;
+	margin-bottom: 12px;
+	text-transform: uppercase;
+	letter-spacing: 0.5px;
+	font-family: var(--wp--preset--font-family--heading, Montserrat, sans-serif);
+}
+
+.ltw-pricing-tiers {
+	display: flex;
+	flex-direction: column;
+	gap: 12px;
+	margin-bottom: 20px;
+}
+
+.booking-price-tier {
+	display: flex;
+	align-items: center;
+	padding: 14px 16px;
+	border: 2px solid #e5e7eb;
+	border-radius: 10px;
+	background: #faf9f8;
+	cursor: pointer;
+	transition: all 0.2s ease;
+	position: relative;
+}
+
+.booking-price-tier:hover {
+	border-color: #ff6602;
+	background: #fff8f3;
+}
+
+.booking-price-tier.is-selected {
+	border-color: #ff6602;
+	background: #fff4ec;
+	box-shadow: 0 2px 8px rgba(255, 102, 2, 0.12);
+}
+
+.ltw-tier-radio {
+	position: absolute;
+	opacity: 0;
+	pointer-events: none;
+}
+
+.booking-price-tier__content {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	width: 100%;
+}
+
+.booking-price-tier .booking-price-label {
+	font-weight: 600;
+	font-size: 14.5px;
+	color: #1f2937;
+}
+
+.booking-price-tier .booking-price-value {
+	font-weight: 700;
+	font-size: 16px;
+	color: #ff6602;
+}
+
+.ltw-people-picker {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	padding: 14px 16px;
+	background: #f9fafb;
+	border-radius: 10px;
+	border: 1px solid #e5e7eb;
+	margin-bottom: 20px;
+}
+
+.ltw-people-label {
+	font-size: 14px;
+	font-weight: 600;
+	color: #374151;
+	font-family: var(--wp--preset--font-family--heading, Montserrat, sans-serif);
+}
+
+.ltw-stepper {
+	display: flex;
+	align-items: center;
+	gap: 12px;
+}
+
+.ltw-people-btn {
+	width: 32px;
+	height: 32px;
+	border-radius: 6px;
+	border: 1px solid #d1d5db;
+	background: #ffffff;
+	color: #1f2937;
+	font-size: 18px;
+	font-weight: 700;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	cursor: pointer;
+	transition: background 0.15s, border-color 0.15s;
+}
+
+.ltw-people-btn:hover {
+	background: #f3f4f6;
+	border-color: #9ca3af;
+}
+
+.ltw-people-count {
+	font-size: 18px;
+	font-weight: 700;
+	min-width: 20px;
+	text-align: center;
+	color: #111827;
+}
+
+.ltw-cta-button {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	width: 100%;
+	height: 59px;
+	padding: 0 24px;
+	background: #ff6602;
+	color: #ffffff;
+	border-radius: 7px;
+	font-family: var(--wp--preset--font-family--heading, Montserrat, sans-serif);
+	font-size: 16px;
+	font-weight: 700;
+	text-decoration: none;
+	box-shadow: 2px 3px 0px 0px #36343b;
+	transition: background 0.2s, transform 0.1s;
+	box-sizing: border-box;
+}
+
+.ltw-cta-button:hover {
+	background: #e4e0da;
+	color: #36343b;
+}
+
+.ltw-cta-button:active {
+	transform: translate(1px, 2px);
+	box-shadow: 1px 1px 0px 0px #36343b;
+}
+
+.booking-guarantee-note {
+	font-size: 12px;
+	color: #6b7280;
+	text-align: center;
+	margin-top: 12px;
+	margin-bottom: 0;
+}
+
+
 

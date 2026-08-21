@@ -9,12 +9,12 @@ class Test_Secondary_Templates extends WP_UnitTestCase {
 		$templates = array(
 			'single-tour.html'           => array( 'tour-detail-hero', 'tour_single_itinerary', 'tour-booking-sidebar-card' ),
 			'archive-tour.html'          => array( 'archive-hero-banner', 'tour_featured_grid' ),
-			'page-motorbike-rental.html' => array( 'rental-hero-banner', 'rental-bikes' ),
+			'page-motorbike-rental.html' => array( 'wp:post-content' ),
 			'single.html'                => array( 'wp:post-title', 'wp:post-content' ),
 			'archive.html'               => array( 'wp:query-title', 'wp:query' ),
 			'search.html'                => array( 'wp:query-title', 'wp:search' ),
-			'page-contact.html'          => array( 'contact-hero-banner', 'contact-form' ),
-			'page-about.html'            => array( 'about-hero-banner', 'brand-narrative' ),
+			'page-contact.html'          => array( 'wp:post-content' ),
+			'page-about.html'            => array( 'wp:post-content' ),
 			'page.html'                  => array( 'wp:post-title', 'wp:post-content' ),
 			'404.html'                   => array( '404', 'wp:search' ),
 		);

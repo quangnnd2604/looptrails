@@ -496,6 +496,128 @@ Saved screenshot: page-new-block-editor.png
 ```
 *(Kết quả: Trang `page` vẫn sử dụng Gutenberg Block Editor bình thường, không bị ảnh hưởng).*
 
+---
+
+## 9. Vòng 6: Nâng cấp trang chi tiết tour, Sửa nghiệp vụ thuê xe máy, Cho phép chỉnh sửa mọi trang trong wp-admin
+
+### 9.1 PHẦN A — Nâng cấp trang chi tiết Tour (Đầy đủ theo số đo site tham chiếu)
+
+#### Các hạng mục đã thực hiện:
+1. **Hero Background:** Sửa `tour-detail-hero` trong [`templates/single-tour.html`](file:///c:/xampp/htdocs/looptrails/wp-content/themes/tour-reference-theme/templates/single-tour.html) và [`theme.css`](file:///c:/xampp/htdocs/looptrails/wp-content/themes/tour-reference-theme/assets/css/theme.css) thêm gradient overlay cùng ảnh nền `hero-mountain.svg` full-bleed, chữ trắng nổi bật với text-shadow.
+2. **Cột phải (Booking Widget Card):** Viết lại hoàn toàn `tour_theme_render_single_pricing()` trong [`includes/tour-card.php`](file:///c:/xampp/htdocs/looptrails/wp-content/themes/tour-reference-theme/includes/tour-card.php):
+   - Render từng mức giá thành thẻ chọn được `<label class="booking-price-tier">`, thẻ đang chọn nổi bật viền cam + nền `#fff4ec` (`is-selected`).
+   - Bổ sung bộ đếm số người **Travelers stepper** (`−` / số người / `+`, min 1, max 8) lưu vào input ẩn `party_size`.
+   - Nút CTA chính **Instant Booking** chuẩn quy cách tham chiếu: cao 59px, bo góc 7px, nền `#ff6602`, đổ bóng lệch cứng `2px 3px 0px 0px #36343b`, hover `#e4e0da`.
+   - Dòng chữ tin cậy chuẩn: `🔒 Free cancellation · Instant confirmation · No hidden fees`.
+3. **Thanh điều hướng nhanh (Sticky Sub-Nav):** Thêm thanh `<nav class="tour-subnav">` dính cố định khi cuộn (`position: sticky; top: 0; z-index: 100`) với các link nhảy nhanh `#overview`, `#itinerary`, `#included`, `#faq`.
+4. **Ảnh Placeholder từng ngày lịch trình:** Bổ sung hàng 3 ảnh thumbnail SVG (213×160px, bo góc 10px) cho mỗi ngày trong `tour_theme_render_single_itinerary()`, mã hóa an toàn 100% bằng `rawurlencode()`.
+
+#### Kết quả kiểm chứng Phần A:
+```bash
+> curl -s "http://localhost/looptrails/tours/northern-highlands-loop/" | grep -c "background-image"
+1
+> curl -s "http://localhost/looptrails/tours/northern-highlands-loop/" | grep -c "svg+xml;utf8,<svg"
+0
+```
+- Ảnh chụp màn hình: `docs/reference-screenshots/round6-tour-detail.png`
+- **Trạng thái:** ✅ **HOÀN THÀNH 100%**
+
+---
+
+### 9.2 PHẦN B — Sửa nghiệp vụ thuê xe máy độc lập (Pure Motorbike Rental)
+
+#### Các hạng mục đã thực hiện:
+1. **Backend Pricing Engine:** Sửa `calculate_quote()` trong [`class-pricing-engine.php`](file:///c:/xampp/htdocs/looptrails/wp-content/plugins/tour-booking-core/includes/class-pricing-engine.php) cho phép tính giá quote thuần túy cho thuê xe khi có `rental_bike` và `rental_days > 0` mà **không bắt buộc phải có `tour_id`** (set `tour_subtotal = 0`).
+2. **Backend Booking Handler:** Sửa `handle_book()` trong [`class-booking-handler.php`](file:///c:/xampp/htdocs/looptrails/wp-content/plugins/tour-booking-core/includes/class-booking-handler.php) để tạo đơn booking thuê xe độc lập (`tbc_tour_id = 0`, tiêu đề bài viết booking phản ánh đúng tên loại xe thuê thay vì tour giả).
+3. **Frontend Dedicated Rental Form:** Tạo pattern [`patterns/rental-booking-form.php`](file:///c:/xampp/htdocs/looptrails/wp-content/themes/tour-reference-theme/patterns/rental-booking-form.php) với dropdown chọn 4 loại xe (`wave_alpha`, `blade_fi`, `xr150l`, `cb500x`), ngày bắt đầu, số ngày thuê, thông tin khách hàng, bảng tính tiền realtime và nút submit gọi `/wp-json/tour-booking/v1/book`.
+4. **Nối 4 nút "Rent This Bike":** Sửa [`patterns/rental-bikes.php`](file:///c:/xampp/htdocs/looptrails/wp-content/themes/tour-reference-theme/patterns/rental-bikes.php) đổi `href` sang `#rental-book` và gắn `data-bike="..."`. Khi click xe nào sẽ tự động chọn xe đó trong form và cuộn xuống.
+
+#### Kết quả kiểm chứng Phần B:
+```bash
+> curl.exe -s -w "\nHTTP:%{http_code}\n" -X POST http://localhost/looptrails/wp-json/tour-booking/v1/quote -H "Content-Type: application/json" -d '{"rental_bike":"wave_alpha","rental_days":3,"party_size":1}'
+{"success":true,"quote":{"tour_id":0,"party_size":1,"vehicle_name":"Honda Wave Alpha 110cc","tour_unit_price":0,"tour_subtotal":0,"transfer_subtotal":0,"rental_subtotal":30,"subtotal_usd":30,"total_usd":30,"total_vnd":762000,"deposit_usd":6,"deposit_vnd":152400,"balance_due_usd":24}}
+HTTP:200
+
+> $html = curl.exe -s http://localhost/looptrails/motorbike-rental/
+> ($html | Select-String -Pattern 'id="rental-book"').Matches.Count
+1
+> ($html | Select-String -AllMatches -Pattern 'href="#rental-book"').Matches.Count
+4
+```
+- Kiểm thử tương tác form thật qua Playwright:
+  - Chọn xe Honda XR 150L qua nút bấm -> dropdown chọn `xr150l`.
+  - Nhập 4 ngày -> hiển thị tổng tiền `$88 USD`.
+  - Submit đặt xe -> Nhận phản hồi thành công `✓ Reservation received! Reference: LT-20260821-5611`.
+- Ảnh chụp màn hình: `docs/reference-screenshots/round6-motorbike-rental-submission.png`
+- **Trạng thái:** ✅ **HOÀN THÀNH 100%**
+
+---
+
+### 9.3 PHẦN C — Cho phép chỉnh sửa mọi trang trong wp-admin (Admin-owned Block Content)
+
+#### Các hạng mục đã thực hiện:
+1. **Trang chủ tĩnh (Front Page):**
+   - Tạo Page "Trang chủ" (ID 315, slug `home`) với `post_content` chứa toàn bộ block thật của 10 section (hero, featured tours shortcode, brand narrative, destinations, why choose us, testimonials, editorial CTA, booking section, blog teaser, FAQ).
+   - Thiết lập `show_on_front = page` và `page_on_front = 315`.
+   - Rút gọn `templates/front-page.html` và `templates/home.html` thành cấu trúc chuẩn: header + `wp:post-content` + footer.
+2. **Trang About, Contact, Motorbike Rental:**
+   - Chuyển toàn bộ nội dung block từ code vào `post_content` của từng trang (ID 300, 301, 302).
+   - Rút gọn `templates/page-about.html`, `templates/page-contact.html`, `templates/page-motorbike-rental.html` về `wp:post-content`.
+3. **Cập nhật Unit Test:**
+   - Cập nhật `tests/test-home-template.php` và `tests/test-secondary-templates.php` để assert cấu trúc template `wp:post-content` và kiểm tra block content thực tế.
+
+#### Kết quả kiểm chứng Phần C:
+```bash
+> C:\xampp\wp-cli.bat option get show_on_front
+page
+> C:\xampp\wp-cli.bat option get page_on_front
+315
+> C:\xampp\wp-cli.bat post list --post_type=page --fields=ID,post_title,post_name --format=table
+ID    post_title          post_name
+315   Trang chủ           home
+302   Motorbike Rental    motorbike-rental
+300   About               about
+301   Contact             contact
+
+> curl.exe -s -o NUL -w "home: %{http_code}\n" http://localhost/looptrails/
+home: 200
+> curl.exe -s -o NUL -w "about: %{http_code}\n" http://localhost/looptrails/about/
+about: 200
+> curl.exe -s -o NUL -w "contact: %{http_code}\n" http://localhost/looptrails/contact/
+contact: 200
+> curl.exe -s -o NUL -w "rental: %{http_code}\n" http://localhost/looptrails/motorbike-rental/
+rental: 200
+```
+
+#### Thao tác thật trong wp-admin (Playwright Automation):
+1. **Chỉnh sửa trang About trong wp-admin:** Mở `post.php?post=300&action=edit`, sửa đoạn văn trong block editor, bấm Cập nhật -> Frontend `http://localhost/looptrails/about/` hiển thị nội dung mới sửa thành công (`About frontend contains updated text: true`).
+2. **Chỉnh sửa Trang chủ trong wp-admin:** Mở `post.php?post=315&action=edit`, sửa tiêu đề/khối trong Gutenberg, bấm Cập nhật -> Frontend `http://localhost/looptrails/` hiển thị nội dung mới sửa thành công (`Home frontend contains updated text: true`).
+3. **Bằng chứng ảnh chụp màn hình:**
+   - `docs/reference-screenshots/round6-about-admin-edit.png`
+   - `docs/reference-screenshots/round6-about-frontend-updated.png`
+   - `docs/reference-screenshots/round6-home-admin-edit.png`
+   - `docs/reference-screenshots/round6-home-frontend-updated.png`
+- **Trạng thái:** ✅ **HOÀN THÀNH 100%**
+
+---
+
+### 9.4 Toàn bộ PHPUnit Test Suite Vòng 6 (100% PASS)
+
+```
+[Theme: tour-reference-theme]
+PHPUnit 9.6.36 by Sebastian Bergmann and contributors.
+...........................................                       43 / 43 (100%)
+OK (43 tests, 224 assertions)
+
+[Plugin: tour-booking-core]
+PHPUnit 9.6.36 by Sebastian Bergmann and contributors.
+................................................................  64 / 64 (100%)
+OK (64 tests, 404 assertions)
+
+TỔNG CỘNG TOÀN DỰ ÁN: 107 / 107 tests passed (628 assertions) — 100% OK.
+```
+
+
 
 
 

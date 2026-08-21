@@ -70,5 +70,38 @@ function tour_theme_register_block_styles() {
 	);
 }
 
+add_action( 'init', 'tour_theme_register_custom_patterns', 9 );
+function tour_theme_register_custom_patterns() {
+	$pattern_files = glob( TOUR_THEME_DIR . '/patterns/*.php' );
+	if ( ! empty( $pattern_files ) ) {
+		foreach ( $pattern_files as $file ) {
+			$slug = 'tour-reference-theme/' . basename( $file, '.php' );
+			if ( ! WP_Block_Patterns_Registry::get_instance()->is_registered( $slug ) ) {
+				$headers = get_file_data(
+					$file,
+					array(
+						'title'       => 'Title',
+						'slug'        => 'Slug',
+						'categories'  => 'Categories',
+						'description' => 'Description',
+					)
+				);
+				ob_start();
+				include $file;
+				$content = ob_get_clean();
+				register_block_pattern(
+					! empty( $headers['slug'] ) ? $headers['slug'] : $slug,
+					array(
+						'title'       => ! empty( $headers['title'] ) ? $headers['title'] : basename( $file, '.php' ),
+						'content'     => $content,
+						'description' => ! empty( $headers['description'] ) ? $headers['description'] : '',
+						'categories'  => ! empty( $headers['categories'] ) ? array_map( 'trim', explode( ',', $headers['categories'] ) ) : array( 'featured' ),
+					)
+				);
+			}
+		}
+	}
+}
+
 require_once TOUR_THEME_DIR . '/includes/tour-card.php';
 

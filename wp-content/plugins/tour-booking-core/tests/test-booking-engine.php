@@ -124,4 +124,49 @@ class Test_Booking_Engine extends WP_UnitTestCase {
 		$saved_status = get_post_meta( $data['booking_id'], 'tbc_booking_status', true );
 		$this->assertEquals( 'pending_payment', $saved_status );
 	}
+
+	public function test_pure_motorbike_rental_quote_without_tour_id() {
+		$args = array(
+			'rental_bike' => 'wave_alpha',
+			'rental_days' => 3,
+			'party_size'  => 1,
+		);
+
+		$quote = Tbc_Pricing_Engine::calculate_quote( $args );
+
+		$this->assertIsArray( $quote );
+		$this->assertFalse( isset( $quote['error'] ) );
+		$this->assertEquals( 0, $quote['tour_id'] );
+		$this->assertEquals( 0.0, $quote['tour_subtotal'] );
+		$this->assertEquals( 30.0, $quote['rental_subtotal'] ); // 3 days * $10 USD
+		$this->assertEquals( 30.0, $quote['total_usd'] );
+		$this->assertEquals( 6.0, $quote['deposit_usd'] ); // 20% of 30
+		$this->assertTrue( $quote['total_vnd'] > 0 );
+		$this->assertTrue( Tbc_Pricing_Engine::verify_quote( $quote ) );
+	}
+
+	public function test_pure_motorbike_rental_booking() {
+		$request = new WP_REST_Request( 'POST', '/tour-booking/v1/book' );
+		$request->set_body_params(
+			array(
+				'rental_bike'    => 'wave_alpha',
+				'rental_days'    => 3,
+				'customer_name'  => 'Rental Rider',
+				'customer_email' => 'rental@rider.com',
+				'customer_phone' => '+84900000000',
+				'start_date'     => '2026-09-10',
+			)
+		);
+
+		$response = Tbc_Booking_Handler::handle_book( $request );
+		$this->assertNotWPError( $response );
+		$data = $response->get_data();
+
+		$this->assertTrue( $data['success'] );
+		$this->assertNotEmpty( $data['booking_id'] );
+
+		$booking_post = get_post( $data['booking_id'] );
+		$this->assertStringContainsString( 'Motorbike Rental', $booking_post->post_title );
+		$this->assertSame( 0, (int) get_post_meta( $data['booking_id'], 'tbc_tour_id', true ) );
+	}
 }

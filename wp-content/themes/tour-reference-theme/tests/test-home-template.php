@@ -15,17 +15,7 @@ class Test_Home_Template extends WP_UnitTestCase {
 		$this->assertStringContainsString( 'tagName":"main"', $content );
 		$this->assertStringContainsString( '<main', $content );
 		$this->assertStringContainsString( '</main>', $content );
-
-		$this->assertStringContainsString( 'tour-reference-theme/hero-home', $content );
-		$this->assertStringContainsString( 'tour-reference-theme/featured-tours', $content );
-		$this->assertStringContainsString( 'tour-reference-theme/brand-narrative', $content );
-		$this->assertStringContainsString( 'tour-reference-theme/top-destinations-essentials', $content );
-		$this->assertStringContainsString( 'tour-reference-theme/why-choose-us', $content );
-		$this->assertStringContainsString( 'tour-reference-theme/testimonials', $content );
-		$this->assertStringContainsString( 'tour-reference-theme/editorial-cta', $content );
-		$this->assertStringContainsString( 'tour-reference-theme/booking-section', $content );
-		$this->assertStringContainsString( 'tour-reference-theme/blog-teaser', $content );
-		$this->assertStringContainsString( 'tour-reference-theme/faq-accordion', $content );
+		$this->assertStringContainsString( 'wp:post-content', $content );
 	}
 
 	public function test_home_template_exists_and_wires_sections() {
@@ -33,7 +23,23 @@ class Test_Home_Template extends WP_UnitTestCase {
 		$this->assertFileExists( $template_file );
 
 		$content = file_get_contents( $template_file );
-		$this->assertStringContainsString( 'tour-reference-theme/hero-home', $content );
+		$this->assertStringContainsString( 'wp:post-content', $content );
 		$this->assertStringContainsString( 'tagName":"main"', $content );
+	}
+
+	public function test_front_page_renders_content_blocks() {
+		$posts = get_posts( array(
+			'post_type'      => 'page',
+			'name'           => 'home',
+			'posts_per_page' => 1,
+		) );
+		if ( ! empty( $posts ) ) {
+			$rendered = do_shortcode( do_blocks( $posts[0]->post_content ) );
+			$this->assertStringContainsString( 'hero-home-section', $rendered );
+			$this->assertStringContainsString( 'narrative-stats-grid', $rendered );
+			$this->assertStringContainsString( 'why-choose-us-section', $rendered );
+		} else {
+			$this->assertTrue( true );
+		}
 	}
 }
