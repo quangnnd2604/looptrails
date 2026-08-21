@@ -8,8 +8,8 @@
 ?>
 <!-- wp:group {"align":"full","className":"destinations-section","style":{"spacing":{"padding":{"top":"80px","bottom":"80px","left":"20px","right":"20px"}}},"layout":{"type":"constrained","contentSize":"1200px"}} -->
 <div class="wp-block-group alignfull destinations-section" style="padding-top:80px;padding-right:20px;padding-bottom:80px;padding-left:20px">
-	<!-- wp:group {"style":{"spacing":{"blockGap":"10px","margin":{"bottom":"40px"}}},"layout":{"type":"flex","orientation":"vertical","justifyContent":"center"}} -->
-	<div class="wp-block-group" style="margin-bottom:40px">
+	<!-- wp:group {"style":{"spacing":{"blockGap":"10px","margin":{"bottom":"30px"}}},"layout":{"type":"flex","orientation":"vertical","justifyContent":"center"}} -->
+	<div class="wp-block-group" style="margin-bottom:30px">
 		<!-- wp:paragraph {"align":"center","style":{"typography":{"textTransform":"uppercase","letterSpacing":"1.5px","fontSize":"13px","fontWeight":"700"}},"textColor":"primary"} -->
 		<p class="has-text-align-center has-primary-color has-text-color" style="font-size:13px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase"><?php esc_html_e( 'Highland Highlights', 'tour-reference-theme' ); ?></p>
 		<!-- /wp:paragraph -->
@@ -19,6 +19,14 @@
 		<!-- /wp:heading -->
 	</div>
 	<!-- /wp:group -->
+
+	<!-- Tab controls matching reference UI -->
+	<div class="destinations-tabs-nav">
+		<button type="button" class="tab-btn is-active" data-tab="destinations"><?php esc_html_e( 'Destinations', 'tour-reference-theme' ); ?></button>
+		<button type="button" class="tab-btn" data-tab="itinerary"><?php esc_html_e( 'Itinerary & Route', 'tour-reference-theme' ); ?></button>
+		<button type="button" class="tab-btn" data-tab="transport"><?php esc_html_e( 'Transport Options', 'tour-reference-theme' ); ?></button>
+		<button type="button" class="tab-btn" data-tab="accommodation"><?php esc_html_e( 'Accommodation', 'tour-reference-theme' ); ?></button>
+	</div>
 
 	<!-- wp:group {"className":"destinations-grid","layout":{"type":"grid","columnCount":4,"minimumColumnWidth":"260px"}} -->
 	<div class="wp-block-group destinations-grid">

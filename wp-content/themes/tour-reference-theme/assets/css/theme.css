@@ -295,8 +295,38 @@
 }
 
 /* ==========================================================================
-   Destinations & Essentials Grid
+   Destinations & Essentials Grid & Tabs
    ========================================================================== */
+.destinations-tabs-nav {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	gap: 12px;
+	margin-bottom: 36px;
+	flex-wrap: wrap;
+}
+
+.tab-btn {
+	background: #f0ece1;
+	border: 1px solid rgba(0, 0, 0, 0.08);
+	color: var(--wp--preset--color--primary, #1e1e24);
+	padding: 10px 22px;
+	border-radius: 30px;
+	font-family: var(--wp--preset--font-family--heading);
+	font-size: 14px;
+	font-weight: 700;
+	cursor: pointer;
+	transition: all 0.2s ease;
+}
+
+.tab-btn:hover,
+.tab-btn.is-active {
+	background: var(--wp--preset--color--primary, #1e1e24);
+	color: #ffffff;
+	border-color: var(--wp--preset--color--primary, #1e1e24);
+	box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
 .destination-card {
 	background: #ffffff;
 	border-radius: 12px;
