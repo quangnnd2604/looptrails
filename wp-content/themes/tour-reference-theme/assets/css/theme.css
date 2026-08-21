@@ -55,3 +55,493 @@
 	letter-spacing: 0.5px;
 	line-height: 22px;
 }
+
+/* ==========================================================================
+   Tour Card & Grid Component (Spec §5.3, Measured 336px width, 22px gap, 14px radius)
+   ========================================================================== */
+.tour-grid {
+	display: grid;
+	grid-template-columns: repeat(3, minmax(0, 1fr));
+	gap: 22px;
+	margin: 24px 0 40px;
+}
+
+@media (max-width: 1024px) {
+	.tour-grid {
+		grid-template-columns: repeat(2, minmax(0, 1fr));
+	}
+}
+
+@media (max-width: 600px) {
+	.tour-grid {
+		grid-template-columns: 1fr;
+	}
+}
+
+.tour-card {
+	background-color: #ffffff;
+	border-radius: 14px;
+	overflow: hidden;
+	box-shadow: 0 4px 20px rgba(0, 0, 0, 0.06);
+	border: 1px solid rgba(0, 0, 0, 0.06);
+	display: flex;
+	flex-direction: column;
+	transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.tour-card:hover {
+	transform: translateY(-4px);
+	box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+}
+
+.tour-card__media {
+	position: relative;
+	width: 100%;
+	height: 220px;
+	overflow: hidden;
+	background-color: var(--wp--preset--color--surface-header-footer, #e4e0da);
+}
+
+.tour-card__image {
+	width: 100%;
+	height: 100%;
+	object-fit: cover;
+	display: block;
+}
+
+.tour-card__badge {
+	position: absolute;
+	top: 12px;
+	left: 12px;
+	background-color: #e05a47;
+	color: #ffffff;
+	padding: 4px 10px;
+	border-radius: 20px;
+	font-size: 11px;
+	font-weight: 700;
+	text-transform: uppercase;
+	letter-spacing: 0.5px;
+}
+
+.tour-card__duration {
+	position: absolute;
+	bottom: 12px;
+	right: 12px;
+	background-color: rgba(30, 30, 35, 0.85);
+	color: #ffffff;
+	padding: 4px 10px;
+	border-radius: 6px;
+	font-size: 12px;
+	font-weight: 600;
+}
+
+.tour-card__body {
+	padding: 20px;
+	display: flex;
+	flex-direction: column;
+	flex-grow: 1;
+}
+
+.tour-card__rating {
+	display: flex;
+	align-items: center;
+	gap: 6px;
+	font-size: 13px;
+	margin-bottom: 8px;
+}
+
+.tour-card__stars {
+	color: #f5a623;
+}
+
+.tour-card__score {
+	font-weight: 700;
+	color: var(--wp--preset--color--text-dark, #222222);
+}
+
+.tour-card__count {
+	color: var(--wp--preset--color--text-body, #666666);
+}
+
+.tour-card__title {
+	font-family: var(--wp--preset--font-family--heading);
+	font-size: 18px;
+	line-height: 1.35;
+	font-weight: 700;
+	margin: 0 0 14px;
+}
+
+.tour-card__title a {
+	color: var(--wp--preset--color--primary, #1e1e24);
+	text-decoration: none;
+}
+
+.tour-card__title a:hover {
+	color: #e05a47;
+}
+
+.tour-card__prices {
+	margin-top: auto;
+	margin-bottom: 16px;
+	background-color: #f9f8f6;
+	border-radius: 8px;
+	padding: 10px 14px;
+}
+
+.tour-card__price-row {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	font-size: 13px;
+	padding: 4px 0;
+}
+
+.tour-card__price-row:not(:last-child) {
+	border-bottom: 1px dashed #e4e0da;
+}
+
+.tour-card__price-label {
+	color: var(--wp--preset--color--text-body, #555555);
+}
+
+.tour-card__price-value {
+	font-weight: 700;
+	color: var(--wp--preset--color--primary, #1e1e24);
+}
+
+.tour-card__actions {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	gap: 12px;
+}
+
+.tour-card__details-link {
+	font-size: 14px;
+	font-weight: 600;
+	color: var(--wp--preset--color--primary, #1e1e24);
+	text-decoration: none;
+	display: inline-flex;
+	align-items: center;
+}
+
+.tour-card__details-link:hover {
+	color: #e05a47;
+}
+
+/* ==========================================================================
+   Hero Home Section
+   ========================================================================== */
+.hero-home-section {
+	background: linear-gradient(rgba(20, 20, 25, 0.55), rgba(20, 20, 25, 0.75)), #2c2c34;
+	background-size: cover;
+	background-position: center;
+	min-height: 520px;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+
+.hero-headline {
+	text-shadow: 0 2px 10px rgba(0, 0, 0, 0.4);
+}
+
+.hero-subhead {
+	max-width: 680px;
+	margin-left: auto;
+	margin-right: auto;
+}
+
+/* ==========================================================================
+   Brand Narrative & Statistics
+   ========================================================================== */
+.narrative-stats-grid {
+	display: flex;
+	gap: 16px;
+}
+
+.stat-item {
+	background: #ffffff;
+	padding: 12px 18px;
+	border-radius: 10px;
+	box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+	border: 1px solid rgba(0, 0, 0, 0.05);
+	min-width: 100px;
+}
+
+.stat-number {
+	font-family: var(--wp--preset--font-family--heading);
+	font-size: 22px;
+	font-weight: 800;
+	color: var(--wp--preset--color--primary, #1e1e24);
+}
+
+.stat-label {
+	font-size: 12px;
+	font-weight: 600;
+	color: var(--wp--preset--color--text-body, #666666);
+}
+
+.narrative-media-wrapper {
+	border-radius: 14px;
+	overflow: hidden;
+	box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+}
+
+.narrative-image img {
+	width: 100%;
+	height: auto;
+	display: block;
+}
+
+/* ==========================================================================
+   Destinations & Essentials Grid
+   ========================================================================== */
+.destination-card {
+	background: #ffffff;
+	border-radius: 12px;
+	overflow: hidden;
+	box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+	border: 1px solid #eeeeee;
+	transition: transform 0.2s ease;
+}
+
+.destination-card:hover {
+	transform: translateY(-3px);
+}
+
+.destination-card__media {
+	position: relative;
+	height: 180px;
+	background-color: var(--wp--preset--color--surface-header-footer, #e4e0da);
+}
+
+.destination-card__media img {
+	width: 100%;
+	height: 100%;
+	object-fit: cover;
+	display: block;
+}
+
+.destination-card__tag {
+	position: absolute;
+	top: 10px;
+	left: 10px;
+	background-color: rgba(30, 30, 35, 0.85);
+	color: #ffffff;
+	padding: 3px 8px;
+	border-radius: 4px;
+	font-size: 11px;
+	font-weight: 600;
+}
+
+.destination-card__body {
+	padding: 16px;
+}
+
+.destination-card__title {
+	font-family: var(--wp--preset--font-family--heading);
+	font-size: 16px;
+	font-weight: 700;
+	margin: 0 0 8px;
+	color: var(--wp--preset--color--primary, #1e1e24);
+}
+
+.destination-card__desc {
+	font-size: 13px;
+	line-height: 1.5;
+	color: var(--wp--preset--color--text-body, #666666);
+	margin: 0;
+}
+
+/* ==========================================================================
+   Why Choose Us & Dark Stats Bar
+   ========================================================================== */
+.feature-card {
+	background: #ffffff;
+	padding: 24px;
+	border-radius: 12px;
+	box-shadow: 0 2px 10px rgba(0, 0, 0, 0.04);
+	border: 1px solid #f0f0f0;
+}
+
+.feature-card__icon {
+	font-size: 28px;
+	margin-bottom: 12px;
+}
+
+.feature-card__title {
+	font-family: var(--wp--preset--font-family--heading);
+	font-size: 17px;
+	font-weight: 700;
+	margin: 0 0 8px;
+	color: var(--wp--preset--color--primary, #1e1e24);
+}
+
+.feature-card__desc {
+	font-size: 14px;
+	line-height: 1.6;
+	color: var(--wp--preset--color--text-body, #666666);
+	margin: 0;
+}
+
+.dark-stats-bar {
+	border-radius: 12px;
+	display: flex;
+	justify-content: space-around;
+	align-items: center;
+}
+
+.dark-stat-item {
+	text-align: center;
+	padding: 8px 16px;
+}
+
+.dark-stat-val {
+	font-family: var(--wp--preset--font-family--heading);
+	font-size: 28px;
+	font-weight: 800;
+	display: block;
+	color: #ffffff;
+}
+
+.dark-stat-lbl {
+	font-size: 13px;
+	font-weight: 600;
+	color: #d0d0d5;
+	text-transform: uppercase;
+	letter-spacing: 0.5px;
+}
+
+/* ==========================================================================
+   Testimonials / Reviews
+   ========================================================================== */
+.review-card {
+	background: #ffffff;
+	padding: 28px;
+	border-radius: 14px;
+	box-shadow: 0 4px 18px rgba(0, 0, 0, 0.05);
+	border: 1px solid rgba(0, 0, 0, 0.04);
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+}
+
+.review-card__stars {
+	color: #f5a623;
+	font-size: 18px;
+	margin-bottom: 12px;
+	letter-spacing: 2px;
+}
+
+.review-card__text {
+	font-size: 15px;
+	line-height: 1.65;
+	color: var(--wp--preset--color--text-dark, #222222);
+	font-style: italic;
+	margin: 0 0 20px;
+	flex-grow: 1;
+}
+
+.review-card__author {
+	display: flex;
+	flex-direction: column;
+	border-top: 1px solid #f0f0f0;
+	padding-top: 14px;
+}
+
+.review-card__name {
+	font-weight: 700;
+	color: var(--wp--preset--color--primary, #1e1e24);
+	font-size: 14px;
+}
+
+.review-card__origin {
+	font-size: 12px;
+	color: var(--wp--preset--color--text-body, #777777);
+}
+
+/* ==========================================================================
+   Editorial CTA Banner
+   ========================================================================== */
+.editorial-cta-card {
+	background: linear-gradient(135deg, #1e1e24 0%, #36343b 100%);
+	border-radius: 20px;
+	padding: 60px 40px;
+	box-shadow: 0 12px 35px rgba(0, 0, 0, 0.15);
+	text-align: center;
+}
+
+@media (max-width: 600px) {
+	.editorial-cta-card {
+		padding: 40px 20px;
+	}
+}
+
+/* ==========================================================================
+   FAQ Accordion
+   ========================================================================== */
+.faq-accordion {
+	display: flex;
+	flex-direction: column;
+	gap: 14px;
+}
+
+.faq-item {
+	background: #ffffff;
+	border: 1px solid #e5e5e5;
+	border-radius: 10px;
+	overflow: hidden;
+	transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.faq-item[open] {
+	border-color: #d0cac0;
+	box-shadow: 0 4px 12px rgba(0, 0, 0, 0.04);
+}
+
+.faq-question {
+	padding: 18px 22px;
+	font-size: 16px;
+	font-weight: 700;
+	color: var(--wp--preset--color--primary, #1e1e24);
+	cursor: pointer;
+	list-style: none;
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	user-select: none;
+}
+
+.faq-question::-webkit-details-marker {
+	display: none;
+}
+
+.faq-question::after {
+	content: '+';
+	font-size: 20px;
+	font-weight: 400;
+	color: #e05a47;
+	transition: transform 0.2s ease;
+}
+
+.faq-item[open] .faq-question::after {
+	content: '−';
+}
+
+.faq-answer {
+	padding: 0 22px 20px;
+	font-size: 15px;
+	line-height: 1.65;
+	color: var(--wp--preset--color--text-body, #555555);
+	border-top: 1px solid #f5f5f5;
+	padding-top: 14px;
+}
+
+.faq-answer p {
+	margin: 0;
+}
+
+
+
+

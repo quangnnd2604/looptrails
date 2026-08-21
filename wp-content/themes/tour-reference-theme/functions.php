@@ -68,3 +68,6 @@ function tour_theme_register_block_styles() {
 		)
 	);
 }
+
+require_once TOUR_THEME_DIR . '/includes/tour-card.php';
+
